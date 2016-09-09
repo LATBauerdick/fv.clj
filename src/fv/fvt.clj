@@ -31,12 +31,38 @@
         tnt    ;; number of tracks associated to vertex
                (first (drop 13 inp))
         th     ;; list of track parameter vectors
-               (for [i (range 0 (dec tnt))] (vec (get5 i)))
+               (for [i (range 0 tnt)] (vec (get5 i)))
         tCh    ;; list of track parameter error matrices
-               (for [i (range 0 (dec tnt))] (let [itCh (get25 i)]  (matrix (vec (map vector (take 5 itCh) (drop 5 itCh) (drop 10 itCh) (drop 15 itCh) (drop 20 itCh))))))
+               (for [i (range 0 tnt)] (let [itCh (get25 i)]  (matrix (vec (map vector (take 5 itCh) (drop 5 itCh) (drop 10 itCh) (drop 15 itCh) (drop 20 itCh))))))
 
-       ] (->fvtData tx tCx tnt th tCh)   ))
+       ] (->fvtData tx tCx tnt (vec th) (vec tCh))   ))
 
 (def fvtd (fvtread thisFile))
+
+(pm (get (:tCx fvtd) 0))
+
+(defn doFit []
+  (let [
+         v0    (:tx fvtd)
+         C0    (emap #(* 10000.0 %) (:tCx fvtd))
+         Gv0   (inverse C0)
+         GC0   (mmul C0 Gv0) ;;;;debug
+       ]
+       (pm v0)
+       (print "±")
+       (pm (sqrt (diagonal C0)))
+       (print "debug ")
+       (pm (sqrt (diagonal GC0)));;;;debug
+    ))
+(doFit)
+
+;; fvFit(tx,tCx,tq,tCq,tChi2,chi2,
+;; 1    nt,tList,x0,Cx0,th,tGh)
+;; fvCalcG(Gv0,C0,dv)
+;; C -- calculate inverse of covariance matrices for v0
+;;        status = fvCalcG(Gv0,C0,dv)
+;;        do i = 1, nt   it = tList(i)
+;;          status = fvFilter(v,C,Gv,ql(1,it),Cql(1,1,it),E,chi2,
+;;     1                      v0,Gv0,hl(1,it),Ghl(1,1,it))
 
 

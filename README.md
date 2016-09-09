@@ -1,10 +1,10 @@
-# fv
+# fv.clj
 
-FIXME: description
+Clojure implementation of FV vertex fitting -- experimental
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Download from http://github.com/latbauerdick/fv.clj
 
 ## Usage
 
@@ -34,5 +34,4 @@ Copyright © 2016 FIXME
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
-# fv.clj
-Clojure implementation of FV vertex fitting -- experimental
+
