@@ -1,9 +1,11 @@
 (ns fv.core
   (:gen-class))
 
+(require 'fv.fvt)
+(refer 'fv.fvt)
+
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, FV!"))
+  (doFit))
 
 

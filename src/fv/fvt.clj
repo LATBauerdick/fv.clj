@@ -2,6 +2,10 @@
 (use 'clojure.core.matrix)
 (set-current-implementation :vectorz)
 
+(require 'fv.fv)
+(refer 'fv.fv)
+
+
 (def thisFile "dat/tr05129e001412.dat")
 (defrecord fvtData [tx tCx tnt th tCh])
 
@@ -43,26 +47,20 @@
 
 (defn doFit []
   (let [
-         v0    (:tx fvtd)
-         C0    (emap #(* 10000.0 %) (:tCx fvtd))
-         Gv0   (inverse C0)
-         GC0   (mmul C0 Gv0) ;;;;debug
+         v0       (:tx fvtd)
+         C0       (emap #(* 10000.0 %) (:tCx fvtd))
+         Gv0      (inverse C0)
+         GC0      (mmul C0 Gv0) ;;;;debug
+         q00      (fvq v0)
+         [A B h0] (fvABh0 v0 q00)
        ]
        (pm v0)
        (print "±")
        (pm (sqrt (diagonal C0)))
        (print "debug ")
        (pm (sqrt (diagonal GC0)));;;;debug
+       (print "debug ")  (pm A) (pm  B ) (pm h0)
+
     ))
 (doFit)
-
-;; fvFit(tx,tCx,tq,tCq,tChi2,chi2,
-;; 1    nt,tList,x0,Cx0,th,tGh)
-;; fvCalcG(Gv0,C0,dv)
-;; C -- calculate inverse of covariance matrices for v0
-;;        status = fvCalcG(Gv0,C0,dv)
-;;        do i = 1, nt   it = tList(i)
-;;          status = fvFilter(v,C,Gv,ql(1,it),Cql(1,1,it),E,chi2,
-;;     1                      v0,Gv0,hl(1,it),Ghl(1,1,it))
-
 
