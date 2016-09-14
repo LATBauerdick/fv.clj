@@ -86,6 +86,7 @@
       ;;         (println "ql: ") (doseq [ [it tt] (indexed ql) ] (print "track par. " it ": " ) (pm tt))
       )))
 (doFit)
+
 ;;         Gv0      (inverse C0)
 ;;         GC0      (mmul C0 Gv0) ;;;;debug
 ;;         q00      (fvq v0)
