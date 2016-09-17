@@ -1017,6 +1017,7 @@ C -- date:   Jan. 1991
 C --
       implicit none
       include 'fv.inc'
+      integer i0, i1
       double precision v(dv), C(dv,dv), Gv(dv,dv), 
      1                 q(dq), D(dq,dq), E(dv,dq), chi2
       double precision v0(dv), Gv0(dv,dv), 
@@ -1053,6 +1054,11 @@ C -- for now: forget about the fit...
         fvFilterer = status
         return
       end if
+
+        write(41,*) ((A(i1,i0),i0=1,3),i1=1,5)
+        write(41,*) ((B(i1,i0),i0=1,3),i1=1,5)
+        write(41,*) (h0(i1),i1=1,5)
+
 C -- GB
       call fvCalcGB(GB, W,B,G)
 C -- C
