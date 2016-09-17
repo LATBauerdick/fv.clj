@@ -17,7 +17,7 @@
 (defn fvtread
   "
   -- read from file with name df and return
-  -- 
+  --
   "
   [df]
   (let [
@@ -64,35 +64,30 @@
   (let [
          v0       (:tx fvtd)
          Cv0      (emap #(* 10000.0 %) (:tCx fvtd))   ;;
-         h        (:th fvtd); assuming trList is indeed [1 2 3 4 5 6], true for this run
-         Ch       (:tCh fvtd)
+         hl       (:th fvtd); assuming trList is indeed [1 2 3 4 5 6], true for this run
+         Chl      (:tCh fvtd)
          w2pt     (:tw2pt fvtd)
        ]
     (do
       (println "--------- input to vertext fit -------------------------")
       (println "initial vertex position v0 ")
-      (pm v0)
+      (print "[x y z]=") (pm v0)
       (print "±") (pm (sqrt (diagonal Cv0)))
-      (print "1st track helix") (pm (first h))
-      (print "±%") (pm (scale (div (sqrt (diagonal (first Ch))) (first h)) 100.0))
-      (let [[p Cp] (fvHelix2P4 mπ w2pt (first h) (first Ch))]
-        (print "1st track momentum ") (pm p)
-        (print "±%") (pm (scale (div (sqrt (diagonal Cp)) p) 100.0))))
-    (let [[x Cx ql Cql chi2l chi2t] (fvFit v0 Cv0 h Ch)]
+      (doseq [[[ih h] H] (map vector (indexed hl) Chl) ]
+        (println "track#" ih ": " )
+        (let [ [p P] (fvHelix2P4 h H mπ w2pt)]
+          (fvPMerr "[px py pz E]=" p P))))
+    (let [[v Cv ql Cql chi2l chi2t] (fvFit v0 Cv0 hl Chl)]
       (println "--------- doFit result --------------------------------")
       (println "vertex fit converged, 𝜒2:" chi2t)
-      (print "x: ") (pm x)
-      (print "±") (pm (sqrt (diagonal Cx)))
-      (print "Cx: ") (pm Cx)
+      (print "v: ") (pm v)
+      (print "±") (pm (sqrt (diagonal Cv)))
+      (print "Cv: ") (pm Cv)
       (println "--------- list of fitted q vectors---------------------")
       (doseq [[[iq q] Q chi2q] (map vector (indexed ql) Cql chi2l) ]
         (println "track#" iq ", 𝜒2: " chi2q ": " )
-;;        (let [ [p Cp] (fvQ2P4 mπ w2pt q Q)]
-;;         (pm p)
-;;          (pm Q)
-;;          (println ))
-      )
-      ;;         (println "ql: ") (doseq [ [it tt] (indexed ql) ] (print "track par. " it ": " ) (pm tt))
-      )))
+        (let [ [p P] (fvQ2P3 q Q w2pt)]
+          (fvPMerr "[px py pz]=" p P))))))
+
 (doFit)
 
