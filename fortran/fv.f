@@ -1,68 +1,11 @@
-qrt(xx*xx+yy*yy)
-            phi =  atan2(yy,xx)
-                  z = v(3)
-
-                        w = q(1)
-                              tl = q(2)
-                                    psi = q(3)
-
-                                          if (w .NE. 0d0) then
-                                                    oow = 1d0/w
-                                                            xi = psi
-                                                            - phi
-                                                                    cxi
-                                                                    = cos(xi)
-                                                                            sxi
-                                                                            = sin(xi)
-                                                                                    gamma
-                                                                                    = atan(r*cxi/(oow-r*sxi))
-                                                                                            h(1)
-                                                                                            = w
-                                                                                                    h(2)
-                                                                                                    = tl
-                                                                                                            h(3)
-                                                                                                            = psi
-                                                                                                            - gamma
-                                                                                                                    h(4)
-                                                                                                                    = oow
-                                                                                                                    - (oow-r*sxi)/cos(gamma)
-                                                                                                                            h(5)
-                                                                                                                            = z - gamma/w*tl
-                                                                                                                                  else
-                                                                                                                                    C --
-                                                                                                                                    for
-                                                                                                                                    neutral
-                                                                                                                                    particles
-                                                                                                                                    C --
-                                                                                                                                    ??????
-                                                                                                                                    check
-                                                                                                                                    this
-                                                                                                                                    out
-                                                                                                                                            xi
-                                                                                                                                            = psi
-                                                                                                                                            - phi
-                                                                                                                                                    sxi
-                                                                                                                                                    = sin(xi)
-                                                                                                                                                            h(1)
-                                                                                                                                                            = w
-                                                                                                                                                                    h(2)
-                                                                                                                                                                    = tl
-                                                                                                                                                                            h(3)
-                                                                                                                                                                            = psi
-                                                                                                                                                                                    h(4)
-                                                                                                                                                                                    = r*sxi
-                                                                                                                                                                                            h(5)
-                                                                                                                                                                                            = z
-                                                                                                                                                                                                  end
-                                                                                                                                                                                                  if:q!
-
- 
-                                                         
- 
-                                         
-                   
- 
-                                                             
+C----------------------------------------------------------------------
+C
+C FV, package to fit vertices and find secondary vertices
+C
+C author: Lothar A.T. Bauerdick, CERN/PPE
+C date:   Jan. 1991
+C
+C ref.:   R. Fruehwirt, ``Applications of Filter Methods...''
 C         HEPHY-PUB 516/88, Vienna
 C
 C
