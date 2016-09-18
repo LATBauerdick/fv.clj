@@ -73,21 +73,19 @@
       (println "initial vertex position v0 ")
       (print "[x y z]=") (pm v0)
       (print "±") (pm (sqrt (diagonal Cv0)))
-      (doseq [[[ih h] H] (map vector (indexed hl) Chl) ]
-        (println "track#" ih ": " )
-        (let [ [p P] (fvHelix2P4 h H mπ w2pt)]
-          (fvPMerr "[px py pz E]=" p P))))
-    (let [[v Cv ql Cql chi2l chi2t] (fvFit v0 Cv0 hl Chl)]
-      (println "--------- doFit result --------------------------------")
-      (println "vertex fit converged, 𝜒2:" chi2t)
-      (print "v: ") (pm v)
-      (print "±") (pm (sqrt (diagonal Cv)))
-      (print "Cv: ") (pm Cv)
-      (println "--------- list of fitted q vectors---------------------")
-      (doseq [[[iq q] Q chi2q] (map vector (indexed ql) Cql chi2l) ]
-        (println "track#" iq ", 𝜒2: " chi2q ": " )
-        (let [ [p P] (fvQ2P3 q Q w2pt)]
-          (fvPMerr "[px py pz]=" p P))))))
+      (let [[v Cv ql Cql chi2l chi2t] (fvFit v0 Cv0 hl Chl)]
+        (println "--------- doFit result --------------------------------")
+        (println "vertex fit converged, 𝜒2:" chi2t)
+        (print "v: ") (pm v)
+        (print "±") (pm (sqrt (diagonal Cv)))
+        (print "Cv: ") (pm Cv)
+        (println "--------- list of fitted q vectors---------------------")
+        (doseq [[[ih h] H q Q chi2q] (map vector (indexed hl) Chl ql Cql chi2l) ]
+          (println "track#" ih  ", 𝜒2: " chi2q ": ")
+          (let [ [p P] (fvHelix2P4 h H mπ w2pt)]
+            (fvPMerr "Helix [px py pz E]=" p P))
+          (let [ [p P] (fvQ2P3 q Q w2pt)]
+            (fvPMerr "Fit q [px py pz]  =" p P)))))))
 
 (doFit)
 
