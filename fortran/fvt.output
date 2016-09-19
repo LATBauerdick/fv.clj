@@ -2,147 +2,147 @@
 
  Run  5129 Evt  1412
  start values for Filter
-   3.36     +/-  53.7      3.49     +/-  55.3      7.11     +/-  83.7    
+   3.36     +/-  53.7      3.49     +/-  55.3      7.11     +/-  83.7
  Filter iteration     1 yields chi2  0.880E-04
  Filter iteration     2 yields chi2  0.827E-04
- Filter iteration     1 yields chi2   100.    
- Filter iteration     2 yields chi2   40.3    
- Filter iteration     3 yields chi2   47.6    
- Filter iteration     4 yields chi2   80.0    
- Filter iteration     5 yields chi2   71.2    
- Filter iteration     6 yields chi2   72.3    
- Filter iteration     7 yields chi2   73.9    
- Filter iteration     8 yields chi2   73.9    
- Filter iteration     1 yields chi2   62.5    
- Filter iteration     2 yields chi2   11.9    
- Filter iteration     3 yields chi2   16.0    
- Filter iteration     4 yields chi2   16.1    
- Filter iteration     1 yields chi2   12.7    
- Filter iteration     2 yields chi2   11.7    
- Filter iteration     3 yields chi2   11.7    
- Filter iteration     1 yields chi2   182.    
- Filter iteration     2 yields chi2   183.    
- Filter iteration     3 yields chi2   183.    
- Filter iteration     1 yields chi2   32.0    
- Filter iteration     2 yields chi2   32.2    
+ Filter iteration     1 yields chi2   100.
+ Filter iteration     2 yields chi2   40.3
+ Filter iteration     3 yields chi2   47.6
+ Filter iteration     4 yields chi2   80.0
+ Filter iteration     5 yields chi2   71.2
+ Filter iteration     6 yields chi2   72.3
+ Filter iteration     7 yields chi2   73.9
+ Filter iteration     8 yields chi2   73.9
+ Filter iteration     1 yields chi2   62.5
+ Filter iteration     2 yields chi2   11.9
+ Filter iteration     3 yields chi2   16.0
+ Filter iteration     4 yields chi2   16.1
+ Filter iteration     1 yields chi2   12.7
+ Filter iteration     2 yields chi2   11.7
+ Filter iteration     3 yields chi2   11.7
+ Filter iteration     1 yields chi2   182.
+ Filter iteration     2 yields chi2   183.
+ Filter iteration     3 yields chi2   183.
+ Filter iteration     1 yields chi2   32.0
+ Filter iteration     2 yields chi2   32.2
  Smoother for Track     1
  chi2 =  13.4    prob (2 d.o.f.) = 0.125E-02
-  0.905E-03 +/- 0.551E-05  1.17     +/- 0.188E-02 0.791     +/- 0.627E-03-0.541E-01 +/- 0.167E-01  1.31     +/- 0.215    
+  0.905E-03 +/- 0.551E-05  1.17     +/- 0.188E-02 0.791     +/- 0.627E-03-0.541E-01 +/- 0.167E-01  1.31     +/- 0.215
   0.897E-03 +/- 0.486E-05  1.17     +/- 0.106E-02 0.793     +/- 0.490E-03-0.174E-01 +/- 0.123E-01  1.94     +/- 0.692E-01
  Smoother for Track     3
  chi2 =  89.8    prob (2 d.o.f.) = 0.317E-19
-  0.861E-03 +/- 0.279E-04  1.19     +/- 0.258E-02 0.772     +/- 0.372E-02 -1.00     +/- 0.244      4.97     +/- 0.354    
+  0.861E-03 +/- 0.279E-04  1.19     +/- 0.258E-02 0.772     +/- 0.372E-02 -1.00     +/- 0.244      4.97     +/- 0.354
   0.750E-03 +/- 0.483E-05  1.21     +/- 0.647E-03 0.787     +/- 0.419E-03-0.254E-01 +/- 0.137E-01  1.88     +/- 0.685E-01
  Smoother for Track     4
  chi2 =  10.6    prob (2 d.o.f.) = 0.492E-02
- -0.173E-02 +/- 0.123E-04  1.04     +/- 0.124E-02 0.866     +/- 0.124E-02 0.260     +/- 0.566E-01  2.13     +/- 0.132    
+ -0.173E-02 +/- 0.123E-04  1.04     +/- 0.124E-02 0.866     +/- 0.124E-02 0.260     +/- 0.566E-01  2.13     +/- 0.132
  -0.169E-02 +/- 0.595E-05  1.04     +/- 0.888E-03 0.862     +/- 0.402E-03 0.753E-01 +/- 0.146E-01  2.12     +/- 0.860E-01
  Smoother for Track     5
  chi2 =  12.3    prob (2 d.o.f.) = 0.214E-02
-  0.121E-02 +/- 0.604E-05  1.28     +/- 0.175E-02 0.853     +/- 0.747E-03 0.850E-02 +/- 0.188E-01  1.97     +/- 0.132    
+  0.121E-02 +/- 0.604E-05  1.28     +/- 0.175E-02 0.853     +/- 0.747E-03 0.850E-02 +/- 0.188E-01  1.97     +/- 0.132
   0.120E-02 +/- 0.527E-05  1.28     +/- 0.146E-02 0.855     +/- 0.583E-03 0.690E-01 +/- 0.142E-01  1.78     +/- 0.737E-01
  Smoother for Track     6
- chi2 =  186.    prob (2 d.o.f.) =  0.00    
- -0.736E-03 +/- 0.449E-04  1.30     +/- 0.274E-02 0.832     +/- 0.570E-02 -1.01     +/- 0.344     -2.87     +/- 0.350    
+ chi2 =  186.    prob (2 d.o.f.) =  0.00
+ -0.736E-03 +/- 0.449E-04  1.30     +/- 0.274E-02 0.832     +/- 0.570E-02 -1.01     +/- 0.344     -2.87     +/- 0.350
  -0.875E-03 +/- 0.581E-05  1.26     +/- 0.789E-03 0.849     +/- 0.427E-03 0.588E-01 +/- 0.116E-01  1.81     +/- 0.712E-01
  Smoother for Track     2
  chi2 =  18.9    prob (2 d.o.f.) = 0.791E-04
- -0.329E-03 +/- 0.328E-05 -1.29     +/- 0.118E-02  3.96     +/- 0.326E-03-0.559E-01 +/- 0.104E-01  2.17     +/- 0.126    
+ -0.329E-03 +/- 0.328E-05 -1.29     +/- 0.118E-02  3.96     +/- 0.326E-03-0.559E-01 +/- 0.104E-01  2.17     +/- 0.126
  -0.337E-03 +/- 0.274E-05 -1.28     +/- 0.799E-03  3.97     +/- 0.253E-03-0.244E-01 +/- 0.737E-02  1.78     +/- 0.720E-01
  Smoothed result
  chi2 =  331.    prob for  12 (  9) d.o.f. =  0.00     (  0.00    )
-  0.949     +/- 0.217     0.988     +/- 0.233      3.54     +/- 0.388    
+  0.949     +/- 0.217     0.988     +/- 0.233      3.54     +/- 0.388
  Outlier Test for Track     1 chi2   19.4     prob.  0.621E-04
  Outlier Test for Track     3 chi2   92.7     prob.  0.747E-20
  Outlier Test for Track     4 chi2   11.5     prob.  0.311E-02
  Outlier Test for Track     5 chi2   32.6     prob.  0.844E-07
- Outlier Test for Track     6 chi2   194.     prob.   0.00    
+ Outlier Test for Track     6 chi2   194.     prob.   0.00
  Outlier Test for Track     2 chi2   32.1     prob.  0.107E-06
 
  common vertex for 5 tracks for Run  5129 Evt  1412
- invariant mass is   1613.9     +/-   16.797    
+ invariant mass is   1613.9     +/-   16.797
  start values for Filter
-   3.36     +/-  53.7      3.49     +/-  55.3      7.11     +/-  83.7    
+   3.36     +/-  53.7      3.49     +/-  55.3      7.11     +/-  83.7
  Filter iteration     1 yields chi2  0.880E-04
  Filter iteration     2 yields chi2  0.827E-04
- Filter iteration     1 yields chi2   100.    
- Filter iteration     2 yields chi2   40.3    
- Filter iteration     3 yields chi2   47.6    
- Filter iteration     4 yields chi2   80.0    
- Filter iteration     5 yields chi2   71.2    
- Filter iteration     6 yields chi2   72.3    
- Filter iteration     7 yields chi2   73.9    
- Filter iteration     8 yields chi2   73.9    
- Filter iteration     1 yields chi2   62.5    
- Filter iteration     2 yields chi2   11.9    
- Filter iteration     3 yields chi2   16.0    
- Filter iteration     4 yields chi2   16.1    
- Filter iteration     1 yields chi2   12.7    
- Filter iteration     2 yields chi2   11.7    
- Filter iteration     3 yields chi2   11.7    
- Filter iteration     1 yields chi2   182.    
- Filter iteration     2 yields chi2   183.    
- Filter iteration     3 yields chi2   183.    
+ Filter iteration     1 yields chi2   100.
+ Filter iteration     2 yields chi2   40.3
+ Filter iteration     3 yields chi2   47.6
+ Filter iteration     4 yields chi2   80.0
+ Filter iteration     5 yields chi2   71.2
+ Filter iteration     6 yields chi2   72.3
+ Filter iteration     7 yields chi2   73.9
+ Filter iteration     8 yields chi2   73.9
+ Filter iteration     1 yields chi2   62.5
+ Filter iteration     2 yields chi2   11.9
+ Filter iteration     3 yields chi2   16.0
+ Filter iteration     4 yields chi2   16.1
+ Filter iteration     1 yields chi2   12.7
+ Filter iteration     2 yields chi2   11.7
+ Filter iteration     3 yields chi2   11.7
+ Filter iteration     1 yields chi2   182.
+ Filter iteration     2 yields chi2   183.
+ Filter iteration     3 yields chi2   183.
  Smoother for Track     1
  chi2 =  4.80    prob (2 d.o.f.) = 0.908E-01
-  0.905E-03 +/- 0.551E-05  1.17     +/- 0.188E-02 0.791     +/- 0.627E-03-0.541E-01 +/- 0.167E-01  1.31     +/- 0.215    
+  0.905E-03 +/- 0.551E-05  1.17     +/- 0.188E-02 0.791     +/- 0.627E-03-0.541E-01 +/- 0.167E-01  1.31     +/- 0.215
   0.906E-03 +/- 0.515E-05  1.17     +/- 0.111E-02 0.791     +/- 0.554E-03-0.569E-01 +/- 0.147E-01  1.78     +/- 0.810E-01
  Smoother for Track     3
  chi2 =  96.8    prob (2 d.o.f.) = 0.936E-21
-  0.861E-03 +/- 0.279E-04  1.19     +/- 0.258E-02 0.772     +/- 0.372E-02 -1.00     +/- 0.244      4.97     +/- 0.354    
+  0.861E-03 +/- 0.279E-04  1.19     +/- 0.258E-02 0.772     +/- 0.372E-02 -1.00     +/- 0.244      4.97     +/- 0.354
   0.754E-03 +/- 0.491E-05  1.21     +/- 0.723E-03 0.786     +/- 0.437E-03-0.650E-01 +/- 0.157E-01  1.71     +/- 0.823E-01
  Smoother for Track     4
  chi2 =  14.8    prob (2 d.o.f.) = 0.602E-03
- -0.173E-02 +/- 0.123E-04  1.04     +/- 0.124E-02 0.866     +/- 0.124E-02 0.260     +/- 0.566E-01  2.13     +/- 0.132    
+ -0.173E-02 +/- 0.123E-04  1.04     +/- 0.124E-02 0.866     +/- 0.124E-02 0.260     +/- 0.566E-01  2.13     +/- 0.132
  -0.168E-02 +/- 0.625E-05  1.04     +/- 0.930E-03 0.861     +/- 0.450E-03 0.495E-01 +/- 0.173E-01  1.98     +/- 0.916E-01
  Smoother for Track     5
  chi2 =  10.8    prob (2 d.o.f.) = 0.451E-02
-  0.121E-02 +/- 0.604E-05  1.28     +/- 0.175E-02 0.853     +/- 0.747E-03 0.850E-02 +/- 0.188E-01  1.97     +/- 0.132    
+  0.121E-02 +/- 0.604E-05  1.28     +/- 0.175E-02 0.853     +/- 0.747E-03 0.850E-02 +/- 0.188E-01  1.97     +/- 0.132
   0.120E-02 +/- 0.573E-05  1.29     +/- 0.153E-02 0.854     +/- 0.682E-03 0.420E-01 +/- 0.171E-01  1.60     +/- 0.902E-01
  Smoother for Track     6
- chi2 =  173.    prob (2 d.o.f.) =  0.00    
- -0.736E-03 +/- 0.449E-04  1.30     +/- 0.274E-02 0.832     +/- 0.570E-02 -1.01     +/- 0.344     -2.87     +/- 0.350    
+ chi2 =  173.    prob (2 d.o.f.) =  0.00
+ -0.736E-03 +/- 0.449E-04  1.30     +/- 0.274E-02 0.832     +/- 0.570E-02 -1.01     +/- 0.344     -2.87     +/- 0.350
  -0.871E-03 +/- 0.593E-05  1.26     +/- 0.876E-03 0.849     +/- 0.453E-03 0.309E-01 +/- 0.145E-01  1.63     +/- 0.870E-01
  Smoothed result
  chi2 =  300.    prob for  10 (  7) d.o.f. =  0.00     (  0.00    )
-   1.05     +/- 0.225      1.15     +/- 0.241      3.61     +/- 0.393    
+   1.05     +/- 0.225      1.15     +/- 0.241      3.61     +/- 0.393
  Outlier Test for Track     1 chi2   5.67     prob.  0.587E-01
  Outlier Test for Track     3 chi2   101.     prob.  0.924E-22
  Outlier Test for Track     4 chi2   18.6     prob.  0.932E-04
  Outlier Test for Track     5 chi2   90.5     prob.  0.221E-19
- Outlier Test for Track     6 chi2   183.     prob.   0.00    
- invariant mass is   1494.7     +/-   5.4674    
+ Outlier Test for Track     6 chi2   183.     prob.   0.00
+ invariant mass is   1494.7     +/-   5.4674
  ==============================================================================
 
  Run  5158 Evt  4656
  start values for Filter
-   2.14     +/-  88.8    -0.108     +/-  6.42     0.130     +/-  2.59    
+   2.14     +/-  88.8    -0.108     +/-  6.42     0.130     +/-  2.59
  Filter iteration     1 yields chi2  0.247E-02
  Filter iteration     2 yields chi2  0.245E-02
- Filter iteration     1 yields chi2  0.243    
- Filter iteration     2 yields chi2  0.242    
- Filter iteration     1 yields chi2   4.75    
- Filter iteration     2 yields chi2   4.82    
- Filter iteration     1 yields chi2   5.24    
- Filter iteration     2 yields chi2   5.17    
- Filter iteration     1 yields chi2   6.92    
- Filter iteration     2 yields chi2   6.95    
- Filter iteration     1 yields chi2   16.6    
- Filter iteration     2 yields chi2   16.9    
+ Filter iteration     1 yields chi2  0.243
+ Filter iteration     2 yields chi2  0.242
+ Filter iteration     1 yields chi2   4.75
+ Filter iteration     2 yields chi2   4.82
+ Filter iteration     1 yields chi2   5.24
+ Filter iteration     2 yields chi2   5.17
+ Filter iteration     1 yields chi2   6.92
+ Filter iteration     2 yields chi2   6.95
+ Filter iteration     1 yields chi2   16.6
+ Filter iteration     2 yields chi2   16.9
  Smoother for Track     1
- chi2 = 0.859    prob (2 d.o.f.) = 0.651    
+ chi2 = 0.859    prob (2 d.o.f.) = 0.651
  -0.305E-03 +/- 0.164E-04 0.289E-01 +/- 0.598E-03  6.20     +/- 0.206E-02-0.679E-03 +/- 0.125     0.204     +/- 0.769E-01
  -0.298E-03 +/- 0.418E-05 0.294E-01 +/- 0.229E-03  6.20     +/- 0.323E-03-0.572E-01 +/- 0.957E-02 0.142     +/- 0.240E-01
  Smoother for Track     2
- chi2 =  2.47    prob (2 d.o.f.) = 0.291    
+ chi2 =  2.47    prob (2 d.o.f.) = 0.291
   0.578E-03 +/- 0.479E-05-0.274E-01 +/- 0.536E-03  6.21     +/- 0.530E-03-0.503E-01 +/- 0.137E-01 0.267     +/- 0.474E-01
   0.576E-03 +/- 0.464E-05-0.268E-01 +/- 0.414E-03  6.21     +/- 0.500E-03-0.422E-01 +/- 0.128E-01 0.198     +/- 0.283E-01
  Smoother for Track     3
- chi2 =  3.45    prob (2 d.o.f.) = 0.178    
+ chi2 =  3.45    prob (2 d.o.f.) = 0.178
   0.105E-02 +/- 0.227E-04 0.438E-01 +/- 0.642E-03  6.16     +/- 0.274E-02 0.804E-01 +/- 0.158     0.929E-02 +/- 0.807E-01
   0.107E-02 +/- 0.669E-05 0.429E-01 +/- 0.265E-03  6.16     +/- 0.532E-03-0.978E-01 +/- 0.213E-01 0.129     +/- 0.272E-01
  Smoother for Track     5
- chi2 =  4.17    prob (2 d.o.f.) = 0.124    
+ chi2 =  4.17    prob (2 d.o.f.) = 0.124
  -0.188E-02 +/- 0.184E-04 0.103E-01 +/- 0.545E-03  6.18     +/- 0.182E-02-0.232E-02 +/- 0.826E-01 0.693E-01 +/- 0.511E-01
  -0.186E-02 +/- 0.822E-05 0.938E-02 +/- 0.307E-03  6.18     +/- 0.514E-03-0.796E-01 +/- 0.145E-01 0.162     +/- 0.221E-01
  Smoother for Track     6
@@ -156,41 +156,41 @@
  Smoothed result
  chi2 =  34.0    prob for  12 (  9) d.o.f. = 0.664E-03 ( 0.878E-04)
   0.995     +/- 0.478    -0.275E-01 +/- 0.424E-01 0.171     +/- 0.224E-01
- Outlier Test for Track     1 chi2  0.930     prob.  0.628    
- Outlier Test for Track     2 chi2   3.43     prob.  0.180    
- Outlier Test for Track     3 chi2   3.66     prob.  0.160    
+ Outlier Test for Track     1 chi2  0.930     prob.  0.628
+ Outlier Test for Track     2 chi2   3.43     prob.  0.180
+ Outlier Test for Track     3 chi2   3.66     prob.  0.160
  Outlier Test for Track     5 chi2   4.96     prob.  0.838E-01
  Outlier Test for Track     6 chi2   14.1     prob.  0.880E-03
  Outlier Test for Track     4 chi2   16.9     prob.  0.216E-03
 
  common vertex for 5 tracks for Run  5158 Evt  4656
- invariant mass is   1337.4     +/-   19.739    
+ invariant mass is   1337.4     +/-   19.739
  start values for Filter
-   2.14     +/-  88.8    -0.108     +/-  6.42     0.130     +/-  2.59    
+   2.14     +/-  88.8    -0.108     +/-  6.42     0.130     +/-  2.59
  Filter iteration     1 yields chi2  0.247E-02
  Filter iteration     2 yields chi2  0.245E-02
- Filter iteration     1 yields chi2  0.243    
- Filter iteration     2 yields chi2  0.242    
- Filter iteration     1 yields chi2   4.75    
- Filter iteration     2 yields chi2   4.82    
- Filter iteration     1 yields chi2   5.24    
- Filter iteration     2 yields chi2   5.17    
- Filter iteration     1 yields chi2   6.92    
- Filter iteration     2 yields chi2   6.95    
+ Filter iteration     1 yields chi2  0.243
+ Filter iteration     2 yields chi2  0.242
+ Filter iteration     1 yields chi2   4.75
+ Filter iteration     2 yields chi2   4.82
+ Filter iteration     1 yields chi2   5.24
+ Filter iteration     2 yields chi2   5.17
+ Filter iteration     1 yields chi2   6.92
+ Filter iteration     2 yields chi2   6.95
  Smoother for Track     1
- chi2 =  3.59    prob (2 d.o.f.) = 0.166    
+ chi2 =  3.59    prob (2 d.o.f.) = 0.166
  -0.305E-03 +/- 0.164E-04 0.289E-01 +/- 0.598E-03  6.20     +/- 0.206E-02-0.679E-03 +/- 0.125     0.204     +/- 0.769E-01
  -0.296E-03 +/- 0.459E-05 0.299E-01 +/- 0.287E-03  6.20     +/- 0.406E-03-0.739E-01 +/- 0.187E-01 0.658E-01 +/- 0.337E-01
  Smoother for Track     2
- chi2 =  3.57    prob (2 d.o.f.) = 0.167    
+ chi2 =  3.57    prob (2 d.o.f.) = 0.167
   0.578E-03 +/- 0.479E-05-0.274E-01 +/- 0.536E-03  6.21     +/- 0.530E-03-0.503E-01 +/- 0.137E-01 0.267     +/- 0.474E-01
   0.576E-03 +/- 0.479E-05-0.266E-01 +/- 0.485E-03  6.21     +/- 0.531E-03-0.408E-01 +/- 0.138E-01 0.184     +/- 0.394E-01
  Smoother for Track     3
- chi2 =  2.41    prob (2 d.o.f.) = 0.300    
+ chi2 =  2.41    prob (2 d.o.f.) = 0.300
   0.105E-02 +/- 0.227E-04 0.438E-01 +/- 0.642E-03  6.16     +/- 0.274E-02 0.804E-01 +/- 0.158     0.929E-02 +/- 0.807E-01
   0.108E-02 +/- 0.939E-05 0.436E-01 +/- 0.365E-03  6.16     +/- 0.972E-03-0.159     +/- 0.517E-01 0.375E-01 +/- 0.428E-01
  Smoother for Track     5
- chi2 =  2.73    prob (2 d.o.f.) = 0.256    
+ chi2 =  2.73    prob (2 d.o.f.) = 0.256
  -0.188E-02 +/- 0.184E-04 0.103E-01 +/- 0.545E-03  6.18     +/- 0.182E-02-0.232E-02 +/- 0.826E-01 0.693E-01 +/- 0.511E-01
  -0.185E-02 +/- 0.110E-04 0.992E-02 +/- 0.336E-03  6.18     +/- 0.930E-03-0.124     +/- 0.398E-01 0.108     +/- 0.260E-01
  Smoother for Track     6
@@ -200,135 +200,135 @@
  Smoothed result
  chi2 =  17.5    prob for  10 (  7) d.o.f. = 0.635E-01 ( 0.143E-01)
    2.08     +/- 0.895    -0.104     +/- 0.653E-01 0.128     +/- 0.258E-01
- Outlier Test for Track     1 chi2   4.45     prob.  0.108    
+ Outlier Test for Track     1 chi2   4.45     prob.  0.108
  Outlier Test for Track     2 chi2   9.97     prob.  0.685E-02
- Outlier Test for Track     3 chi2   2.58     prob.  0.275    
- Outlier Test for Track     5 chi2   3.47     prob.  0.177    
+ Outlier Test for Track     3 chi2   2.58     prob.  0.275
+ Outlier Test for Track     5 chi2   3.47     prob.  0.177
  Outlier Test for Track     6 chi2   6.95     prob.  0.310E-01
- invariant mass is   1363.1     +/-   10.167    
+ invariant mass is   1363.1     +/-   10.167
  ==============================================================================
 
  Run  5166 Evt  1984
  start values for Filter
-  0.619E-01 +/-  7.42     0.175     +/-  11.7      1.36     +/-  15.3    
+  0.619E-01 +/-  7.42     0.175     +/-  11.7      1.36     +/-  15.3
  Filter iteration     1 yields chi2  0.132E-03
  Filter iteration     2 yields chi2  0.132E-03
- Filter iteration     1 yields chi2  0.716    
- Filter iteration     2 yields chi2  0.689    
- Filter iteration     1 yields chi2   12.5    
- Filter iteration     2 yields chi2   10.3    
- Filter iteration     3 yields chi2   10.3    
- Filter iteration     1 yields chi2   1.47    
- Filter iteration     2 yields chi2   1.47    
- Filter iteration     1 yields chi2   7.27    
- Filter iteration     2 yields chi2   7.27    
- Filter iteration     1 yields chi2   2.05    
- Filter iteration     2 yields chi2   2.06    
+ Filter iteration     1 yields chi2  0.716
+ Filter iteration     2 yields chi2  0.689
+ Filter iteration     1 yields chi2   12.5
+ Filter iteration     2 yields chi2   10.3
+ Filter iteration     3 yields chi2   10.3
+ Filter iteration     1 yields chi2   1.47
+ Filter iteration     2 yields chi2   1.47
+ Filter iteration     1 yields chi2   7.27
+ Filter iteration     2 yields chi2   7.27
+ Filter iteration     1 yields chi2   2.05
+ Filter iteration     2 yields chi2   2.06
  Smoother for Track     2
- chi2 = 0.441    prob (2 d.o.f.) = 0.802    
-  0.393E-03 +/- 0.353E-05  1.09     +/- 0.150E-02  2.11     +/- 0.359E-03 0.150     +/- 0.106E-01  1.20     +/- 0.176    
+ chi2 = 0.441    prob (2 d.o.f.) = 0.802
+  0.393E-03 +/- 0.353E-05  1.09     +/- 0.150E-02  2.11     +/- 0.359E-03 0.150     +/- 0.106E-01  1.20     +/- 0.176
   0.395E-03 +/- 0.303E-05  1.09     +/- 0.664E-03  2.11     +/- 0.278E-03 0.143     +/- 0.711E-02  1.23     +/- 0.531E-01
  Smoother for Track     3
  chi2 =  8.20    prob (2 d.o.f.) = 0.166E-01
- -0.813E-03 +/- 0.870E-05  1.08     +/- 0.116E-02  2.08     +/- 0.960E-03 0.108E-01 +/- 0.496E-01  1.07     +/- 0.129    
+ -0.813E-03 +/- 0.870E-05  1.08     +/- 0.116E-02  2.08     +/- 0.960E-03 0.108E-01 +/- 0.496E-01  1.07     +/- 0.129
  -0.834E-03 +/- 0.347E-05  1.08     +/- 0.603E-03  2.08     +/- 0.251E-03 0.140     +/- 0.863E-02  1.23     +/- 0.530E-01
  Smoother for Track     4
- chi2 =  2.70    prob (2 d.o.f.) = 0.260    
- -0.213E-02 +/- 0.827E-05  1.07     +/- 0.231E-02  2.05     +/- 0.110E-02 0.153     +/- 0.245E-01  1.02     +/- 0.137    
+ chi2 =  2.70    prob (2 d.o.f.) = 0.260
+ -0.213E-02 +/- 0.827E-05  1.07     +/- 0.231E-02  2.05     +/- 0.110E-02 0.153     +/- 0.245E-01  1.02     +/- 0.137
  -0.213E-02 +/- 0.719E-05  1.07     +/- 0.188E-02  2.05     +/- 0.620E-03 0.136     +/- 0.119E-01  1.23     +/- 0.529E-01
  Smoother for Track     5
- chi2 = 0.686    prob (2 d.o.f.) = 0.709    
-  0.120E-02 +/- 0.520E-05  1.06     +/- 0.152E-02  2.19     +/- 0.689E-03 0.165     +/- 0.157E-01  1.28     +/- 0.118    
+ chi2 = 0.686    prob (2 d.o.f.) = 0.709
+  0.120E-02 +/- 0.520E-05  1.06     +/- 0.152E-02  2.19     +/- 0.689E-03 0.165     +/- 0.157E-01  1.28     +/- 0.118
   0.121E-02 +/- 0.448E-05  1.06     +/- 0.120E-02  2.19     +/- 0.445E-03 0.152     +/- 0.904E-02  1.25     +/- 0.528E-01
  Smoother for Track     6
  chi2 =  6.03    prob (2 d.o.f.) = 0.490E-01
- -0.165E-02 +/- 0.699E-05 0.935     +/- 0.179E-02  2.03     +/- 0.100E-02 0.140     +/- 0.228E-01  1.55     +/- 0.129    
+ -0.165E-02 +/- 0.699E-05 0.935     +/- 0.179E-02  2.03     +/- 0.100E-02 0.140     +/- 0.228E-01  1.55     +/- 0.129
  -0.165E-02 +/- 0.602E-05 0.938     +/- 0.143E-02  2.03     +/- 0.658E-03 0.134     +/- 0.135E-01  1.24     +/- 0.542E-01
  Smoother for Track     1
- chi2 = 0.892    prob (2 d.o.f.) = 0.640    
-  0.496E-03 +/- 0.340E-05 -1.04     +/- 0.111E-02  5.32     +/- 0.379E-03-0.141     +/- 0.115E-01  1.25     +/- 0.115    
+ chi2 = 0.892    prob (2 d.o.f.) = 0.640
+  0.496E-03 +/- 0.340E-05 -1.04     +/- 0.111E-02  5.32     +/- 0.379E-03-0.141     +/- 0.115E-01  1.25     +/- 0.115
   0.499E-03 +/- 0.299E-05 -1.04     +/- 0.702E-03  5.32     +/- 0.307E-03-0.152     +/- 0.868E-02  1.25     +/- 0.527E-01
  Smoothed result
  chi2 =  18.9    prob for  12 (  9) d.o.f. = 0.899E-01 ( 0.257E-01)
-  0.615E-01 +/- 0.629E-01 0.177     +/- 0.998E-01  1.36     +/- 0.133    
- Outlier Test for Track     2 chi2  0.768     prob.  0.681    
+  0.615E-01 +/- 0.629E-01 0.177     +/- 0.998E-01  1.36     +/- 0.133
+ Outlier Test for Track     2 chi2  0.768     prob.  0.681
  Outlier Test for Track     3 chi2   8.72     prob.  0.128E-01
- Outlier Test for Track     4 chi2   3.21     prob.  0.201    
- Outlier Test for Track     5 chi2   1.00     prob.  0.606    
+ Outlier Test for Track     4 chi2   3.21     prob.  0.201
+ Outlier Test for Track     5 chi2   1.00     prob.  0.606
  Outlier Test for Track     6 chi2   7.27     prob.  0.264E-01
- Outlier Test for Track     1 chi2   2.06     prob.  0.357    
+ Outlier Test for Track     1 chi2   2.06     prob.  0.357
 
  common vertex for 5 tracks for Run  5166 Evt  1984
- invariant mass is   1636.2     +/-   10.382    
+ invariant mass is   1636.2     +/-   10.382
  start values for Filter
-  0.619E-01 +/-  7.42     0.175     +/-  11.7      1.36     +/-  15.3    
+  0.619E-01 +/-  7.42     0.175     +/-  11.7      1.36     +/-  15.3
  Filter iteration     1 yields chi2  0.132E-03
  Filter iteration     2 yields chi2  0.132E-03
- Filter iteration     1 yields chi2  0.716    
- Filter iteration     2 yields chi2  0.689    
- Filter iteration     1 yields chi2   12.5    
- Filter iteration     2 yields chi2   10.3    
- Filter iteration     3 yields chi2   10.3    
- Filter iteration     1 yields chi2   1.47    
- Filter iteration     2 yields chi2   1.47    
- Filter iteration     1 yields chi2   7.27    
- Filter iteration     2 yields chi2   7.27    
+ Filter iteration     1 yields chi2  0.716
+ Filter iteration     2 yields chi2  0.689
+ Filter iteration     1 yields chi2   12.5
+ Filter iteration     2 yields chi2   10.3
+ Filter iteration     3 yields chi2   10.3
+ Filter iteration     1 yields chi2   1.47
+ Filter iteration     2 yields chi2   1.47
+ Filter iteration     1 yields chi2   7.27
+ Filter iteration     2 yields chi2   7.27
  Smoother for Track     2
- chi2 = 0.788E-01prob (2 d.o.f.) = 0.961    
-  0.393E-03 +/- 0.353E-05  1.09     +/- 0.150E-02  2.11     +/- 0.359E-03 0.150     +/- 0.106E-01  1.20     +/- 0.176    
+ chi2 = 0.788E-01prob (2 d.o.f.) = 0.961
+  0.393E-03 +/- 0.353E-05  1.09     +/- 0.150E-02  2.11     +/- 0.359E-03 0.150     +/- 0.106E-01  1.20     +/- 0.176
   0.394E-03 +/- 0.311E-05  1.09     +/- 0.700E-03  2.11     +/- 0.291E-03 0.147     +/- 0.772E-02  1.22     +/- 0.599E-01
  Smoother for Track     3
  chi2 =  8.21    prob (2 d.o.f.) = 0.165E-01
- -0.813E-03 +/- 0.870E-05  1.08     +/- 0.116E-02  2.08     +/- 0.960E-03 0.108E-01 +/- 0.496E-01  1.07     +/- 0.129    
+ -0.813E-03 +/- 0.870E-05  1.08     +/- 0.116E-02  2.08     +/- 0.960E-03 0.108E-01 +/- 0.496E-01  1.07     +/- 0.129
  -0.834E-03 +/- 0.347E-05  1.08     +/- 0.647E-03  2.08     +/- 0.252E-03 0.142     +/- 0.870E-02  1.22     +/- 0.598E-01
  Smoother for Track     4
- chi2 =  2.83    prob (2 d.o.f.) = 0.243    
- -0.213E-02 +/- 0.827E-05  1.07     +/- 0.231E-02  2.05     +/- 0.110E-02 0.153     +/- 0.245E-01  1.02     +/- 0.137    
+ chi2 =  2.83    prob (2 d.o.f.) = 0.243
+ -0.213E-02 +/- 0.827E-05  1.07     +/- 0.231E-02  2.05     +/- 0.110E-02 0.153     +/- 0.245E-01  1.02     +/- 0.137
  -0.213E-02 +/- 0.721E-05  1.07     +/- 0.190E-02  2.05     +/- 0.632E-03 0.132     +/- 0.122E-01  1.22     +/- 0.596E-01
  Smoother for Track     5
- chi2 = 0.118    prob (2 d.o.f.) = 0.943    
-  0.120E-02 +/- 0.520E-05  1.06     +/- 0.152E-02  2.19     +/- 0.689E-03 0.165     +/- 0.157E-01  1.28     +/- 0.118    
+ chi2 = 0.118    prob (2 d.o.f.) = 0.943
+  0.120E-02 +/- 0.520E-05  1.06     +/- 0.152E-02  2.19     +/- 0.689E-03 0.165     +/- 0.157E-01  1.28     +/- 0.118
   0.120E-02 +/- 0.497E-05  1.06     +/- 0.122E-02  2.19     +/- 0.619E-03 0.167     +/- 0.139E-01  1.25     +/- 0.595E-01
  Smoother for Track     6
  chi2 =  5.75    prob (2 d.o.f.) = 0.565E-01
- -0.165E-02 +/- 0.699E-05 0.935     +/- 0.179E-02  2.03     +/- 0.100E-02 0.140     +/- 0.228E-01  1.55     +/- 0.129    
+ -0.165E-02 +/- 0.699E-05 0.935     +/- 0.179E-02  2.03     +/- 0.100E-02 0.140     +/- 0.228E-01  1.55     +/- 0.129
  -0.165E-02 +/- 0.608E-05 0.937     +/- 0.146E-02  2.03     +/- 0.682E-03 0.128     +/- 0.142E-01  1.25     +/- 0.615E-01
  Smoothed result
  chi2 =  17.0    prob for  10 (  7) d.o.f. = 0.748E-01 ( 0.175E-01)
- -0.213E-02 +/- 0.770E-01 0.293     +/- 0.128      1.50     +/- 0.166    
- Outlier Test for Track     2 chi2  0.144     prob.  0.930    
+ -0.213E-02 +/- 0.770E-01 0.293     +/- 0.128      1.50     +/- 0.166
+ Outlier Test for Track     2 chi2  0.144     prob.  0.930
  Outlier Test for Track     3 chi2   8.80     prob.  0.123E-01
- Outlier Test for Track     4 chi2   3.53     prob.  0.171    
- Outlier Test for Track     5 chi2  0.255     prob.  0.880    
+ Outlier Test for Track     4 chi2   3.53     prob.  0.171
+ Outlier Test for Track     5 chi2  0.255     prob.  0.880
  Outlier Test for Track     6 chi2   7.27     prob.  0.264E-01
- invariant mass is   1626.1     +/-   8.5387    
+ invariant mass is   1626.1     +/-   8.5387
  ==============================================================================
 
  Run  5343 Evt  2291
  start values for Filter
-  -1.73     +/-  38.9     0.433     +/-  8.12     0.317     +/-  4.60    
+  -1.73     +/-  38.9     0.433     +/-  8.12     0.317     +/-  4.60
  Filter iteration     1 yields chi2  0.460E-02
  Filter iteration     2 yields chi2  0.460E-02
- Filter iteration     1 yields chi2   7.79    
- Filter iteration     2 yields chi2   7.82    
- Filter iteration     1 yields chi2   1.54    
- Filter iteration     2 yields chi2   1.62    
- Filter iteration     1 yields chi2   4.84    
- Filter iteration     2 yields chi2   4.84    
- Filter iteration     1 yields chi2   1.49    
- Filter iteration     2 yields chi2   1.49    
- Filter iteration     1 yields chi2  0.103    
- Filter iteration     2 yields chi2  0.103    
+ Filter iteration     1 yields chi2   7.79
+ Filter iteration     2 yields chi2   7.82
+ Filter iteration     1 yields chi2   1.54
+ Filter iteration     2 yields chi2   1.62
+ Filter iteration     1 yields chi2   4.84
+ Filter iteration     2 yields chi2   4.84
+ Filter iteration     1 yields chi2   1.49
+ Filter iteration     2 yields chi2   1.49
+ Filter iteration     1 yields chi2  0.103
+ Filter iteration     2 yields chi2  0.103
  Smoother for Track     1
  chi2 =  6.95    prob (2 d.o.f.) = 0.310E-01
   0.286E-03 +/- 0.421E-05-0.104     +/- 0.579E-03  6.08     +/- 0.397E-03-0.754E-01 +/- 0.125E-01 0.309     +/- 0.666E-01
   0.285E-03 +/- 0.336E-05-0.102     +/- 0.291E-03  6.08     +/- 0.276E-03-0.732E-01 +/- 0.726E-02 0.134     +/- 0.252E-01
  Smoother for Track     3
- chi2 =  2.19    prob (2 d.o.f.) = 0.335    
+ chi2 =  2.19    prob (2 d.o.f.) = 0.335
  -0.606E-03 +/- 0.101E-04-0.894E-01 +/- 0.516E-03  6.02     +/- 0.105E-02-0.151E-02 +/- 0.504E-01 0.793E-01 +/- 0.557E-01
  -0.611E-03 +/- 0.534E-05-0.901E-01 +/- 0.281E-03  6.02     +/- 0.463E-03 0.257E-01 +/- 0.196E-01 0.156     +/- 0.251E-01
  Smoother for Track     4
- chi2 = 0.414    prob (2 d.o.f.) = 0.813    
+ chi2 = 0.414    prob (2 d.o.f.) = 0.813
  -0.235E-02 +/- 0.111E-04-0.881E-01 +/- 0.153E-02  6.02     +/- 0.136E-02 0.544E-01 +/- 0.305E-01 0.142     +/- 0.672E-01
  -0.235E-02 +/- 0.106E-04-0.884E-01 +/- 0.106E-02  6.02     +/- 0.929E-03 0.365E-01 +/- 0.202E-01 0.159     +/- 0.249E-01
  Smoother for Track     5
@@ -336,47 +336,47 @@
   0.193E-02 +/- 0.233E-04-0.991E-01 +/- 0.659E-03  6.06     +/- 0.252E-02-0.227E-01 +/- 0.128    -0.236E-01 +/- 0.709E-01
   0.193E-02 +/- 0.789E-05-0.100     +/- 0.308E-03  6.06     +/- 0.467E-03-0.315E-01 +/- 0.109E-01 0.137     +/- 0.251E-01
  Smoother for Track     6
- chi2 =  1.05    prob (2 d.o.f.) = 0.591    
+ chi2 =  1.05    prob (2 d.o.f.) = 0.591
  -0.318E-03 +/- 0.444E-05-0.104     +/- 0.588E-03  6.06     +/- 0.439E-03-0.424E-01 +/- 0.147E-01 0.201     +/- 0.667E-01
  -0.318E-03 +/- 0.357E-05-0.103     +/- 0.304E-03  6.06     +/- 0.310E-03-0.432E-01 +/- 0.877E-02 0.132     +/- 0.252E-01
  Smoother for Track     2
- chi2 = 0.753E-01prob (2 d.o.f.) = 0.963    
+ chi2 = 0.753E-01prob (2 d.o.f.) = 0.963
   0.187E-03 +/- 0.425E-05 0.952E-01 +/- 0.464E-03  2.96     +/- 0.395E-03 0.107     +/- 0.138E-01 0.161     +/- 0.515E-01
   0.187E-03 +/- 0.384E-05 0.953E-01 +/- 0.282E-03  2.96     +/- 0.343E-03 0.108     +/- 0.114E-01 0.147     +/- 0.258E-01
  Smoothed result
  chi2 =  15.8    prob for  12 (  9) d.o.f. = 0.200     ( 0.710E-01)
   -1.78     +/- 0.359     0.444     +/- 0.756E-01 0.321     +/- 0.435E-01
  Outlier Test for Track     1 chi2   8.11     prob.  0.173E-01
- Outlier Test for Track     3 chi2   2.76     prob.  0.252    
- Outlier Test for Track     4 chi2  0.679     prob.  0.712    
+ Outlier Test for Track     3 chi2   2.76     prob.  0.252
+ Outlier Test for Track     4 chi2  0.679     prob.  0.712
  Outlier Test for Track     5 chi2   5.87     prob.  0.532E-01
- Outlier Test for Track     6 chi2   1.22     prob.  0.542    
- Outlier Test for Track     2 chi2  0.103     prob.  0.950    
+ Outlier Test for Track     6 chi2   1.22     prob.  0.542
+ Outlier Test for Track     2 chi2  0.103     prob.  0.950
 
  common vertex for 5 tracks for Run  5343 Evt  2291
- invariant mass is   1354.7     +/-   15.763    
+ invariant mass is   1354.7     +/-   15.763
  start values for Filter
-  -1.73     +/-  38.9     0.433     +/-  8.12     0.317     +/-  4.60    
+  -1.73     +/-  38.9     0.433     +/-  8.12     0.317     +/-  4.60
  Filter iteration     1 yields chi2  0.460E-02
  Filter iteration     2 yields chi2  0.460E-02
- Filter iteration     1 yields chi2   7.79    
- Filter iteration     2 yields chi2   7.82    
- Filter iteration     1 yields chi2   1.54    
- Filter iteration     2 yields chi2   1.62    
- Filter iteration     1 yields chi2   4.84    
- Filter iteration     2 yields chi2   4.84    
- Filter iteration     1 yields chi2   1.49    
- Filter iteration     2 yields chi2   1.49    
+ Filter iteration     1 yields chi2   7.79
+ Filter iteration     2 yields chi2   7.82
+ Filter iteration     1 yields chi2   1.54
+ Filter iteration     2 yields chi2   1.62
+ Filter iteration     1 yields chi2   4.84
+ Filter iteration     2 yields chi2   4.84
+ Filter iteration     1 yields chi2   1.49
+ Filter iteration     2 yields chi2   1.49
  Smoother for Track     1
  chi2 =  7.31    prob (2 d.o.f.) = 0.258E-01
   0.286E-03 +/- 0.421E-05-0.104     +/- 0.579E-03  6.08     +/- 0.397E-03-0.754E-01 +/- 0.125E-01 0.309     +/- 0.666E-01
   0.285E-03 +/- 0.391E-05-0.102     +/- 0.315E-03  6.08     +/- 0.356E-03-0.737E-01 +/- 0.108E-01 0.129     +/- 0.291E-01
  Smoother for Track     3
- chi2 =  1.99    prob (2 d.o.f.) = 0.370    
+ chi2 =  1.99    prob (2 d.o.f.) = 0.370
  -0.606E-03 +/- 0.101E-04-0.894E-01 +/- 0.516E-03  6.02     +/- 0.105E-02-0.151E-02 +/- 0.504E-01 0.793E-01 +/- 0.557E-01
  -0.611E-03 +/- 0.578E-05-0.901E-01 +/- 0.309E-03  6.02     +/- 0.522E-03 0.264E-01 +/- 0.226E-01 0.152     +/- 0.292E-01
  Smoother for Track     4
- chi2 = 0.358    prob (2 d.o.f.) = 0.836    
+ chi2 = 0.358    prob (2 d.o.f.) = 0.836
  -0.235E-02 +/- 0.111E-04-0.881E-01 +/- 0.153E-02  6.02     +/- 0.136E-02 0.544E-01 +/- 0.305E-01 0.142     +/- 0.672E-01
  -0.235E-02 +/- 0.108E-04-0.884E-01 +/- 0.109E-02  6.02     +/- 0.107E-02 0.372E-01 +/- 0.237E-01 0.155     +/- 0.289E-01
  Smoother for Track     5
@@ -384,393 +384,393 @@
   0.193E-02 +/- 0.233E-04-0.991E-01 +/- 0.659E-03  6.06     +/- 0.252E-02-0.227E-01 +/- 0.128    -0.236E-01 +/- 0.709E-01
   0.193E-02 +/- 0.789E-05-0.100     +/- 0.333E-03  6.06     +/- 0.467E-03-0.315E-01 +/- 0.109E-01 0.132     +/- 0.290E-01
  Smoother for Track     6
- chi2 =  1.20    prob (2 d.o.f.) = 0.548    
+ chi2 =  1.20    prob (2 d.o.f.) = 0.548
  -0.318E-03 +/- 0.444E-05-0.104     +/- 0.588E-03  6.06     +/- 0.439E-03-0.424E-01 +/- 0.147E-01 0.201     +/- 0.667E-01
  -0.318E-03 +/- 0.361E-05-0.103     +/- 0.327E-03  6.06     +/- 0.316E-03-0.433E-01 +/- 0.906E-02 0.128     +/- 0.292E-01
  Smoothed result
  chi2 =  15.7    prob for  10 (  7) d.o.f. = 0.109     ( 0.280E-01)
   -1.80     +/- 0.517     0.449     +/- 0.114     0.319     +/- 0.590E-01
  Outlier Test for Track     1 chi2   9.03     prob.  0.109E-01
- Outlier Test for Track     3 chi2   2.77     prob.  0.250    
- Outlier Test for Track     4 chi2  0.825     prob.  0.662    
+ Outlier Test for Track     3 chi2   2.77     prob.  0.250
+ Outlier Test for Track     4 chi2  0.825     prob.  0.662
  Outlier Test for Track     5 chi2   5.81     prob.  0.547E-01
- Outlier Test for Track     6 chi2   1.49     prob.  0.476    
- invariant mass is   1323.5     +/-   13.128    
+ Outlier Test for Track     6 chi2   1.49     prob.  0.476
+ invariant mass is   1323.5     +/-   13.128
  ==============================================================================
 
  Run  7849 Evt  7984
  start values for Filter
-  0.759E-01 +/-  9.43    -0.214     +/-  76.1      1.11     +/-  35.2    
+  0.759E-01 +/-  9.43    -0.214     +/-  76.1      1.11     +/-  35.2
  Filter iteration     1 yields chi2  0.655E-01
  Filter iteration     2 yields chi2  0.582E-01
- Filter iteration     1 yields chi2  0.303    
- Filter iteration     2 yields chi2  0.339    
- Filter iteration     1 yields chi2   2.44    
- Filter iteration     2 yields chi2   2.68    
- Filter iteration     1 yields chi2  0.737    
- Filter iteration     2 yields chi2  0.875    
- Filter iteration     1 yields chi2   10.3    
- Filter iteration     2 yields chi2   13.6    
- Filter iteration     3 yields chi2   13.5    
- Filter iteration     1 yields chi2   3.39    
- Filter iteration     2 yields chi2   3.42    
+ Filter iteration     1 yields chi2  0.303
+ Filter iteration     2 yields chi2  0.339
+ Filter iteration     1 yields chi2   2.44
+ Filter iteration     2 yields chi2   2.68
+ Filter iteration     1 yields chi2  0.737
+ Filter iteration     2 yields chi2  0.875
+ Filter iteration     1 yields chi2   10.3
+ Filter iteration     2 yields chi2   13.6
+ Filter iteration     3 yields chi2   13.5
+ Filter iteration     1 yields chi2   3.39
+ Filter iteration     2 yields chi2   3.42
  Smoother for Track     1
- chi2 =  1.74    prob (2 d.o.f.) = 0.419    
- -0.152E-03 +/- 0.604E-04 0.431     +/- 0.304E-02  1.47     +/- 0.897E-02-0.359     +/- 0.661     0.686     +/- 0.452    
+ chi2 =  1.74    prob (2 d.o.f.) = 0.419
+ -0.152E-03 +/- 0.604E-04 0.431     +/- 0.304E-02  1.47     +/- 0.897E-02-0.359     +/- 0.661     0.686     +/- 0.452
  -0.193E-03 +/- 0.597E-05 0.427     +/- 0.612E-03  1.47     +/- 0.508E-03 0.925E-01 +/- 0.193E-01  1.20     +/- 0.803E-01
  Smoother for Track     3
- chi2 =  1.46    prob (2 d.o.f.) = 0.482    
-  0.155E-02 +/- 0.303E-03 0.439     +/- 0.472E-02  1.40     +/- 0.462E-01 -1.57     +/-  3.57     0.457     +/- 0.748    
+ chi2 =  1.46    prob (2 d.o.f.) = 0.482
+  0.155E-02 +/- 0.303E-03 0.439     +/- 0.472E-02  1.40     +/- 0.462E-01 -1.57     +/-  3.57     0.457     +/- 0.748
   0.141E-02 +/- 0.188E-04 0.433     +/- 0.610E-03  1.42     +/- 0.150E-02 0.112     +/- 0.204E-01  1.20     +/- 0.798E-01
  Smoother for Track     4
  chi2 =  6.50    prob (2 d.o.f.) = 0.388E-01
- -0.134E-02 +/- 0.172E-03 0.411     +/- 0.363E-02  1.55     +/- 0.257E-01  2.52     +/-  1.94     0.693E-01 +/- 0.557    
+ -0.134E-02 +/- 0.172E-03 0.411     +/- 0.363E-02  1.55     +/- 0.257E-01  2.52     +/-  1.94     0.693E-01 +/- 0.557
  -0.113E-02 +/- 0.136E-04 0.403     +/- 0.626E-03  1.52     +/- 0.119E-02 0.737E-01 +/- 0.511E-01  1.19     +/- 0.850E-01
  Smoother for Track     5
  chi2 =  8.00    prob (2 d.o.f.) = 0.183E-01
-  0.560E-03 +/- 0.354E-04 0.364     +/- 0.175E-02  1.43     +/- 0.489E-02-0.837     +/- 0.333      1.22     +/- 0.245    
+  0.560E-03 +/- 0.354E-04 0.364     +/- 0.175E-02  1.43     +/- 0.489E-02-0.837     +/- 0.333      1.22     +/- 0.245
   0.461E-03 +/- 0.492E-05 0.364     +/- 0.737E-03  1.44     +/- 0.372E-03 0.103     +/- 0.102E-01  1.17     +/- 0.977E-01
  Smoother for Track     6
- chi2 = 0.978E-01prob (2 d.o.f.) = 0.952    
-  0.202E-02 +/- 0.236E-04 0.447     +/- 0.496E-02  1.39     +/- 0.221E-02 0.111     +/- 0.395E-01  1.12     +/- 0.748    
+ chi2 = 0.978E-01prob (2 d.o.f.) = 0.952
+  0.202E-02 +/- 0.236E-04 0.447     +/- 0.496E-02  1.39     +/- 0.221E-02 0.111     +/- 0.395E-01  1.12     +/- 0.748
   0.201E-02 +/- 0.253E-04 0.447     +/- 0.188E-02  1.40     +/- 0.245E-02 0.123     +/- 0.386E-01  1.20     +/- 0.794E-01
  Smoother for Track     2
- chi2 = 0.463    prob (2 d.o.f.) = 0.793    
+ chi2 = 0.463    prob (2 d.o.f.) = 0.793
  -0.380E-03 +/- 0.357E-05-0.459     +/- 0.799E-03  4.59     +/- 0.367E-03-0.102     +/- 0.102E-01  1.27     +/- 0.895E-01
  -0.381E-03 +/- 0.356E-05-0.459     +/- 0.741E-03  4.59     +/- 0.366E-03-0.101     +/- 0.102E-01  1.21     +/- 0.805E-01
  Smoothed result
  chi2 =  18.3    prob for  12 (  9) d.o.f. = 0.108     ( 0.323E-01)
-  0.528E-01 +/- 0.878E-01-0.404     +/- 0.708      1.03     +/- 0.327    
- Outlier Test for Track     1 chi2   1.78     prob.  0.411    
- Outlier Test for Track     3 chi2   1.47     prob.  0.479    
+  0.528E-01 +/- 0.878E-01-0.404     +/- 0.708      1.03     +/- 0.327
+ Outlier Test for Track     1 chi2   1.78     prob.  0.411
+ Outlier Test for Track     3 chi2   1.47     prob.  0.479
  Outlier Test for Track     4 chi2   6.61     prob.  0.367E-01
  Outlier Test for Track     5 chi2   8.01     prob.  0.182E-01
- Outlier Test for Track     6 chi2   2.25     prob.  0.325    
- Outlier Test for Track     2 chi2   2.98     prob.  0.226    
+ Outlier Test for Track     6 chi2   2.25     prob.  0.325
+ Outlier Test for Track     2 chi2   2.98     prob.  0.226
 
  common vertex for 5 tracks for Run  7849 Evt  7984
- invariant mass is   2211.1     +/-   319.96    
+ invariant mass is   2211.1     +/-   319.96
  start values for Filter
-  0.759E-01 +/-  9.43    -0.214     +/-  76.1      1.11     +/-  35.2    
+  0.759E-01 +/-  9.43    -0.214     +/-  76.1      1.11     +/-  35.2
  Filter iteration     1 yields chi2  0.655E-01
  Filter iteration     2 yields chi2  0.582E-01
- Filter iteration     1 yields chi2  0.303    
- Filter iteration     2 yields chi2  0.339    
- Filter iteration     1 yields chi2   2.44    
- Filter iteration     2 yields chi2   2.68    
- Filter iteration     1 yields chi2  0.737    
- Filter iteration     2 yields chi2  0.875    
- Filter iteration     1 yields chi2   10.3    
- Filter iteration     2 yields chi2   13.6    
- Filter iteration     3 yields chi2   13.5    
+ Filter iteration     1 yields chi2  0.303
+ Filter iteration     2 yields chi2  0.339
+ Filter iteration     1 yields chi2   2.44
+ Filter iteration     2 yields chi2   2.68
+ Filter iteration     1 yields chi2  0.737
+ Filter iteration     2 yields chi2  0.875
+ Filter iteration     1 yields chi2   10.3
+ Filter iteration     2 yields chi2   13.6
+ Filter iteration     3 yields chi2   13.5
  Smoother for Track     1
- chi2 = 0.881    prob (2 d.o.f.) = 0.644    
- -0.152E-03 +/- 0.604E-04 0.431     +/- 0.304E-02  1.47     +/- 0.897E-02-0.359     +/- 0.661     0.686     +/- 0.452    
- -0.169E-03 +/- 0.241E-04 0.428     +/- 0.153E-02  1.47     +/- 0.355E-02-0.179     +/- 0.257      1.09     +/- 0.219    
+ chi2 = 0.881    prob (2 d.o.f.) = 0.644
+ -0.152E-03 +/- 0.604E-04 0.431     +/- 0.304E-02  1.47     +/- 0.897E-02-0.359     +/- 0.661     0.686     +/- 0.452
+ -0.169E-03 +/- 0.241E-04 0.428     +/- 0.153E-02  1.47     +/- 0.355E-02-0.179     +/- 0.257      1.09     +/- 0.219
  Smoother for Track     3
- chi2 =  1.18    prob (2 d.o.f.) = 0.555    
-  0.155E-02 +/- 0.303E-03 0.439     +/- 0.472E-02  1.40     +/- 0.462E-01 -1.57     +/-  3.57     0.457     +/- 0.748    
-  0.142E-02 +/- 0.205E-04 0.434     +/- 0.157E-02  1.42     +/- 0.206E-02-0.822E-02 +/- 0.982E-01  1.11     +/- 0.234    
+ chi2 =  1.18    prob (2 d.o.f.) = 0.555
+  0.155E-02 +/- 0.303E-03 0.439     +/- 0.472E-02  1.40     +/- 0.462E-01 -1.57     +/-  3.57     0.457     +/- 0.748
+  0.142E-02 +/- 0.205E-04 0.434     +/- 0.157E-02  1.42     +/- 0.206E-02-0.822E-02 +/- 0.982E-01  1.11     +/- 0.234
  Smoother for Track     4
  chi2 =  5.83    prob (2 d.o.f.) = 0.542E-01
- -0.134E-02 +/- 0.172E-03 0.411     +/- 0.363E-02  1.55     +/- 0.257E-01  2.52     +/-  1.94     0.693E-01 +/- 0.557    
- -0.109E-02 +/- 0.386E-04 0.404     +/- 0.128E-02  1.51     +/- 0.538E-02-0.343     +/- 0.411      1.00     +/- 0.179    
+ -0.134E-02 +/- 0.172E-03 0.411     +/- 0.363E-02  1.55     +/- 0.257E-01  2.52     +/-  1.94     0.693E-01 +/- 0.557
+ -0.109E-02 +/- 0.386E-04 0.404     +/- 0.128E-02  1.51     +/- 0.538E-02-0.343     +/- 0.411      1.00     +/- 0.179
  Smoother for Track     5
  chi2 =  6.98    prob (2 d.o.f.) = 0.305E-01
-  0.560E-03 +/- 0.354E-04 0.364     +/- 0.175E-02  1.43     +/- 0.489E-02-0.837     +/- 0.333      1.22     +/- 0.245    
-  0.481E-03 +/- 0.182E-04 0.366     +/- 0.135E-02  1.44     +/- 0.268E-02-0.830E-01 +/- 0.166     0.875     +/- 0.184    
+  0.560E-03 +/- 0.354E-04 0.364     +/- 0.175E-02  1.43     +/- 0.489E-02-0.837     +/- 0.333      1.22     +/- 0.245
+  0.481E-03 +/- 0.182E-04 0.366     +/- 0.135E-02  1.44     +/- 0.268E-02-0.830E-01 +/- 0.166     0.875     +/- 0.184
  Smoother for Track     6
- chi2 = 0.166    prob (2 d.o.f.) = 0.920    
-  0.202E-02 +/- 0.236E-04 0.447     +/- 0.496E-02  1.39     +/- 0.221E-02 0.111     +/- 0.395E-01  1.12     +/- 0.748    
-  0.202E-02 +/- 0.233E-04 0.447     +/- 0.242E-02  1.39     +/- 0.218E-02 0.952E-01 +/- 0.388E-01  1.16     +/- 0.266    
+ chi2 = 0.166    prob (2 d.o.f.) = 0.920
+  0.202E-02 +/- 0.236E-04 0.447     +/- 0.496E-02  1.39     +/- 0.221E-02 0.111     +/- 0.395E-01  1.12     +/- 0.748
+  0.202E-02 +/- 0.233E-04 0.447     +/- 0.242E-02  1.39     +/- 0.218E-02 0.952E-01 +/- 0.388E-01  1.16     +/- 0.266
  Smoothed result
  chi2 =  15.0    prob for  10 (  7) d.o.f. = 0.131     ( 0.356E-01)
- -0.538     +/- 0.609     -3.48     +/-  3.32    -0.414     +/-  1.31    
- Outlier Test for Track     1 chi2   1.08     prob.  0.583    
- Outlier Test for Track     3 chi2   1.28     prob.  0.527    
+ -0.538     +/- 0.609     -3.48     +/-  3.32    -0.414     +/-  1.31
+ Outlier Test for Track     1 chi2   1.08     prob.  0.583
+ Outlier Test for Track     3 chi2   1.28     prob.  0.527
  Outlier Test for Track     4 chi2   6.57     prob.  0.374E-01
  Outlier Test for Track     5 chi2   9.10     prob.  0.105E-01
  Outlier Test for Track     6 chi2   5.67     prob.  0.587E-01
- invariant mass is   1975.1     +/-   76.194    
+ invariant mass is   1975.1     +/-   76.194
  ==============================================================================
 
  Run  8489 Evt  4451
  start values for Filter
-  0.973E-01 +/-  7.03    -0.629E-02 +/-  24.1     -2.68     +/-  35.1    
+  0.973E-01 +/-  7.03    -0.629E-02 +/-  24.1     -2.68     +/-  35.1
  Filter iteration     1 yields chi2  0.122E-04
  Filter iteration     2 yields chi2  0.122E-04
- Filter iteration     1 yields chi2   1.17    
- Filter iteration     2 yields chi2   1.16    
- Filter iteration     1 yields chi2  0.589    
- Filter iteration     2 yields chi2  0.590    
- Filter iteration     1 yields chi2  0.162    
- Filter iteration     2 yields chi2  0.162    
- Filter iteration     1 yields chi2  0.534    
- Filter iteration     2 yields chi2  0.535    
- Filter iteration     1 yields chi2  0.409    
- Filter iteration     2 yields chi2  0.408    
+ Filter iteration     1 yields chi2   1.17
+ Filter iteration     2 yields chi2   1.16
+ Filter iteration     1 yields chi2  0.589
+ Filter iteration     2 yields chi2  0.590
+ Filter iteration     1 yields chi2  0.162
+ Filter iteration     2 yields chi2  0.162
+ Filter iteration     1 yields chi2  0.534
+ Filter iteration     2 yields chi2  0.535
+ Filter iteration     1 yields chi2  0.409
+ Filter iteration     2 yields chi2  0.408
  Smoother for Track     1
- chi2 = 0.347E-01prob (2 d.o.f.) = 0.983    
- -0.508E-03 +/- 0.371E-05 -1.26     +/- 0.129E-02  4.96     +/- 0.374E-03-0.940E-01 +/- 0.128E-01 -2.62     +/- 0.136    
+ chi2 = 0.347E-01prob (2 d.o.f.) = 0.983
+ -0.508E-03 +/- 0.371E-05 -1.26     +/- 0.129E-02  4.96     +/- 0.374E-03-0.940E-01 +/- 0.128E-01 -2.62     +/- 0.136
  -0.509E-03 +/- 0.324E-05 -1.26     +/- 0.860E-03  4.96     +/- 0.300E-03-0.925E-01 +/- 0.950E-02 -2.64     +/- 0.762E-01
  Smoother for Track     2
- chi2 =  1.59    prob (2 d.o.f.) = 0.452    
-  0.839E-03 +/- 0.529E-05 -1.35     +/- 0.196E-02  4.97     +/- 0.507E-03-0.861E-01 +/- 0.139E-01 -2.86     +/- 0.191    
+ chi2 =  1.59    prob (2 d.o.f.) = 0.452
+  0.839E-03 +/- 0.529E-05 -1.35     +/- 0.196E-02  4.97     +/- 0.507E-03-0.861E-01 +/- 0.139E-01 -2.86     +/- 0.191
   0.841E-03 +/- 0.444E-05 -1.35     +/- 0.109E-02  4.97     +/- 0.345E-03-0.922E-01 +/- 0.798E-02 -2.64     +/- 0.713E-01
  Smoother for Track     3
- chi2 = 0.734    prob (2 d.o.f.) = 0.693    
-  0.902E-03 +/- 0.540E-05 -1.32     +/- 0.190E-02  5.00     +/- 0.573E-03-0.102     +/- 0.156E-01 -2.54     +/- 0.185    
+ chi2 = 0.734    prob (2 d.o.f.) = 0.693
+  0.902E-03 +/- 0.540E-05 -1.32     +/- 0.190E-02  5.00     +/- 0.573E-03-0.102     +/- 0.156E-01 -2.54     +/- 0.185
   0.900E-03 +/- 0.422E-05 -1.32     +/- 0.112E-02  5.00     +/- 0.328E-03-0.915E-01 +/- 0.652E-02 -2.63     +/- 0.723E-01
  Smoother for Track     5
- chi2 = 0.240    prob (2 d.o.f.) = 0.887    
-  0.240E-02 +/- 0.269E-04 -1.45     +/- 0.211E-02  4.98     +/- 0.249E-02-0.508E-01 +/- 0.109     -2.69     +/- 0.203    
+ chi2 = 0.240    prob (2 d.o.f.) = 0.887
+  0.240E-02 +/- 0.269E-04 -1.45     +/- 0.211E-02  4.98     +/- 0.249E-02-0.508E-01 +/- 0.109     -2.69     +/- 0.203
   0.241E-02 +/- 0.873E-05 -1.45     +/- 0.980E-03  4.98     +/- 0.436E-03-0.921E-01 +/- 0.730E-02 -2.63     +/- 0.729E-01
  Smoother for Track     6
- chi2 = 0.691E-01prob (2 d.o.f.) = 0.966    
- -0.610E-02 +/- 0.588E-04 -1.65     +/- 0.351E-02  5.06     +/- 0.442E-02-0.785E-01 +/- 0.159     -2.56     +/- 0.236    
+ chi2 = 0.691E-01prob (2 d.o.f.) = 0.966
+ -0.610E-02 +/- 0.588E-04 -1.65     +/- 0.351E-02  5.06     +/- 0.442E-02-0.785E-01 +/- 0.159     -2.56     +/- 0.236
  -0.610E-02 +/- 0.230E-04 -1.65     +/- 0.187E-02  5.06     +/- 0.987E-03-0.896E-01 +/- 0.166E-01 -2.61     +/- 0.945E-01
  Smoother for Track     4
- chi2 = 0.202    prob (2 d.o.f.) = 0.904    
- -0.414E-03 +/- 0.418E-05  1.42     +/- 0.151E-02  1.88     +/- 0.372E-03 0.891E-01 +/- 0.103E-01 -2.57     +/- 0.148    
+ chi2 = 0.202    prob (2 d.o.f.) = 0.904
+ -0.414E-03 +/- 0.418E-05  1.42     +/- 0.151E-02  1.88     +/- 0.372E-03 0.891E-01 +/- 0.103E-01 -2.57     +/- 0.148
  -0.415E-03 +/- 0.393E-05  1.42     +/- 0.979E-03  1.88     +/- 0.340E-03 0.908E-01 +/- 0.919E-02 -2.63     +/- 0.716E-01
  Smoothed result
  chi2 =  2.87    prob for  12 (  9) d.o.f. = 0.996     ( 0.969    )
-  0.960E-01 +/- 0.641E-01-0.177E-02 +/- 0.220     -2.67     +/- 0.323    
- Outlier Test for Track     1 chi2  0.505E-01 prob.  0.975    
- Outlier Test for Track     2 chi2   1.89     prob.  0.389    
- Outlier Test for Track     3 chi2  0.888     prob.  0.641    
- Outlier Test for Track     5 chi2  0.256     prob.  0.880    
- Outlier Test for Track     6 chi2  0.840E-01 prob.  0.959    
- Outlier Test for Track     4 chi2  0.408     prob.  0.815    
+  0.960E-01 +/- 0.641E-01-0.177E-02 +/- 0.220     -2.67     +/- 0.323
+ Outlier Test for Track     1 chi2  0.505E-01 prob.  0.975
+ Outlier Test for Track     2 chi2   1.89     prob.  0.389
+ Outlier Test for Track     3 chi2  0.888     prob.  0.641
+ Outlier Test for Track     5 chi2  0.256     prob.  0.880
+ Outlier Test for Track     6 chi2  0.840E-01 prob.  0.959
+ Outlier Test for Track     4 chi2  0.408     prob.  0.815
 
  common vertex for 5 tracks for Run  8489 Evt  4451
- invariant mass is   1495.8     +/-   7.9235    
+ invariant mass is   1495.8     +/-   7.9235
  start values for Filter
-  0.973E-01 +/-  7.03    -0.629E-02 +/-  24.1     -2.68     +/-  35.1    
+  0.973E-01 +/-  7.03    -0.629E-02 +/-  24.1     -2.68     +/-  35.1
  Filter iteration     1 yields chi2  0.122E-04
  Filter iteration     2 yields chi2  0.122E-04
- Filter iteration     1 yields chi2   1.17    
- Filter iteration     2 yields chi2   1.16    
- Filter iteration     1 yields chi2  0.589    
- Filter iteration     2 yields chi2  0.590    
- Filter iteration     1 yields chi2  0.162    
- Filter iteration     2 yields chi2  0.162    
- Filter iteration     1 yields chi2  0.534    
- Filter iteration     2 yields chi2  0.535    
+ Filter iteration     1 yields chi2   1.17
+ Filter iteration     2 yields chi2   1.16
+ Filter iteration     1 yields chi2  0.589
+ Filter iteration     2 yields chi2  0.590
+ Filter iteration     1 yields chi2  0.162
+ Filter iteration     2 yields chi2  0.162
+ Filter iteration     1 yields chi2  0.534
+ Filter iteration     2 yields chi2  0.535
  Smoother for Track     1
- chi2 = 0.601E-01prob (2 d.o.f.) = 0.970    
- -0.508E-03 +/- 0.371E-05 -1.26     +/- 0.129E-02  4.96     +/- 0.374E-03-0.940E-01 +/- 0.128E-01 -2.62     +/- 0.136    
+ chi2 = 0.601E-01prob (2 d.o.f.) = 0.970
+ -0.508E-03 +/- 0.371E-05 -1.26     +/- 0.129E-02  4.96     +/- 0.374E-03-0.940E-01 +/- 0.128E-01 -2.62     +/- 0.136
  -0.509E-03 +/- 0.325E-05 -1.26     +/- 0.963E-03  4.96     +/- 0.302E-03-0.916E-01 +/- 0.957E-02 -2.64     +/- 0.918E-01
  Smoother for Track     2
- chi2 =  1.43    prob (2 d.o.f.) = 0.488    
-  0.839E-03 +/- 0.529E-05 -1.35     +/- 0.196E-02  4.97     +/- 0.507E-03-0.861E-01 +/- 0.139E-01 -2.86     +/- 0.191    
+ chi2 =  1.43    prob (2 d.o.f.) = 0.488
+  0.839E-03 +/- 0.529E-05 -1.35     +/- 0.196E-02  4.97     +/- 0.507E-03-0.861E-01 +/- 0.139E-01 -2.86     +/- 0.191
   0.841E-03 +/- 0.446E-05 -1.35     +/- 0.114E-02  4.97     +/- 0.348E-03-0.928E-01 +/- 0.816E-02 -2.65     +/- 0.810E-01
  Smoother for Track     3
- chi2 = 0.471    prob (2 d.o.f.) = 0.790    
-  0.902E-03 +/- 0.540E-05 -1.32     +/- 0.190E-02  5.00     +/- 0.573E-03-0.102     +/- 0.156E-01 -2.54     +/- 0.185    
+ chi2 = 0.471    prob (2 d.o.f.) = 0.790
+  0.902E-03 +/- 0.540E-05 -1.32     +/- 0.190E-02  5.00     +/- 0.573E-03-0.102     +/- 0.156E-01 -2.54     +/- 0.185
   0.901E-03 +/- 0.490E-05 -1.32     +/- 0.118E-02  5.00     +/- 0.478E-03-0.961E-01 +/- 0.125E-01 -2.64     +/- 0.831E-01
  Smoother for Track     5
- chi2 = 0.178    prob (2 d.o.f.) = 0.915    
-  0.240E-02 +/- 0.269E-04 -1.45     +/- 0.211E-02  4.98     +/- 0.249E-02-0.508E-01 +/- 0.109     -2.69     +/- 0.203    
+ chi2 = 0.178    prob (2 d.o.f.) = 0.915
+  0.240E-02 +/- 0.269E-04 -1.45     +/- 0.211E-02  4.98     +/- 0.249E-02-0.508E-01 +/- 0.109     -2.69     +/- 0.203
   0.241E-02 +/- 0.875E-05 -1.45     +/- 0.109E-02  4.98     +/- 0.441E-03-0.935E-01 +/- 0.810E-02 -2.66     +/- 0.877E-01
  Smoother for Track     6
- chi2 = 0.304    prob (2 d.o.f.) = 0.859    
- -0.610E-02 +/- 0.588E-04 -1.65     +/- 0.351E-02  5.06     +/- 0.442E-02-0.785E-01 +/- 0.159     -2.56     +/- 0.236    
- -0.609E-02 +/- 0.255E-04 -1.65     +/- 0.243E-02  5.06     +/- 0.130E-02-0.103     +/- 0.354E-01 -2.67     +/- 0.140    
+ chi2 = 0.304    prob (2 d.o.f.) = 0.859
+ -0.610E-02 +/- 0.588E-04 -1.65     +/- 0.351E-02  5.06     +/- 0.442E-02-0.785E-01 +/- 0.159     -2.56     +/- 0.236
+ -0.609E-02 +/- 0.255E-04 -1.65     +/- 0.243E-02  5.06     +/- 0.130E-02-0.103     +/- 0.354E-01 -2.67     +/- 0.140
  Smoothed result
  chi2 =  2.45    prob for  10 (  7) d.o.f. = 0.992     ( 0.931    )
-  0.577E-01 +/- 0.106     0.144     +/- 0.391     -2.48     +/- 0.559    
- Outlier Test for Track     1 chi2  0.997E-01 prob.  0.951    
- Outlier Test for Track     2 chi2   1.81     prob.  0.404    
- Outlier Test for Track     3 chi2  0.953     prob.  0.621    
- Outlier Test for Track     5 chi2  0.184     prob.  0.912    
- Outlier Test for Track     6 chi2  0.535     prob.  0.765    
- invariant mass is   1496.1     +/-   5.7367    
+  0.577E-01 +/- 0.106     0.144     +/- 0.391     -2.48     +/- 0.559
+ Outlier Test for Track     1 chi2  0.997E-01 prob.  0.951
+ Outlier Test for Track     2 chi2   1.81     prob.  0.404
+ Outlier Test for Track     3 chi2  0.953     prob.  0.621
+ Outlier Test for Track     5 chi2  0.184     prob.  0.912
+ Outlier Test for Track     6 chi2  0.535     prob.  0.765
+ invariant mass is   1496.1     +/-   5.7367
  ==============================================================================
 
  Run  8985 Evt  5486
  start values for Filter
-  0.245     +/-  7.14     0.232     +/-  9.18      1.14     +/-  8.21    
+  0.245     +/-  7.14     0.232     +/-  9.18      1.14     +/-  8.21
  Filter iteration     1 yields chi2  0.274E-02
  Filter iteration     2 yields chi2  0.274E-02
- Filter iteration     1 yields chi2  0.110    
- Filter iteration     2 yields chi2  0.112    
- Filter iteration     1 yields chi2   3.11    
- Filter iteration     2 yields chi2   3.08    
- Filter iteration     1 yields chi2   24.1    
- Filter iteration     2 yields chi2   24.2    
- Filter iteration     1 yields chi2   28.7    
- Filter iteration     2 yields chi2   28.7    
- Filter iteration     1 yields chi2   6.07    
- Filter iteration     2 yields chi2   6.07    
+ Filter iteration     1 yields chi2  0.110
+ Filter iteration     2 yields chi2  0.112
+ Filter iteration     1 yields chi2   3.11
+ Filter iteration     2 yields chi2   3.08
+ Filter iteration     1 yields chi2   24.1
+ Filter iteration     2 yields chi2   24.2
+ Filter iteration     1 yields chi2   28.7
+ Filter iteration     2 yields chi2   28.7
+ Filter iteration     1 yields chi2   6.07
+ Filter iteration     2 yields chi2   6.07
  Smoother for Track     1
- chi2 =  1.22    prob (2 d.o.f.) = 0.542    
-  0.986E-03 +/- 0.143E-04-0.492     +/- 0.105E-02 0.888     +/- 0.166E-02 0.861E-01 +/- 0.907E-01  1.45     +/- 0.129    
+ chi2 =  1.22    prob (2 d.o.f.) = 0.542
+  0.986E-03 +/- 0.143E-04-0.492     +/- 0.105E-02 0.888     +/- 0.166E-02 0.861E-01 +/- 0.907E-01  1.45     +/- 0.129
   0.995E-03 +/- 0.452E-05-0.492     +/- 0.480E-03 0.887     +/- 0.306E-03 0.276E-01 +/- 0.797E-02  1.33     +/- 0.495E-01
  Smoother for Track     2
- chi2 =  3.45    prob (2 d.o.f.) = 0.178    
-  0.606E-03 +/- 0.451E-05-0.588     +/- 0.110E-02 0.874     +/- 0.497E-03 0.418E-01 +/- 0.147E-01  1.53     +/- 0.125    
+ chi2 =  3.45    prob (2 d.o.f.) = 0.178
+  0.606E-03 +/- 0.451E-05-0.588     +/- 0.110E-02 0.874     +/- 0.497E-03 0.418E-01 +/- 0.147E-01  1.53     +/- 0.125
   0.610E-03 +/- 0.381E-05-0.587     +/- 0.606E-03 0.873     +/- 0.344E-03 0.234E-01 +/- 0.867E-02  1.36     +/- 0.495E-01
  Smoother for Track     3
- chi2 =  2.54    prob (2 d.o.f.) = 0.281    
- -0.110E-02 +/- 0.520E-05-0.618     +/- 0.121E-02  1.04     +/- 0.658E-03 0.929E-01 +/- 0.152E-01  1.28     +/- 0.104    
+ chi2 =  2.54    prob (2 d.o.f.) = 0.281
+ -0.110E-02 +/- 0.520E-05-0.618     +/- 0.121E-02  1.04     +/- 0.658E-03 0.929E-01 +/- 0.152E-01  1.28     +/- 0.104
  -0.109E-02 +/- 0.516E-05-0.619     +/- 0.893E-03  1.04     +/- 0.636E-03 0.726E-01 +/- 0.146E-01  1.37     +/- 0.499E-01
  Smoother for Track     4
  chi2 =  21.5    prob (2 d.o.f.) = 0.214E-04
- -0.102E-02 +/- 0.609E-05-0.508     +/- 0.149E-02 0.925     +/- 0.777E-03-0.471E-01 +/- 0.190E-01  1.47     +/- 0.172    
+ -0.102E-02 +/- 0.609E-05-0.508     +/- 0.149E-02 0.925     +/- 0.777E-03-0.471E-01 +/- 0.190E-01  1.47     +/- 0.172
  -0.103E-02 +/- 0.505E-05-0.507     +/- 0.778E-03 0.928     +/- 0.411E-03 0.397E-01 +/- 0.747E-02  1.34     +/- 0.493E-01
  Smoother for Track     6
  chi2 =  29.6    prob (2 d.o.f.) = 0.383E-06
- -0.159E-02 +/- 0.341E-04-0.556     +/- 0.148E-02 0.932     +/- 0.429E-02 -1.35     +/- 0.262      1.60     +/- 0.194    
+ -0.159E-02 +/- 0.341E-04-0.556     +/- 0.148E-02 0.932     +/- 0.429E-02 -1.35     +/- 0.262      1.60     +/- 0.194
  -0.176E-02 +/- 0.745E-05-0.555     +/- 0.484E-03 0.955     +/- 0.508E-03 0.475E-01 +/- 0.823E-02  1.35     +/- 0.493E-01
  Smoother for Track     5
- chi2 =  3.83    prob (2 d.o.f.) = 0.147    
+ chi2 =  3.83    prob (2 d.o.f.) = 0.147
   0.693E-03 +/- 0.426E-05 0.481     +/- 0.890E-03  4.00     +/- 0.504E-03-0.327E-01 +/- 0.123E-01  1.19     +/- 0.858E-01
   0.691E-03 +/- 0.390E-05 0.480     +/- 0.661E-03  4.00     +/- 0.394E-03-0.205E-01 +/- 0.906E-02  1.33     +/- 0.493E-01
  Smoothed result
  chi2 =  62.1    prob for  12 (  9) d.o.f. = 0.929E-08 ( 0.525E-09)
   0.208     +/- 0.616E-01 0.212     +/- 0.803E-01  1.19     +/- 0.731E-01
- Outlier Test for Track     1 chi2   1.37     prob.  0.505    
- Outlier Test for Track     2 chi2   4.57     prob.  0.102    
+ Outlier Test for Track     1 chi2   1.37     prob.  0.505
+ Outlier Test for Track     2 chi2   4.57     prob.  0.102
  Outlier Test for Track     3 chi2   20.7     prob.  0.317E-04
  Outlier Test for Track     4 chi2   25.4     prob.  0.303E-05
  Outlier Test for Track     6 chi2   29.7     prob.  0.362E-06
  Outlier Test for Track     5 chi2   6.07     prob.  0.480E-01
 
  common vertex for 5 tracks for Run  8985 Evt  5486
- invariant mass is   1840.0     +/-   7.2504    
+ invariant mass is   1840.0     +/-   7.2504
  start values for Filter
-  0.245     +/-  7.14     0.232     +/-  9.18      1.14     +/-  8.21    
+  0.245     +/-  7.14     0.232     +/-  9.18      1.14     +/-  8.21
  Filter iteration     1 yields chi2  0.274E-02
  Filter iteration     2 yields chi2  0.274E-02
- Filter iteration     1 yields chi2  0.110    
- Filter iteration     2 yields chi2  0.112    
- Filter iteration     1 yields chi2   3.11    
- Filter iteration     2 yields chi2   3.08    
- Filter iteration     1 yields chi2   24.1    
- Filter iteration     2 yields chi2   24.2    
- Filter iteration     1 yields chi2   28.7    
- Filter iteration     2 yields chi2   28.7    
+ Filter iteration     1 yields chi2  0.110
+ Filter iteration     2 yields chi2  0.112
+ Filter iteration     1 yields chi2   3.11
+ Filter iteration     2 yields chi2   3.08
+ Filter iteration     1 yields chi2   24.1
+ Filter iteration     2 yields chi2   24.2
+ Filter iteration     1 yields chi2   28.7
+ Filter iteration     2 yields chi2   28.7
  Smoother for Track     1
- chi2 = 0.734    prob (2 d.o.f.) = 0.693    
-  0.986E-03 +/- 0.143E-04-0.492     +/- 0.105E-02 0.888     +/- 0.166E-02 0.861E-01 +/- 0.907E-01  1.45     +/- 0.129    
+ chi2 = 0.734    prob (2 d.o.f.) = 0.693
+  0.986E-03 +/- 0.143E-04-0.492     +/- 0.105E-02 0.888     +/- 0.166E-02 0.861E-01 +/- 0.907E-01  1.45     +/- 0.129
   0.997E-03 +/- 0.470E-05-0.492     +/- 0.553E-03 0.887     +/- 0.342E-03 0.169E-01 +/- 0.116E-01  1.40     +/- 0.607E-01
  Smoother for Track     2
  chi2 =  4.87    prob (2 d.o.f.) = 0.878E-01
-  0.606E-03 +/- 0.451E-05-0.588     +/- 0.110E-02 0.874     +/- 0.497E-03 0.418E-01 +/- 0.147E-01  1.53     +/- 0.125    
+  0.606E-03 +/- 0.451E-05-0.588     +/- 0.110E-02 0.874     +/- 0.497E-03 0.418E-01 +/- 0.147E-01  1.53     +/- 0.125
   0.613E-03 +/- 0.426E-05-0.588     +/- 0.664E-03 0.873     +/- 0.445E-03 0.116E-01 +/- 0.128E-01  1.43     +/- 0.601E-01
  Smoother for Track     3
- chi2 =  4.23    prob (2 d.o.f.) = 0.121    
- -0.110E-02 +/- 0.520E-05-0.618     +/- 0.121E-02  1.04     +/- 0.658E-03 0.929E-01 +/- 0.152E-01  1.28     +/- 0.104    
+ chi2 =  4.23    prob (2 d.o.f.) = 0.121
+ -0.110E-02 +/- 0.520E-05-0.618     +/- 0.121E-02  1.04     +/- 0.658E-03 0.929E-01 +/- 0.152E-01  1.28     +/- 0.104
  -0.109E-02 +/- 0.517E-05-0.620     +/- 0.944E-03  1.04     +/- 0.643E-03 0.731E-01 +/- 0.148E-01  1.44     +/- 0.604E-01
  Smoother for Track     4
  chi2 =  17.5    prob (2 d.o.f.) = 0.160E-03
- -0.102E-02 +/- 0.609E-05-0.508     +/- 0.149E-02 0.925     +/- 0.777E-03-0.471E-01 +/- 0.190E-01  1.47     +/- 0.172    
+ -0.102E-02 +/- 0.609E-05-0.508     +/- 0.149E-02 0.925     +/- 0.777E-03-0.471E-01 +/- 0.190E-01  1.47     +/- 0.172
  -0.103E-02 +/- 0.517E-05-0.508     +/- 0.824E-03 0.928     +/- 0.466E-03 0.318E-01 +/- 0.943E-02  1.40     +/- 0.604E-01
  Smoother for Track     6
  chi2 =  28.7    prob (2 d.o.f.) = 0.600E-06
- -0.159E-02 +/- 0.341E-04-0.556     +/- 0.148E-02 0.932     +/- 0.429E-02 -1.35     +/- 0.262      1.60     +/- 0.194    
+ -0.159E-02 +/- 0.341E-04-0.556     +/- 0.148E-02 0.932     +/- 0.429E-02 -1.35     +/- 0.262      1.60     +/- 0.194
  -0.176E-02 +/- 0.747E-05-0.555     +/- 0.547E-03 0.955     +/- 0.513E-03 0.417E-01 +/- 0.912E-02  1.42     +/- 0.600E-01
  Smoothed result
  chi2 =  56.0    prob for  10 (  7) d.o.f. = 0.209E-07 ( 0.961E-09)
   0.245     +/- 0.712E-01 0.274     +/- 0.984E-01  1.22     +/- 0.909E-01
- Outlier Test for Track     1 chi2  0.792     prob.  0.673    
+ Outlier Test for Track     1 chi2  0.792     prob.  0.673
  Outlier Test for Track     2 chi2   18.5     prob.  0.977E-04
  Outlier Test for Track     3 chi2   28.4     prob.  0.671E-06
  Outlier Test for Track     4 chi2   23.2     prob.  0.924E-05
  Outlier Test for Track     6 chi2   28.7     prob.  0.573E-06
- invariant mass is   1840.3     +/-   5.2734    
+ invariant mass is   1840.3     +/-   5.2734
  ==============================================================================
 
  Run  9019 Evt  4769
  start values for Filter
-  0.237     +/-  4.35    -0.730     +/-  22.1     -3.26     +/-  44.6    
+  0.237     +/-  4.35    -0.730     +/-  22.1     -3.26     +/-  44.6
  Filter iteration     1 yields chi2  0.268E-03
  Filter iteration     2 yields chi2  0.268E-03
  Filter iteration     1 yields chi2  0.969E-01
  Filter iteration     2 yields chi2  0.970E-01
- Filter iteration     1 yields chi2   4.20    
- Filter iteration     2 yields chi2   4.20    
+ Filter iteration     1 yields chi2   4.20
+ Filter iteration     2 yields chi2   4.20
  Filter iteration     1 yields chi2  0.849E-01
  Filter iteration     2 yields chi2  0.849E-01
- Filter iteration     1 yields chi2   5.39    
- Filter iteration     2 yields chi2   5.52    
- Filter iteration     1 yields chi2   18.8    
- Filter iteration     2 yields chi2   19.2    
+ Filter iteration     1 yields chi2   5.39
+ Filter iteration     2 yields chi2   5.52
+ Filter iteration     1 yields chi2   18.8
+ Filter iteration     2 yields chi2   19.2
  Smoother for Track     1
- chi2 =  2.75    prob (2 d.o.f.) = 0.253    
- -0.133E-02 +/- 0.128E-04 -1.83     +/- 0.332E-02  4.85     +/- 0.849E-03-0.127     +/- 0.192E-01 -1.64     +/- 0.228    
- -0.134E-02 +/- 0.957E-05 -1.83     +/- 0.225E-02  4.85     +/- 0.500E-03-0.105     +/- 0.100E-01 -1.92     +/- 0.131    
+ chi2 =  2.75    prob (2 d.o.f.) = 0.253
+ -0.133E-02 +/- 0.128E-04 -1.83     +/- 0.332E-02  4.85     +/- 0.849E-03-0.127     +/- 0.192E-01 -1.64     +/- 0.228
+ -0.134E-02 +/- 0.957E-05 -1.83     +/- 0.225E-02  4.85     +/- 0.500E-03-0.105     +/- 0.100E-01 -1.92     +/- 0.131
  Smoother for Track     2
- chi2 = 0.153E-01prob (2 d.o.f.) = 0.992    
-  0.484E-02 +/- 0.467E-04 -1.88     +/- 0.839E-02  5.10     +/- 0.267E-02 0.245E-01 +/- 0.449E-01 -1.80     +/- 0.652    
-  0.484E-02 +/- 0.408E-04 -1.88     +/- 0.814E-02  5.10     +/- 0.201E-02 0.220E-01 +/- 0.332E-01 -1.87     +/- 0.130    
+ chi2 = 0.153E-01prob (2 d.o.f.) = 0.992
+  0.484E-02 +/- 0.467E-04 -1.88     +/- 0.839E-02  5.10     +/- 0.267E-02 0.245E-01 +/- 0.449E-01 -1.80     +/- 0.652
+  0.484E-02 +/- 0.408E-04 -1.88     +/- 0.814E-02  5.10     +/- 0.201E-02 0.220E-01 +/- 0.332E-01 -1.87     +/- 0.130
  Smoother for Track     3
- chi2 =  2.12    prob (2 d.o.f.) = 0.347    
-  0.293E-02 +/- 0.230E-04 -1.89     +/- 0.519E-02  4.92     +/- 0.134E-02-0.493E-01 +/- 0.269E-01 -2.21     +/- 0.270    
-  0.294E-02 +/- 0.179E-04 -1.90     +/- 0.348E-02  4.92     +/- 0.632E-03-0.703E-01 +/- 0.109E-01 -1.88     +/- 0.130    
+ chi2 =  2.12    prob (2 d.o.f.) = 0.347
+  0.293E-02 +/- 0.230E-04 -1.89     +/- 0.519E-02  4.92     +/- 0.134E-02-0.493E-01 +/- 0.269E-01 -2.21     +/- 0.270
+  0.294E-02 +/- 0.179E-04 -1.90     +/- 0.348E-02  4.92     +/- 0.632E-03-0.703E-01 +/- 0.109E-01 -1.88     +/- 0.130
  Smoother for Track     4
- chi2 = 0.219    prob (2 d.o.f.) = 0.897    
- -0.677E-03 +/- 0.155E-04 -2.04     +/- 0.548E-02  4.93     +/- 0.879E-03-0.757E-01 +/- 0.186E-01 -1.83     +/- 0.419    
- -0.683E-03 +/- 0.114E-04 -2.04     +/- 0.235E-02  4.93     +/- 0.585E-03-0.670E-01 +/- 0.114E-01 -1.81     +/- 0.131    
+ chi2 = 0.219    prob (2 d.o.f.) = 0.897
+ -0.677E-03 +/- 0.155E-04 -2.04     +/- 0.548E-02  4.93     +/- 0.879E-03-0.757E-01 +/- 0.186E-01 -1.83     +/- 0.419
+ -0.683E-03 +/- 0.114E-04 -2.04     +/- 0.235E-02  4.93     +/- 0.585E-03-0.670E-01 +/- 0.114E-01 -1.81     +/- 0.131
  Smoother for Track     6
  chi2 =  12.2    prob (2 d.o.f.) = 0.229E-02
-  0.318E-02 +/- 0.264E-04 -1.85     +/- 0.622E-02  4.81     +/- 0.150E-02-0.214     +/- 0.275E-01 -1.66     +/- 0.369    
-  0.312E-02 +/- 0.209E-04 -1.85     +/- 0.374E-02  4.82     +/- 0.764E-03-0.120     +/- 0.124E-01 -1.92     +/- 0.131    
+  0.318E-02 +/- 0.264E-04 -1.85     +/- 0.622E-02  4.81     +/- 0.150E-02-0.214     +/- 0.275E-01 -1.66     +/- 0.369
+  0.312E-02 +/- 0.209E-04 -1.85     +/- 0.374E-02  4.82     +/- 0.764E-03-0.120     +/- 0.124E-01 -1.92     +/- 0.131
  Smoother for Track     5
  chi2 =  11.6    prob (2 d.o.f.) = 0.300E-02
- -0.960E-03 +/- 0.157E-04  2.15     +/- 0.451E-02  1.69     +/- 0.874E-03 0.573E-01 +/- 0.174E-01 -2.04     +/- 0.307    
- -0.100E-02 +/- 0.119E-04  2.14     +/- 0.240E-02  1.69     +/- 0.590E-03 0.115     +/- 0.108E-01 -1.77     +/- 0.132    
+ -0.960E-03 +/- 0.157E-04  2.15     +/- 0.451E-02  1.69     +/- 0.874E-03 0.573E-01 +/- 0.174E-01 -2.04     +/- 0.307
+ -0.100E-02 +/- 0.119E-04  2.14     +/- 0.240E-02  1.69     +/- 0.590E-03 0.115     +/- 0.108E-01 -1.77     +/- 0.132
  Smoothed result
  chi2 =  28.9    prob for  12 (  9) d.o.f. = 0.411E-02 ( 0.679E-03)
-  0.172     +/- 0.246E-01-0.475     +/- 0.137     -2.83     +/- 0.296    
- Outlier Test for Track     1 chi2   3.88     prob.  0.144    
- Outlier Test for Track     2 chi2  0.188E-01 prob.  0.991    
- Outlier Test for Track     3 chi2   2.71     prob.  0.257    
- Outlier Test for Track     4 chi2  0.348     prob.  0.840    
+  0.172     +/- 0.246E-01-0.475     +/- 0.137     -2.83     +/- 0.296
+ Outlier Test for Track     1 chi2   3.88     prob.  0.144
+ Outlier Test for Track     2 chi2  0.188E-01 prob.  0.991
+ Outlier Test for Track     3 chi2   2.71     prob.  0.257
+ Outlier Test for Track     4 chi2  0.348     prob.  0.840
  Outlier Test for Track     6 chi2   15.1     prob.  0.514E-03
  Outlier Test for Track     5 chi2   19.1     prob.  0.697E-04
 
  common vertex for 5 tracks for Run  9019 Evt  4769
- invariant mass is   1417.1     +/-   13.481    
+ invariant mass is   1417.1     +/-   13.481
  start values for Filter
-  0.237     +/-  4.35    -0.730     +/-  22.1     -3.26     +/-  44.6    
+  0.237     +/-  4.35    -0.730     +/-  22.1     -3.26     +/-  44.6
  Filter iteration     1 yields chi2  0.268E-03
  Filter iteration     2 yields chi2  0.268E-03
  Filter iteration     1 yields chi2  0.969E-01
  Filter iteration     2 yields chi2  0.970E-01
- Filter iteration     1 yields chi2   4.20    
- Filter iteration     2 yields chi2   4.20    
+ Filter iteration     1 yields chi2   4.20
+ Filter iteration     2 yields chi2   4.20
  Filter iteration     1 yields chi2  0.849E-01
  Filter iteration     2 yields chi2  0.849E-01
- Filter iteration     1 yields chi2   5.39    
- Filter iteration     2 yields chi2   5.52    
+ Filter iteration     1 yields chi2   5.39
+ Filter iteration     2 yields chi2   5.52
  Smoother for Track     1
- chi2 =  1.54    prob (2 d.o.f.) = 0.463    
- -0.133E-02 +/- 0.128E-04 -1.83     +/- 0.332E-02  4.85     +/- 0.849E-03-0.127     +/- 0.192E-01 -1.64     +/- 0.228    
- -0.132E-02 +/- 0.105E-04 -1.83     +/- 0.239E-02  4.85     +/- 0.609E-03-0.140     +/- 0.131E-01 -1.88     +/- 0.144    
+ chi2 =  1.54    prob (2 d.o.f.) = 0.463
+ -0.133E-02 +/- 0.128E-04 -1.83     +/- 0.332E-02  4.85     +/- 0.849E-03-0.127     +/- 0.192E-01 -1.64     +/- 0.228
+ -0.132E-02 +/- 0.105E-04 -1.83     +/- 0.239E-02  4.85     +/- 0.609E-03-0.140     +/- 0.131E-01 -1.88     +/- 0.144
  Smoother for Track     2
- chi2 = 0.904    prob (2 d.o.f.) = 0.636    
-  0.484E-02 +/- 0.467E-04 -1.88     +/- 0.839E-02  5.10     +/- 0.267E-02 0.245E-01 +/- 0.449E-01 -1.80     +/- 0.652    
-  0.481E-02 +/- 0.419E-04 -1.88     +/- 0.815E-02  5.10     +/- 0.213E-02 0.671E-01 +/- 0.359E-01 -1.82     +/- 0.143    
+ chi2 = 0.904    prob (2 d.o.f.) = 0.636
+  0.484E-02 +/- 0.467E-04 -1.88     +/- 0.839E-02  5.10     +/- 0.267E-02 0.245E-01 +/- 0.449E-01 -1.80     +/- 0.652
+  0.481E-02 +/- 0.419E-04 -1.88     +/- 0.815E-02  5.10     +/- 0.213E-02 0.671E-01 +/- 0.359E-01 -1.82     +/- 0.143
  Smoother for Track     3
- chi2 =  3.72    prob (2 d.o.f.) = 0.156    
-  0.293E-02 +/- 0.230E-04 -1.89     +/- 0.519E-02  4.92     +/- 0.134E-02-0.493E-01 +/- 0.269E-01 -2.21     +/- 0.270    
-  0.295E-02 +/- 0.181E-04 -1.90     +/- 0.363E-02  4.92     +/- 0.658E-03-0.826E-01 +/- 0.116E-01 -1.81     +/- 0.144    
+ chi2 =  3.72    prob (2 d.o.f.) = 0.156
+  0.293E-02 +/- 0.230E-04 -1.89     +/- 0.519E-02  4.92     +/- 0.134E-02-0.493E-01 +/- 0.269E-01 -2.21     +/- 0.270
+  0.295E-02 +/- 0.181E-04 -1.90     +/- 0.363E-02  4.92     +/- 0.658E-03-0.826E-01 +/- 0.116E-01 -1.81     +/- 0.144
  Smoother for Track     4
- chi2 = 0.108    prob (2 d.o.f.) = 0.948    
- -0.677E-03 +/- 0.155E-04 -2.04     +/- 0.548E-02  4.93     +/- 0.879E-03-0.757E-01 +/- 0.186E-01 -1.83     +/- 0.419    
- -0.675E-03 +/- 0.117E-04 -2.04     +/- 0.248E-02  4.93     +/- 0.605E-03-0.778E-01 +/- 0.118E-01 -1.70     +/- 0.146    
+ chi2 = 0.108    prob (2 d.o.f.) = 0.948
+ -0.677E-03 +/- 0.155E-04 -2.04     +/- 0.548E-02  4.93     +/- 0.879E-03-0.757E-01 +/- 0.186E-01 -1.83     +/- 0.419
+ -0.675E-03 +/- 0.117E-04 -2.04     +/- 0.248E-02  4.93     +/- 0.605E-03-0.778E-01 +/- 0.118E-01 -1.70     +/- 0.146
  Smoother for Track     6
- chi2 =  3.67    prob (2 d.o.f.) = 0.160    
-  0.318E-02 +/- 0.264E-04 -1.85     +/- 0.622E-02  4.81     +/- 0.150E-02-0.214     +/- 0.275E-01 -1.66     +/- 0.369    
-  0.315E-02 +/- 0.220E-04 -1.85     +/- 0.386E-02  4.82     +/- 0.944E-03-0.164     +/- 0.163E-01 -1.87     +/- 0.144    
+ chi2 =  3.67    prob (2 d.o.f.) = 0.160
+  0.318E-02 +/- 0.264E-04 -1.85     +/- 0.622E-02  4.81     +/- 0.150E-02-0.214     +/- 0.275E-01 -1.66     +/- 0.369
+  0.315E-02 +/- 0.220E-04 -1.85     +/- 0.386E-02  4.82     +/- 0.944E-03-0.164     +/- 0.163E-01 -1.87     +/- 0.144
  Smoothed result
  chi2 =  9.94    prob for  10 (  7) d.o.f. = 0.446     ( 0.192    )
-  0.246     +/- 0.299E-01-0.765     +/- 0.152     -3.33     +/- 0.322    
- Outlier Test for Track     1 chi2   2.73     prob.  0.255    
- Outlier Test for Track     2 chi2   2.53     prob.  0.283    
+  0.246     +/- 0.299E-01-0.765     +/- 0.152     -3.33     +/- 0.322
+ Outlier Test for Track     1 chi2   2.73     prob.  0.255
+ Outlier Test for Track     2 chi2   2.53     prob.  0.283
  Outlier Test for Track     3 chi2   4.94     prob.  0.846E-01
- Outlier Test for Track     4 chi2  0.127     prob.  0.938    
+ Outlier Test for Track     4 chi2  0.127     prob.  0.938
  Outlier Test for Track     6 chi2   5.52     prob.  0.634E-01
- invariant mass is   1432.7     +/-   10.284    
+ invariant mass is   1432.7     +/-   10.284

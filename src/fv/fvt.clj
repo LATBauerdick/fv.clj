@@ -1,6 +1,7 @@
-(ns fv.fvt)
+(ns fv.fvt 
+(:require [fv.coeff :refer :all]))
+
 (use 'clojure.core.matrix)
-(set-current-implementation :vectorz)
 
 (require 'fv.fv)
 (refer 'fv.fv)
@@ -69,6 +70,7 @@
          w2pt     (:tw2pt fvtd)
        ]
     (do
+      (when false (doFit))
       (println "--------- input to vertext fit -------------------------")
       (println "initial vertex position v0 ")
       (print "[x y z]=") (pm v0)
@@ -81,11 +83,17 @@
         (print "Cv: ") (pm Cv)
         (println "--------- list of fitted q vectors---------------------")
         (doseq [[[ih h] H q Q chi2q] (map vector (indexed hl) Chl ql Cql chi2l) ]
+          (println "chi2 = " chi2q "prob" )
+          (doseq [[x y] (map list h (sqrt (diagonal H)))]
+            (print (format "%9.3g ±%9.3g" x y))) (println)
+          (doseq [[x y] (map list q (sqrt (diagonal Q)))]
+            (print (format "%9.3g ±%9.3g" x y))) (println)
           (println "track#" ih  ", 𝜒2: " chi2q ": ")
           (let [ [p P] (fvHelix2P4 h H mπ w2pt)]
             (fvPMerr "Helix [px py pz E]=" p P))
           (let [ [p P] (fvQ2P3 q Q w2pt)]
             (fvPMerr "Fit q [px py pz]  =" p P)))))))
 
-(doFit)
 
+;;(defrecord fvrec [v Cv 𝜒2v qs Cqs 𝜒2qs])
+;;(->fvrec  tCx tnt (vec th) (vec tCh) tw2pt); add to rec
