@@ -23,14 +23,16 @@
 (defn- fvATB [A B] (mmul (transpose A) B))
 (defn- fvNegA [A] (negate A))
 (defn- fvATBC [A B C] (mmul (transpose A) (mmul B C)))
+(defn- fvABCT [A B C] (mmul A (mmul B (transpose C))))
+(defn- fvABTCT [A B C] (mmul A (mmul (transpose B) (transpose C))))
 
 (defn fvFilterer [v0 U0 h H] ;; we start with the "fvFilterer" implementation
   (let [
           [A B h0]     (fvABh0 v0 (fvq h v0))
           G            (fvInverse H)
-          ;; -- W = (B^T.G.B)^(-1)
+;; -- W = (B^T.G.B)^(-1)
           W            (fvInverse (fvsATBA B G))
-          ;; -- GB = G - G.B.W.B^T.G^T
+;; -- GB = G - G.B.W.B^T.G^T
           GB           (fvAMB G (fvsABAT G (fvsABAT B W)))
           U            (fvAPB U0 (fvsATBA A GB))
           C            (fvInverse U)   ;; check for editing of singular values?
@@ -62,12 +64,12 @@
   (let [
           [A B h0]     (fvABh0 v (fvq h v))
 ;; -- m = h - h0
-          m      (fvAMB h h0)
+          m    (fvAMB h h0)
 ;; -- dm = h - h0 - A.v
           dm   (fvAMB m (fvAB A v))
-          G            (fvInverse H)
+          G    (fvInverse H)
 ;; -- W = (B^T.G.B)^(-1)
-          W            (fvInverse (fvsATBA B G))
+          W    (fvInverse (fvsATBA B G))
 
 ;; -- q = W.BT.(G.dm)
           q    (fvAB  W  (fvATB  B  (fvAB  G  dm)))
@@ -76,15 +78,20 @@
 ;; -- where we calculate Gh(v,q) from the fit-result covariance
 ;; -- matrices C,D,E for the smoothed results v,q
 ;;
-;;           C     (fvInverse U)     ;; check for editing of singular values?
-;;           D     (fvAPB W (fvsATBA W (fvsATBA B (fvsATBA G (fvsABAT A C)))))
-;;           E     (fvNegA  (fvATBC  W  (fvATBC  B  G  A)  C))
+          C    (fvInverse U)     ;; check for editing of singular values?
+          D    (fvAPB W (fvsATBA W (fvsATBA B (fvsATBA G (fvsABAT A C)))))
+          E    (fvNegA  (fvATBC  W  (fvATBC  B  G  A)  C))
 ;;           Gh    (fvInverse (fvCh v q C D E))
-          Gh     G  ;; using simpler method for the moment
-          𝜒2     (scalar (fvsATBA (fvAMB h (fvh v q)) Gh))
+;;  -- Ch = A.C.A^T + B.E.A^T + A.E^T.B^T + B.D.B^T
+          Ch   (fvAPB (fvAPB (fvAPB (fvsABAT A C) (fvABCT B E A))
+                             (fvABTCT A E B))
+                       (fvsABAT B D))
+          Gh   (fvInverse Ch)
+;;          Gh   G  ;; using simpler method for the moment
+          𝜒2   (scalar (fvsATBA (fvAMB h (fvh v q)) Gh))
 
           ]
-          [ q (fvQ (fvInverse Gh)) 𝜒2]))
+          [ q (fvQ Ch) 𝜒2]))
 
 
 
@@ -105,7 +112,7 @@
       (let [h (first hl) H (first Hl)
             [v U q Q 𝜒2] (ƒ v0 U0 h H)
             ]
-        (do (when (zero? iter) 
+        (do (when (zero? iter)
               (print (str "h" ih))) (print ".")) ;; progress
         (when fvLog
           (let ;; print result of ƒ

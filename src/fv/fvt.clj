@@ -1,4 +1,4 @@
-(ns fv.fvt 
+(ns fv.fvt
 (:require [fv.coeff :refer :all]))
 
 (use 'clojure.core.matrix)
@@ -65,9 +65,11 @@
   (let [
          v0       (:tx fvtd)
          Cv0      (emap #(* 10000.0 %) (:tCx fvtd))   ;;
-         hl       (:th fvtd); assuming trList is indeed [1 2 3 4 5 6], true for this run
-         Chl      (:tCh fvtd)
+;;         hl       (:th fvtd)
+;;         Chl      (:tCh fvtd)
          w2pt     (:tw2pt fvtd)
+         hl       (vec (map first (sort-by second (map vector (:th fvtd) [1 6 2 3 4 5]))))
+         Chl      (vec (map first (sort-by second (map vector (:tCh fvtd) [1 6 2 3 4 5]))))
        ]
     (do
       (when false (doFit))

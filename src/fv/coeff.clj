@@ -153,7 +153,12 @@
                        ])
                (array [w, tl, psi, (* r sxi), z])) ;;?? check this out
         ] h))
+(defn fvCh
+  " calculate and return helix paramters cov. matrix Ch"
+  [v q C D E]
+  (
 
+   ))
 (defn fvABh0
   "
 --
