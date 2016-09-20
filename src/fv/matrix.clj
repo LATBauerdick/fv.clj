@@ -1,13 +1,11 @@
-(ns fv.matrix)
-(use 'clojure.core.matrix.operators)
-(set-currusent-implementation :vectorz)
+(ns fv.matrix
+  (:require [clojure.core.matrix :refer :all]))
 
 (array (range 5))  ;; => [0 1 2 3 4]
 (def M ( array ( for [i (range 3)] (for [j (range 3)] (+ i (* j 1000))))))
 ;; =>"[[0.0,1000.0,2000.0],\n[1.0,1001.0,2001.0],\n[2.0,1002.0,2002.  0]]"]
 (mget M 1 2)
 (slice M 0)
-(apply + (slices M))
 (map inc (slice M 1))
 (ereduce + M)
 (eseq M )
@@ -35,12 +33,6 @@
 
 (def a (mutable [1 2]))
 (add! a 1)
-
-(+ [[1 2]
-    [3 4]]
-   (* (identity-matrix 2) 3.0))
-; => [[4.0 2.0]
-;     [3.0 7.0]]
 
 (shape [[2 3 4] [5 6 7]]) ; => [2 3]
 

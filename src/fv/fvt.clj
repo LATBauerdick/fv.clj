@@ -1,13 +1,14 @@
 (ns fv.fvt
-(:require [fv.coeff :refer :all]))
-
-(use 'clojure.core.matrix)
+(:require [fv.coeff :refer :all]
+          [clojure.core.matrix :refer :all]))
 
 (require 'fv.fv)
 (refer 'fv.fv)
 
 
 (def thisFile "dat/tr05129e001412.dat")
+(def tList [1 6 2 3 4 5])
+
 (defrecord fvtData [tx tCx tnt th tCh tw2pt])
 
 (def mπ  0.1395675e0)
@@ -68,11 +69,12 @@
 ;;         hl       (:th fvtd)
 ;;         Chl      (:tCh fvtd)
          w2pt     (:tw2pt fvtd)
-         hl       (vec (map first (sort-by second (map vector (:th fvtd) [1 6 2 3 4 5]))))
-         Chl      (vec (map first (sort-by second (map vector (:tCh fvtd) [1 6 2 3 4 5]))))
+         tl       tList
+         hl       (vec (map first (sort-by second (map vector (:th fvtd) tl))))
+         Chl      (vec (map first (sort-by second (map vector (:tCh fvtd) tl))))
        ]
     (do
-      (when false (doFit))
+      (when (< 3 2) (doFit)); so I can call it from fireplace
       (println "--------- input to vertext fit -------------------------")
       (println "initial vertex position v0 ")
       (print "[x y z]=") (pm v0)

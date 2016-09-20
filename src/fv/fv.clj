@@ -1,7 +1,7 @@
 (ns fv.fv
-  (:require [fv.coeff :refer :all]))
+  (:require [fv.coeff :refer :all]
+            [clojure.core.matrix :refer :all]))
 
-(use 'clojure.core.matrix)
 (set-current-implementation :vectorz)
 
 (def fvLog false)
@@ -15,16 +15,15 @@
         (identity-matrix (row-count M)))))
 
 (defn- fvAB [A B] (mmul A B))
-(defn- fvsABAT [A B] (mmul A (mmul B (transpose A))))
+(defn- fvsABAT [A B] (mmul A B (transpose A)))
 (defn- fvsATBA [A B] (mmul (transpose A) B A))
 (defn- fvAPB [A B] (add A B))
 (defn- fvAMB [A B] (sub A B))
-(defn- fvsATBA [A B] (mmul (transpose A) (mmul B A)))
 (defn- fvATB [A B] (mmul (transpose A) B))
 (defn- fvNegA [A] (negate A))
-(defn- fvATBC [A B C] (mmul (transpose A) (mmul B C)))
-(defn- fvABCT [A B C] (mmul A (mmul B (transpose C))))
-(defn- fvABTCT [A B C] (mmul A (mmul (transpose B) (transpose C))))
+(defn- fvATBC [A B C] (mmul (transpose A) B C))
+(defn- fvABCT [A B C] (mmul A B (transpose C)))
+(defn- fvABTCT [A B C] (mmul A (transpose B) (transpose C)))
 
 (defn fvFilterer [v0 U0 h H] ;; we start with the "fvFilterer" implementation
   (let [

@@ -572,7 +572,7 @@ C -- calculate covariance matrix Dij between qi and qj
 C --
       implicit none
       include 'fv.inc'
-      double precision Dij
+      double precision Dij(dq, dq)
       double precision v(dv), C(dv,dv),
      1                 qi(dq),Gpi(dh,dh),qj(dq),Gpj(dh,dh)
 
@@ -612,7 +612,7 @@ C -- W
 
       call fvABCT(temp55, Ai,C,Aj,dh,dv)
       call fvABCT(tempp55, Gpi,temp55,Gpj,dh,dh)
-      call fvATBC(temp33, Bi,tempp55,Bj,dh,dv,dh)
+      call fvATBC(temp33, Bi,tempp55,Bj,dh,dv)
       call fvABCT(Dij, Wi,temp33,Wj,dv,dv)
 
       return
@@ -649,7 +649,7 @@ C -- W
         return
       end if
 
-      call fvATBC(temp33, A,Gh,B,dh,dv,dh)
+      call fvATBC(temp33, A,Gh,B,dh,dv)
       call fvABCT(E, C,temp33,W,dv,dv)
       call fvNegA(E,E,dv,dv)
 

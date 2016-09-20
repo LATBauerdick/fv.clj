@@ -1,5 +1,5 @@
-(ns fv.coeff)
-(use 'clojure.core.matrix)
+(ns fv.coeff
+  (:require [clojure.core.matrix :refer :all]))
 
 (def τ 6.28318530718)
 (defn fvHelix2P4
