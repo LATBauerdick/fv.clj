@@ -99,7 +99,11 @@ C -- 1:electron, 2:muon, 3:tau, 4:pi
         status = fvtRead(KRUN,KEVT)
         do i0 = 1,3
         do i1 = 1,3
-          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          if (i0 .eq. i1) then
+             tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          else
+             tCx(i0,i1,1) = 0d0
+          endif
         end do
         end do
         status = fvtDo(chi2, 6,trList(1,i))
@@ -108,7 +112,11 @@ C --
         status = fvtRead(KRUN,KEVT)
         do i0 = 1,3
         do i1 = 1,3
-          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          if (i0 .eq. i1) then
+             tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          else
+             tCx(i0,i1,1) = 0d0
+          endif
         end do
         end do
 
@@ -203,7 +211,11 @@ C -- 1:electron, 2:muon, 3:tau, 4:pi
         status = fvtRead(KRUN,KEVT)
         do i0 = 1,3
         do i1 = 1,3
-          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          if (i0 .eq. i1) then
+             tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          else
+             tCx(i0,i1,1) = 0d0
+          endif
         end do
         end do
         status = fvtDo(chi2, 6,trList(1,i))
@@ -211,7 +223,11 @@ C -- 1:electron, 2:muon, 3:tau, 4:pi
         status = fvtRead(KRUN,KEVT)
         do i0 = 1,3
         do i1 = 1,3
-          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          if (i0 .eq. i1) then
+             tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          else
+             tCx(i0,i1,1) = 0d0
+          endif
         end do
         end do
 
@@ -342,7 +358,11 @@ C -- fit for common vertex of l+l-V=V-
         status = fvtRead(KRUN,KEVT)
         do i0 = 1,3
         do i1 = 1,3
-          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          if (i0 .eq. i1) then
+             tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          else
+             tCx(i0,i1,1) = 0d0
+          endif
         end do
         end do
 
@@ -352,8 +372,12 @@ C -- fit for vertex of V+V-
         status = fvtRead(KRUN,KEVT)
         do i0 = 1,3
         do i1 = 1,3
-          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
         end do
+          if (i0 .eq. i1) then
+             tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          else
+             tCx(i0,i1,1) = 0d0
+          endif
         end do
         write(fvtPlun,'(/1x,a,i5,a,i5)') 
      1    'common vertex for V+V- for Run ', KRUN, ' Evt ', KEVT
@@ -392,7 +416,11 @@ C -- fit vertex to l+l- pair
      1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
         do i0 = 1,3
         do i1 = 1,3
-          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          if (i0 .eq. i1) then
+             tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          else
+             tCx(i0,i1,1) = 0d0
+          endif
         end do
         end do
         status = fvtDo(chi2, 2,trList(3,i))
@@ -505,7 +533,11 @@ C -- 1:electron, 2:muon, 3:tau, 4:pi
         status = fvtRead(KRUN,KEVT)
         do i0 = 1,3
         do i1 = 1,3
-          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          if (i0 .eq. i1) then
+             tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          else
+             tCx(i0,i1,1) = 0d0
+          endif
         end do
         end do
 
@@ -514,7 +546,11 @@ C -- 1:electron, 2:muon, 3:tau, 4:pi
         status = fvtRead(KRUN,KEVT)
         do i0 = 1,3
         do i1 = 1,3
-          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          if (i0 .eq. i1) then
+             tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+          else
+             tCx(i0,i1,1) = 0d0
+          endif
         end do
         end do
         write(fvtPlun,'(/1x,a,i5,a,i5)') 
@@ -570,6 +606,7 @@ C --
       double precision chi2
       integer nt, tList(nt)
       include 'fvt.inc'
+      integer i0
 
       double precision x0(3), Cx0(3,3)
 
@@ -598,6 +635,7 @@ C
       include 'fvt.inc'
       character*80 fnam
       integer i0,i1,j, status
+      double precision C5(5,5)
 
       fvtRead = NORMAL
 
@@ -627,7 +665,16 @@ CCCC     1      'editing of singular values during inv of Ch0'
 CCCC          call fvAB(one,tGh(1,1,j),tCh(1,1,j),5,5,5)
 CCCC          write(fvtPlun,'(/1x,5g10.3)') ((one(i0,i1), i0=1,5),i1=1,5)
 CCCC        end if
-        if (iand(status,1).NE.1) then
+CLATB-------------------------------------------
+         write(6,'(a)') "--------------fvtRead compare tCh and tGh "
+         write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
+     1       sqrt(tCh(i0,i0,j)) ,i0=1,5)
+         write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
+     1       1d0/sqrt(tGh(i0,i0,j)) ,i0=1,5)
+         status = fvLUinv(C5(1,1), tGh(1,1,j),5)
+         write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
+     1       sqrt(C5(i0,i0)) ,i0=1,5)
+          if (iand(status,1).NE.1) then
           fvtRead = status
         end if
       end do

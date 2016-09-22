@@ -4,12 +4,20 @@
 
 (set-current-implementation :vectorz)
 
-(def fvLog false)
+(def fvLog 1)
 
 (defn fvInverse ;;;;;LATB probably needs SVD inversion
   [M]
-  (if-let [M-1 (inverse M)] ;;returns nil if can't invert, probably should use fvSVDinv
-    M-1
+  (if-let
+    [M-1 (inverse M)] ;;returns nil if can't invert, probably should use fvSVDinv
+    (do (if (> (emax (div (sub (mmul M M-1)
+                               (identity-matrix (row-count M)))
+                          M)) 0.002)
+          (if fvLog
+            '(pm (scale (div (sub (mmul M M-1)
+                                 (identity-matrix (row-count M))) M) 100.0))
+            (print "🚩")))
+        M-1)
     (do (println "fvInverse cannot invert"
                  (row-count M) "X" (row-count M) "matrix")
         (identity-matrix (row-count M)))))
@@ -95,8 +103,12 @@
 
 
 (defn fvPMerr "pretty-print vector and error" [s p P]
-  (print s " ") (pm p)
-  (print "±% ") (pm (-> P diagonal sqrt (div p) (scale 100.0) abs )))
+  (let [e    (-> P diagonal sqrt )]
+    (print s "-->")
+    (doseq [[x y] (map list p e)] (print (format "%9.3g ±%9.3g" x y)))
+    (println )))
+;;  (print s " ") (pm p)
+;;  (print "±% ") (pm (-> P diagonal sqrt (div p) (scale 100.0) abs )))
 (def 𝜒2cut 0.1)
 (defn- goodEnough? [𝜒20 𝜒2] (-> 𝜒2 (- 𝜒20) (/ 𝜒2)  (#(* % %)) (< 𝜒2cut)))
 (defn fvFilter
@@ -111,21 +123,24 @@
       (let [h (first hl) H (first Hl)
             [v U q Q 𝜒2] (ƒ v0 U0 h H)
             ]
-        (do (when (zero? iter)
-              (print (str "h" ih))) (print ".")) ;; progress
-        (when fvLog
-          (let ;; print result of ƒ
-            [q0  (fvq h v0)
-             Q0  (fvQ H)]
-            (println)
-            (fvPMerr "v0" v0 (fvInverse U0))
-            (fvPMerr "q0" q0 Q0)
-            (fvPMerr "v" v (fvInverse U))
-            (fvPMerr "q" q Q)
-            (println "𝜒2 " 𝜒2)))
+        (when (zero? iter)
+          (print (str "h" ih))) (print ".") ;; progress bar
+        (when (and fvLog (zero? iter))
+          (println "Filter for track " ih " -------------------------"))
+        (when fvLog (println "Filter iteration " iter "yields chi2 "
+                             (format "%9.3g" 𝜒2)))
         (if (goodEnough? 𝜒20 𝜒2) ;; if diff in 𝜒2 is large, recur with same h, H
-          (recur v U (next hl) (next Hl) (conj ql q) (conj Ql Q) 𝜒2 (inc ih) 0)
-          (recur v U hl Hl ql Ql 𝜒2 ih (inc iter)))))))
+          (do 
+            (when fvLog
+              ;; print result of ƒ
+              (println "Filter v0 and h result in v and q for track " ih 
+                       " chi2 " (format "%9.3g" 𝜒2))
+              (fvPMerr "v0" v0 (fvInverse U0))
+              (fvPMerr "v " v (fvInverse U))
+              (fvPMerr "h " h H)
+              (fvPMerr "q " q Q))
+              (recur v U (next hl) (next Hl) (conj ql q) (conj Ql Q) 𝜒2 (inc ih) 0))
+            (recur v U hl Hl ql Ql 𝜒2 ih (inc iter)))))))
 
 (defn fvSmooth [ƒ v U hl Hl]
   (loop

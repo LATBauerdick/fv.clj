@@ -65,7 +65,8 @@
 (defn doFit []
   (let [
          v0       (:tx fvtd)
-         Cv0      (emap #(* 10000.0 %) (:tCx fvtd))   ;;
+         Cv00     (emap #(* 10000.0 %) (:tCx fvtd))   ;;
+         Cv0      (array [[(mget Cv00 0 0) 0 0] [0 (mget Cv00 1 1) 0] [0 0 (mget Cv00 2 2)]])
 ;;         hl       (:th fvtd)
 ;;         Chl      (:tCh fvtd)
          w2pt     (:tw2pt fvtd)
@@ -88,10 +89,13 @@
         (println "--------- list of fitted q vectors---------------------")
         (doseq [[[ih h] H q Q chi2q] (map vector (indexed hl) Chl ql Cql chi2l) ]
           (println "chi2 = " chi2q "prob" )
-          (doseq [[x y] (map list h (sqrt (diagonal H)))]
-            (print (format "%9.3g ±%9.3g" x y))) (println)
-          (doseq [[x y] (map list q (sqrt (diagonal Q)))]
-            (print (format "%9.3g ±%9.3g" x y))) (println)
+          (fvPMerr "Helix params=" h H)
+          (let [GG1 (fvInverse H)
+                HH1 (div (identity-matrix 5) GG1)
+                HH2 (fvInverse GG1)]
+            (fvPMerr "inverted G   " h HH1)
+            (fvPMerr "inv-inv  H   " h HH2))
+          (fvPMerr "q-vec params=" q Q)
           (println "track#" ih  ", 𝜒2: " chi2q ": ")
           (let [ [p P] (fvHelix2P4 h H mπ w2pt)]
             (fvPMerr "Helix [px py pz E]=" p P))

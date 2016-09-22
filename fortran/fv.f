@@ -74,6 +74,7 @@ C --
      1                 v0(dv), C0(dv,dv), Gv0(dv,dv)
       double precision E(dv,dv), chi2
       double precision pp(dh),Cpp(dh,dh)
+      double precision C5(dh,dh)
 
       integer fvq, fvhCh, fvLUinv
       external fvq, fvhCh, fvLUinv
@@ -118,9 +119,24 @@ C -- calculate inverse of covariance matrices for v0
             fvFit = status
           end if
 
+CLATB---------------------------
+          if (print) then
+             write(plun,'(1x,a,i4,a,g10.3)')
+     1          'Filter result track: v and q for track', i,' chi2',chi2
+             write(plun,'(1x,a,3(g10.3,a,g10.3))') "v0",(v0(i0), ' +/-',
+     1       sqrt(C0(i0,i0)) ,i0=1,dv)
+             status = fvLUinv(C5, Ghl(1,1,it),5)
+            write(plun,'(1x,a,5(g10.3,a,g10.3))')"h ",(hl(i0,it),' +/-',
+     1       sqrt(C5(i0,i0)) ,i0=1,dh)
+             write(plun,'(1x,a,3(g10.3,a,g10.3))')"v ",(v(i0),' +/-',
+     1       sqrt(C(i0,i0)) ,i0=1,dv)
+            write(plun,'(1x,a,3(g10.3,a,g10.3))')"q ",(ql(i0,it),' +/-',
+     1       sqrt(Cql(i0,i0,it)) ,i0=1,dv)
+          end if
 C -- use v and Gv as input vertex v0, Gv0 for next track
           call fvCopy(v0,v,dv,1)
           call fvCopy(Gv0,Gv,dv,dv)
+          call fvCopy(C0,C,dv,dv)
         end if
       end do
 
@@ -1054,10 +1070,6 @@ C -- for now: forget about the fit...
         fvFilterer = status
         return
       end if
-
-        write(41,*) ((A(i1,i0),i0=1,3),i1=1,5)
-        write(41,*) ((B(i1,i0),i0=1,3),i1=1,5)
-        write(41,*) (h0(i1),i1=1,5)
 
 C -- GB
       call fvCalcGB(GB, W,B,G)
