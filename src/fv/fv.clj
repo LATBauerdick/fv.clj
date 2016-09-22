@@ -43,7 +43,6 @@
 (defn fvFilterer [v0 U0 h H] ;; we start with the "fvFilterer" implementation
   (let [
           [A B h0]     (fvABh0 v0 (fvq h v0))
-;;          printxx      (do (pm A) (pm B) (pm h0))
           G            (fvInverse H)
 ;; -- W = (B^T.G.B)^(-1)
           W            (fvInverse (fvsATBA B G))
@@ -67,6 +66,14 @@
 ;; -- chi2 - (dm - B.q)T.G. (dm - B.q) + (v - v0)T.U0. (v-v0)
            𝜒2    (+ (scalar  (fvsATBA  (fvAMB  dm  (fvAB  B  q))  G))
                     (scalar  (fvsATBA  (fvAMB  v  v0)  U0)))
+           printxx      (do (println "------------------------------------fvFilterer-----------------------")
+                            (print "v0-->") (pm v0)
+                            (print "U0-->") (pm U0)
+                            (pm A) (pm B) (pm h0) (pm W) (pm GB) (pm dm)
+                            (pm D) (pm E)
+                            (print "v-->") (pm v) (print "C-->") (pm C)
+                            (print "chi2" 𝜒2 )
+                            )
           ]
           [ v U q (fvQ (fvInverse G)) 𝜒2]))
 

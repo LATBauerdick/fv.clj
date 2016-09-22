@@ -1130,15 +1130,19 @@ C -- chi2
       chi2 = chi2 + chi2ar(1,1)
       
 CLATB print A B h0 W GB dm C D E
+      write(plun,'(1x,a,3(g10.3))') "v0",v0
+      write(plun,'(1x,a,3(g10.3))') "Gv0",Gv0
       write(plun,'(1x,a,5(g10.3))') "A ",A
       write(plun,'(1x,a,5(g10.3))') "B ",B
       write(plun,'(1x,a,5(g10.3))') "h0 ",h0
       write(plun,'(1x,a,3(g10.3))') "W ",W
       write(plun,'(1x,a,5(g10.3))') "GB ",GB
       write(plun,'(1x,a,5(g10.3))') "dm ",dm
-      write(plun,'(1x,a,3(g10.3))') "C ",C
       write(plun,'(1x,a,3(g10.3))') "D ",D
       write(plun,'(1x,a,3(g10.3))') "E ",E
+      write(plun,'(1x,a,3(g10.3))') "v ",v
+      write(plun,'(1x,a,3(g10.3))') "C ",C
+      write(plun,'(1x,a,3(g10.3))') "chi2",chi2
       return
       end
       integer function fvSmoother(q, D, E, chi2, 
