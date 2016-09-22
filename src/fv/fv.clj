@@ -4,7 +4,15 @@
 
 (set-current-implementation :vectorz)
 
-(def fvLog 1)
+(def fvLog false)
+
+(defn fvPMerr "pretty-print vector and error" [s p P]
+  (let [e    (-> P diagonal sqrt )]
+    (print s "-->")
+    (doseq [[x y] (map list p e)] (print (format "%9.3g ±%9.3g" x y)))
+    (println )))
+;;  (print s " ") (pm p)
+;;  (print "±% ") (pm (-> P diagonal sqrt (div p) (scale 100.0) abs )))
 
 (defn fvInverse ;;;;;LATB probably needs SVD inversion
   [M]
@@ -21,7 +29,6 @@
     (do (println "fvInverse cannot invert"
                  (row-count M) "X" (row-count M) "matrix")
         (identity-matrix (row-count M)))))
-
 (defn- fvAB [A B] (mmul A B))
 (defn- fvsABAT [A B] (mmul A B (transpose A)))
 (defn- fvsATBA [A B] (mmul (transpose A) B A))
@@ -36,15 +43,18 @@
 (defn fvFilterer [v0 U0 h H] ;; we start with the "fvFilterer" implementation
   (let [
           [A B h0]     (fvABh0 v0 (fvq h v0))
+;;          printxx      (do (pm A) (pm B) (pm h0))
           G            (fvInverse H)
 ;; -- W = (B^T.G.B)^(-1)
           W            (fvInverse (fvsATBA B G))
 ;; -- GB = G - G.B.W.B^T.G^T
-          GB           (fvAMB G (fvsABAT G (fvsABAT B W)))
+          GB           (fvAMB G (fvsABAT G (fvsABAT B W)));; or (G.B)W (G.B)T (fvABAT (fvAB G B) W)
+;; -- C = U^-1 = (U0 + A^T.GB.A)^-1
           U            (fvAPB U0 (fvsATBA A GB))
           C            (fvInverse U)   ;; check for editing of singular values?
 ;; -- m = h - h0
            m      (fvAMB h h0)
+;; -- v = C. (U0.v0 + A^T.GB.(h-h0) )
            v      (fvAB C (fvAPB (fvAB U0 v0) (fvATB A (fvAB GB m))))
 ;; -- dm = h - h0 - A.v
            dm     (fvAMB m (fvAB A v))
@@ -80,6 +90,7 @@
 
 ;; -- q = W.BT.(G.dm)
           q    (fvAB  W  (fvATB  B  (fvAB  G  dm)))
+;;;;;;;;          printtt (fvPMerr (sub q (fvq h v)))
 
 ;; -- chi2 = (h - h(v,q))^T.Gh(v,q).(h - h(v,q))
 ;; -- where we calculate Gh(v,q) from the fit-result covariance
@@ -102,13 +113,6 @@
 
 
 
-(defn fvPMerr "pretty-print vector and error" [s p P]
-  (let [e    (-> P diagonal sqrt )]
-    (print s "-->")
-    (doseq [[x y] (map list p e)] (print (format "%9.3g ±%9.3g" x y)))
-    (println )))
-;;  (print s " ") (pm p)
-;;  (print "±% ") (pm (-> P diagonal sqrt (div p) (scale 100.0) abs )))
 (def 𝜒2cut 0.1)
 (defn- goodEnough? [𝜒20 𝜒2] (-> 𝜒2 (- 𝜒20) (/ 𝜒2)  (#(* % %)) (< 𝜒2cut)))
 (defn fvFilter
@@ -130,7 +134,7 @@
         (when fvLog (println "Filter iteration " iter "yields chi2 "
                              (format "%9.3g" 𝜒2)))
         (if (goodEnough? 𝜒20 𝜒2) ;; if diff in 𝜒2 is large, recur with same h, H
-          (do 
+          (do
             (when fvLog
               ;; print result of ƒ
               (println "Filter v0 and h result in v and q for track " ih 
@@ -138,7 +142,8 @@
               (fvPMerr "v0" v0 (fvInverse U0))
               (fvPMerr "v " v (fvInverse U))
               (fvPMerr "h " h H)
-              (fvPMerr "q " q Q))
+              (fvPMerr "q " q Q)
+              (fvPMerr "dq" (sub (fvq h v0) q) Q))
               (recur v U (next hl) (next Hl) (conj ql q) (conj Ql Q) 𝜒2 (inc ih) 0))
             (recur v U hl Hl ql Ql 𝜒2 ih (inc iter)))))))
 
@@ -201,7 +206,6 @@
         [v U _ _]    (fvFilter fvFilterer v0 U0 hl Hl)
         [ql Ql 𝜒2l]  (fvSmooth fvSmoother v U hl Hl)
         V            (fvInverse U)
-;;        𝜒2l    (vec (map #(+ 1.1 (* 0.1 %)) (range 0 (count ql))))
         𝜒2  (reduce + 𝜒2l) ;;LATB not sure about that...
       ]
       [v V ql Ql 𝜒2l 𝜒2]

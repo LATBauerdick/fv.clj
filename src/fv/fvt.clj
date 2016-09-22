@@ -13,7 +13,6 @@
 
 (def mπ  0.1395675e0)
 
-
 (defn- indexed [coll]  (map-indexed vector coll))
 
 (defn fvtread
@@ -59,49 +58,47 @@
 
 (def fvtd (fvtread thisFile))
 
-(pm (get (:tCx fvtd) 0))
+(def v0 (:tx fvtd))
+(def Cv0 (let [Cv00 (emap #(* 10000.0 %) (:tCx fvtd))]
+           (array [[(mget Cv00 0 0) 0 0]
+                   [0 (mget Cv00 1 1) 0]
+                   [0 0 (mget Cv00 2 2)]])))
+(def w2pt (:tw2pt fvtd))
+(def hl (let [tl tList]
+          (vec (map first (sort-by second (map vector (:th fvtd) tl))))))
+(def Chl (let [tl tList]
+           (vec (map first (sort-by second (map vector (:tCh fvtd) tl))))))
 
+(defn printHeader [v0 V0]
+  (println "--------- input to vertext fit -------------------------")
+  (fvPMerr "initial vertex position v0 [x y z]=" v0 V0))
+
+(defn printResults [v Cv ql Cql chi2l chi2t]
+  (println "--------- doFit result --------------------------------")
+  (println "vertex fit converged, 𝜒2:" (format  "%9.3g" chi2t))
+  (fvPMerr "v: " v Cv)
+  (println "--------- list of fitted q vectors---------------------")
+  (doseq [[[ih h] H q Q chi2q] (map vector (indexed hl) Chl ql Cql chi2l) ]
+    (println "chi2 = " (format  "%9.3g" chi2q)  "prob" )
+    (fvPMerr "Helix params=" h H)
+    '(let [GG1 (fvInverse H)
+           HH1 (div (identity-matrix 5) GG1)
+           HH2 (fvInverse GG1)]
+       (fvPMerr "inverted G   " h HH1)
+       (fvPMerr "inv-inv  H   " h HH2))
+    (fvPMerr "q-vec params=" q Q)
+    (println "track#" ih  ", 𝜒2: " (format  "%9.3g" chi2q) ": ")
+    (let [ [p P] (fvHelix2P4 h H mπ w2pt)]
+      (fvPMerr "Helix [px py pz E]=" p P))
+    (let [ [p P] (fvQ2P3 q Q w2pt)]
+      (fvPMerr "Fit q [px py pz]  =" p P))))
 
 (defn doFit []
-  (let [
-         v0       (:tx fvtd)
-         Cv00     (emap #(* 10000.0 %) (:tCx fvtd))   ;;
-         Cv0      (array [[(mget Cv00 0 0) 0 0] [0 (mget Cv00 1 1) 0] [0 0 (mget Cv00 2 2)]])
-;;         hl       (:th fvtd)
-;;         Chl      (:tCh fvtd)
-         w2pt     (:tw2pt fvtd)
-         tl       tList
-         hl       (vec (map first (sort-by second (map vector (:th fvtd) tl))))
-         Chl      (vec (map first (sort-by second (map vector (:tCh fvtd) tl))))
-       ]
-    (do
-      (when (< 3 2) (doFit)); so I can call it from fireplace
-      (println "--------- input to vertext fit -------------------------")
-      (println "initial vertex position v0 ")
-      (print "[x y z]=") (pm v0)
-      (print "±") (pm (sqrt (diagonal Cv0)))
-      (let [[v Cv ql Cql chi2l chi2t] (fvFit v0 Cv0 hl Chl)]
-        (println "--------- doFit result --------------------------------")
-        (println "vertex fit converged, 𝜒2:" chi2t)
-        (print "v: ") (pm v)
-        (print "±") (pm (sqrt (diagonal Cv)))
-        (print "Cv: ") (pm Cv)
-        (println "--------- list of fitted q vectors---------------------")
-        (doseq [[[ih h] H q Q chi2q] (map vector (indexed hl) Chl ql Cql chi2l) ]
-          (println "chi2 = " chi2q "prob" )
-          (fvPMerr "Helix params=" h H)
-          (let [GG1 (fvInverse H)
-                HH1 (div (identity-matrix 5) GG1)
-                HH2 (fvInverse GG1)]
-            (fvPMerr "inverted G   " h HH1)
-            (fvPMerr "inv-inv  H   " h HH2))
-          (fvPMerr "q-vec params=" q Q)
-          (println "track#" ih  ", 𝜒2: " chi2q ": ")
-          (let [ [p P] (fvHelix2P4 h H mπ w2pt)]
-            (fvPMerr "Helix [px py pz E]=" p P))
-          (let [ [p P] (fvQ2P3 q Q w2pt)]
-            (fvPMerr "Fit q [px py pz]  =" p P)))))))
+   (let [[v V ql Ql chi2l chi2t] (fvFit v0 Cv0 hl Chl)]
+     (printHeader v0 Cv0)
+     (printResults v V ql Ql chi2l chi2t)))
 
+(def doDoFit (doFit)); so I can call it from fireplace
 
 ;;(defrecord fvrec [v Cv 𝜒2v qs Cqs 𝜒2qs])
 ;;(->fvrec  tCx tnt (vec th) (vec tCh) tw2pt); add to rec

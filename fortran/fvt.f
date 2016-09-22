@@ -666,6 +666,7 @@ CCCC          call fvAB(one,tGh(1,1,j),tCh(1,1,j),5,5,5)
 CCCC          write(fvtPlun,'(/1x,5g10.3)') ((one(i0,i1), i0=1,5),i1=1,5)
 CCCC        end if
 CLATB-------------------------------------------
+         write(6,'(1x,a,5(g10.3))')"Gh",((tGh(i0,i1,j),i0=1,5),i1=1,5)
          write(6,'(a)') "--------------fvtRead compare tCh and tGh "
          write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
      1       sqrt(tCh(i0,i0,j)) ,i0=1,5)

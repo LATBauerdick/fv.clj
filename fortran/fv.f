@@ -140,6 +140,10 @@ C -- use v and Gv as input vertex v0, Gv0 for next track
         end if
       end do
 
+CLATB print out filter end result
+      write(plun,'(1x,a)')'-----------end Filter, start Smoother-------'
+
+
 C
 C -- the smoother
 C -- v, C, Gv contain vertex, cov. matrix and cov^(-1)
@@ -697,6 +701,7 @@ C -- iterate until chi2 change between iterations smaller chi2Cut
 C -- max #iteration in filter/smoother step
       integer maxFIter
       logical flag
+      integer i0
       data maxFIter/10/
       data flag/.true./
 
@@ -1124,6 +1129,16 @@ C -- chi2
       call fvsATBA(chi2ar, temp31,Gv0,dv,1)
       chi2 = chi2 + chi2ar(1,1)
       
+CLATB print A B h0 W GB dm C D E
+      write(plun,'(1x,a,5(g10.3))') "A ",A
+      write(plun,'(1x,a,5(g10.3))') "B ",B
+      write(plun,'(1x,a,5(g10.3))') "h0 ",h0
+      write(plun,'(1x,a,3(g10.3))') "W ",W
+      write(plun,'(1x,a,5(g10.3))') "GB ",GB
+      write(plun,'(1x,a,5(g10.3))') "dm ",dm
+      write(plun,'(1x,a,3(g10.3))') "C ",C
+      write(plun,'(1x,a,3(g10.3))') "D ",D
+      write(plun,'(1x,a,3(g10.3))') "E ",E
       return
       end
       integer function fvSmoother(q, D, E, chi2, 
