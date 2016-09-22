@@ -4,7 +4,7 @@
 
 (set-current-implementation :vectorz)
 
-(def fvLog false)
+(def fvLog true)
 
 (defn fvPMerr "pretty-print vector and error" [s p P]
   (let [e    (-> P diagonal sqrt )]
@@ -40,49 +40,52 @@
 (defn- fvABCT [A B C] (mmul A B (transpose C)))
 (defn- fvABTCT [A B C] (mmul A (transpose B) (transpose C)))
 
+(def 𝜒2cut 0.5)
+(defn- goodEnough? [𝜒20 𝜒2] 
+  (-> 𝜒2 (- 𝜒20) abs (< 𝜒2cut)))
+
 (defn fvFilterer [v0 U0 h H] ;; we start with the "fvFilterer" implementation
   (let [
-          [A B h0]     (fvABh0 v0 (fvq h v0))
-          G            (fvInverse H)
-;; -- W = (B^T.G.B)^(-1)
-          W            (fvInverse (fvsATBA B G))
-;; -- GB = G - G.B.W.B^T.G^T
-          GB           (fvAMB G (fvsABAT G (fvsABAT B W)));; or (G.B)W (G.B)T (fvABAT (fvAB G B) W)
-;; -- C = U^-1 = (U0 + A^T.GB.A)^-1
-          U            (fvAPB U0 (fvsATBA A GB))
-          C            (fvInverse U)   ;; check for editing of singular values?
-;; -- m = h - h0
-           m      (fvAMB h h0)
-;; -- v = C. (U0.v0 + A^T.GB.(h-h0) )
-           v      (fvAB C (fvAPB (fvAB U0 v0) (fvATB A (fvAB GB m))))
-;; -- dm = h - h0 - A.v
-           dm     (fvAMB m (fvAB A v))
-;; -- q = W.BT.(G.dm)
-           q      (fvAB  W  (fvATB  B  (fvAB  G  dm)))
-;; -- D
-           D      (fvAPB W (fvsATBA W (fvsATBA B (fvsATBA G (fvsABAT A C)))))
-;; -- E
-           E     (fvNegA  (fvATBC  W  (fvATBC  B  G  A)  C))
-;; -- chi2 - (dm - B.q)T.G. (dm - B.q) + (v - v0)T.U0. (v-v0)
-           𝜒2    (+ (scalar  (fvsATBA  (fvAMB  dm  (fvAB  B  q))  G))
-                    (scalar  (fvsATBA  (fvAMB  v  v0)  U0)))
-           printxx      (do (println "------------------------------------fvFilterer-----------------------")
-                            (print "v0-->") (pm v0)
-                            (print "U0-->") (pm U0)
-                            (pm A) (pm B) (pm h0) (pm W) (pm GB) (pm dm)
-                            (pm D) (pm E)
-                            (print "v-->") (pm v) (print "C-->") (pm C)
-                            (print "chi2" 𝜒2 )
-                            )
-          ]
-          [ v U q (fvQ (fvInverse G)) 𝜒2]))
-
-(defn fvSVDfit [v0 U0 h G A B h0] (
-      let [v v0
-           V (fvInverse U0)
-           q (fvq h v)
-           Q (fvQ (fvInverse G))]
-           [ v V U0 q Q ]))
+        [A B h0]     (fvABh0 v0 (fvq h v0))
+        G            (fvInverse H)
+        ]
+    (loop [v0 v0, U0 U0, A A, B B, h0 h0, 𝜒20 1e10, iter 0]
+      (let [
+            ;; -- W = (B^T.G.B)^(-1)
+            W            (fvInverse (fvsATBA B G))
+            ;; -- GB = G - G.B.W.B^T.G^T
+            GB           (fvAMB G (fvsABAT G (fvsABAT B W)));; or (G.B)W (G.B)T (fvABAT (fvAB G B) W)
+            ;; -- C = U^-1 = (U0 + A^T.GB.A)^-1
+            U            (fvAPB U0 (fvsATBA A GB))
+            C            (fvInverse U)   ;; check for editing of singular values?
+            ;; -- m = h - h0
+            m      (fvAMB h h0)
+            ;; -- v = C. (U0.v0 + A^T.GB.(h-h0) )
+            v      (fvAB C (fvAPB (fvAB U0 v0) (fvATB A (fvAB GB m))))
+            ;; -- dm = h - h0 - A.v
+            dm     (fvAMB m (fvAB A v))
+            ;; -- q = W.BT.(G.dm)
+            q      (fvAB  W  (fvATB  B  (fvAB  G  dm)))
+            ;; -- D
+            D      (fvAPB W (fvsATBA W (fvsATBA B (fvsATBA G (fvsABAT A C)))))
+            ;; -- E
+            E     (fvNegA  (fvATBC  W  (fvATBC  B  G  A)  C))
+            ;; -- chi2 - (dm - B.q)T.G. (dm - B.q) + (v - v0)T.U0. (v-v0)
+            𝜒2    (+ (scalar  (fvsATBA  (fvAMB  dm  (fvAB  B  q))  G))
+                     (scalar  (fvsATBA  (fvAMB  v  v0)  U0)))
+            printxx      '(do (println "------------------------------------fvFilterer-----------------------")
+                             (print "v0-->") (pm v0) (print "U0-->") (pm U0)
+                             (pm A) (pm B) (pm h0) (pm W) (pm GB) (pm dm) (pm D) (pm E)
+                             (print "v-->") (pm v) (print "C-->") (pm C) (print "chi2-->" 𝜒2 )
+                             )
+            ]
+        (print ".") ;; progress bar
+        (when fvLog (println "Filter iteration " iter "yields chi2 "𝜒2 ))
+        (if-not (goodEnough? 𝜒20 𝜒2)
+          (do
+            (let [ [A1 B1 h01]     (fvABh0 v (fvq h v))] ;; recalc derivs at v
+              (recur v0 U0 A1 B1 h01 𝜒2 (inc iter))))
+          [v U q (fvQ H) 𝜒2])))))
 
 (defn fvSmoother [v U h H]
   (let [
@@ -94,11 +97,8 @@
           G    (fvInverse H)
 ;; -- W = (B^T.G.B)^(-1)
           W    (fvInverse (fvsATBA B G))
-
 ;; -- q = W.BT.(G.dm)
           q    (fvAB  W  (fvATB  B  (fvAB  G  dm)))
-;;;;;;;;          printtt (fvPMerr (sub q (fvq h v)))
-
 ;; -- chi2 = (h - h(v,q))^T.Gh(v,q).(h - h(v,q))
 ;; -- where we calculate Gh(v,q) from the fit-result covariance
 ;; -- matrices C,D,E for the smoothed results v,q
@@ -111,64 +111,57 @@
           Ch   (fvAPB (fvAPB (fvAPB (fvsABAT A C) (fvABCT B E A))
                              (fvABTCT A E B))
                        (fvsABAT B D))
-          Gh   (fvInverse Ch)
-;;          Gh   G  ;; using simpler method for the moment
+;;          Gh   (fvInverse Ch)
+          Gh   G  ;; using simpler method for the moment
           𝜒2   (scalar (fvsATBA (fvAMB h (fvh v q)) Gh))
 
+          printxx      '(do 
+                        (print "v-->") (pm v) (print "U-->") (pm U) (print "C (V)-->") (pm C)
+                        (print "A-->") (pm A) (print "B-->") (pm B) (print "h0-->") (pm h0) (print "W-->") (pm W) (print "dm-->") (pm dm) (print "E-->") (pm E)
+                        (print "q-->") (pm q) (print "Q (D)-->") (pm D) (print "chi2-->" 𝜒2 )
+                             )
           ]
-          [ q (fvQ Ch) 𝜒2]))
+          [ q D 𝜒2]))
 
 
 
-(def 𝜒2cut 0.1)
-(defn- goodEnough? [𝜒20 𝜒2] (-> 𝜒2 (- 𝜒20) (/ 𝜒2)  (#(* % %)) (< 𝜒2cut)))
 (defn fvFilter
   "
   -- run kalman filter function ƒ recursively over each helix in list hl
   "
   [ƒ v0 U0 hl Hl]
   (loop
-    [v0 v0, U0 U0, hl hl, Hl Hl, ql [], Ql [], 𝜒20 0, ih 0, iter 0]
+    [v0 v0, U0 U0, hl hl, Hl Hl, ql [], Ql [], ih 0]
     (if (empty? hl)
       (do (println) [v0 U0 ql Ql])   ;; return list of q vectors and final v
       (let [h (first hl) H (first Hl)
             [v U q Q 𝜒2] (ƒ v0 U0 h H)
             ]
-        (when (zero? iter)
-          (print (str "h" ih))) (print ".") ;; progress bar
-        (when (and fvLog (zero? iter))
-          (println "Filter for track " ih " -------------------------"))
-        (when fvLog (println "Filter iteration " iter "yields chi2 "
-                             (format "%9.3g" 𝜒2)))
-        (if (goodEnough? 𝜒20 𝜒2) ;; if diff in 𝜒2 is large, recur with same h, H
-          (do
-            (when fvLog
-              ;; print result of ƒ
-              (println "Filter v0 and h result in v and q for track " ih 
-                       " chi2 " (format "%9.3g" 𝜒2))
-              (fvPMerr "v0" v0 (fvInverse U0))
-              (fvPMerr "v " v (fvInverse U))
-              (fvPMerr "h " h H)
-              (fvPMerr "q " q Q)
-              (fvPMerr "dq" (sub (fvq h v0) q) Q))
-              (recur v U (next hl) (next Hl) (conj ql q) (conj Ql Q) 𝜒2 (inc ih) 0))
-            (recur v U hl Hl ql Ql 𝜒2 ih (inc iter)))))))
+        (print (str "h" ih))
+        (when fvLog
+          (println "Filter for track " ih " -------------------------"
+                   ", final chi2 " (format "%9.3g" 𝜒2))
+          (fvPMerr "v0" v0 (fvInverse U0))
+          (fvPMerr "v " v (fvInverse U))
+          (fvPMerr "h " h H)
+          (fvPMerr "q " q Q)
+          (fvPMerr "dq" (sub (fvq h v0) q) Q))
+        (recur v U (next hl) (next Hl) (conj ql q) (conj Ql Q) (inc ih))))))
 
 (defn fvSmooth [ƒ v U hl Hl]
   (loop
-    [hl hl, Hl Hl, ql [], Ql [], 𝜒2l []]
+    [hl hl, Hl Hl, ql [], Ql [], 𝜒2l [], ih 0]
     (if (empty? hl)
-      (do (println) [ql Ql 𝜒2l])   ;; return list of q vectors and 𝜒2
+      [ql Ql 𝜒2l]   ;; return list of q vectors and 𝜒2
       (let [h0 (first hl) H0 (first Hl)
             [q Q 𝜒2] (ƒ v U h0 H0)
             ]
         (when fvLog
-          (do ;; print result of ƒ
-            (println)
-            (fvPMerr "q" q Q)
-            (println "𝜒2 " 𝜒2)))
+          (println "---------fvSmoother for track" ih
+                   "----𝜒2 " (format "%9.3g" 𝜒2)"----------------")
+          (fvPMerr "q" q Q))
         (recur (next hl) (next Hl)
-               (conj ql q) (conj Ql Q) (conj 𝜒2l 𝜒2))))))
+               (conj ql q) (conj Ql Q) (conj 𝜒2l 𝜒2) (inc ih))))))
 
 
 (defn fvFit
@@ -210,7 +203,11 @@
   [v0 V0 hl Hl]
   (let [
         U0           (fvInverse V0)
-        [v U _ _]    (fvFilter fvFilterer v0 U0 hl Hl)
+        [vv UU _ _]    (fvFilter fvFilterer v0 U0 hl Hl)
+        v  (array [ 0.954     0.994      3.55])
+        U (fvInverse (matrix [[0.469E-01 0.504E-01 0.826E-01]
+                              [0.504E-01 0.542E-01 0.888E-01]
+                              [0.826E-01 0.888E-01 0.150]]))
         [ql Ql 𝜒2l]  (fvSmooth fvSmoother v U hl Hl)
         V            (fvInverse U)
         𝜒2  (reduce + 𝜒2l) ;;LATB not sure about that...

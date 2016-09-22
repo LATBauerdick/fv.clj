@@ -139,19 +139,23 @@
         phi    (Math/atan2 yy xx)
 
         [w tl psi]    (vec q)
-        oow  (/ 1.0 w)
+
         xi   (- psi phi)
         cxi  (Math/cos xi)
         sxi  (Math/sin xi)
-        gamma  (Math/atan (/ (* r cxi) (- oow (* r sxi))))
-        h    (if (zero? w)
-               (array [w
-                       tl
-                       (- psi gamma)
-                       (- oow (/ (- oow (* r sxi)) (Math/cos gamma)))
-                       (-  z  (* (/ gamma w) tl))
-                       ])
+
+        h    (if-not (zero? w)
+               (let [oow  (/ 1.0 w)
+                     gamma  (Math/atan (/ (* r cxi) (- oow (* r sxi))))
+                     ]
+                 (array [w
+                         tl
+                         (- psi gamma)
+                         (- oow (/ (- oow (* r sxi)) (Math/cos gamma)))
+                         (-  z  (* (/ gamma w) tl))
+                         ]))
                (array [w, tl, psi, (* r sxi), z])) ;;?? check this out
+        printxxx   (do (println h) (println v) (println q) (println "w-->" w (zero? w)) (println "tl-->" tl))
         ] h))
 (defn fvCh
   " calculate and return helix paramters cov. matrix Ch"
