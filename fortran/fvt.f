@@ -666,15 +666,15 @@ CCCC          call fvAB(one,tGh(1,1,j),tCh(1,1,j),5,5,5)
 CCCC          write(fvtPlun,'(/1x,5g10.3)') ((one(i0,i1), i0=1,5),i1=1,5)
 CCCC        end if
 CLATB-------------------------------------------
-         write(6,'(1x,a,5(g10.3))')"Gh",((tGh(i0,i1,j),i0=1,5),i1=1,5)
-         write(6,'(a)') "--------------fvtRead compare tCh and tGh "
-         write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
-     1       sqrt(tCh(i0,i0,j)) ,i0=1,5)
-         write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
-     1       1d0/sqrt(tGh(i0,i0,j)) ,i0=1,5)
-         status = fvLUinv(C5(1,1), tGh(1,1,j),5)
-         write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
-     1       sqrt(C5(i0,i0)) ,i0=1,5)
+C        write(6,'(1x,a,5(g10.3))')"Gh",((tGh(i0,i1,j),i0=1,5),i1=1,5)
+C        write(6,'(a)') "--------------fvtRead compare tCh and tGh "
+C        write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
+C    1       sqrt(tCh(i0,i0,j)) ,i0=1,5)
+C        write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
+C    1       1d0/sqrt(tGh(i0,i0,j)) ,i0=1,5)
+C        status = fvLUinv(C5(1,1), tGh(1,1,j),5)
+C        write(6,'(1x,a,5(g10.3,a,g10.3))')"h",(th(i0,j),' +/-',
+C    1       sqrt(C5(i0,i0)) ,i0=1,5)
           if (iand(status,1).NE.1) then
           fvtRead = status
         end if

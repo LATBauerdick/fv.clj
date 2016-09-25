@@ -1,21 +1,31 @@
 (ns fv.fvt
 (:require [fv.coeff :refer :all]
-          [clojure.core.matrix :refer :all]))
+          [clojure.core.matrix :refer :all]
+          [fv.fv :refer :all]))
 
-(require 'fv.fv)
-(refer 'fv.fv)
-
+(def dataDirName "./dat")
+(def data-dir (file-seq (clojure.java.io/file dataDirName)))
+(defn only-files
+  "Filter a sequence of files/directories by isFile property of java.io.File"
+  [file-s]
+  (filter #(.isFile %) file-s))
+(defn names
+  "Return the .getName property of a sequence of files"
+  [file-s]
+  (map #(str dataDirName "/" (.getName %)) file-s))
+(def theseFiles (-> data-dir only-files names))
 
 (def thisFile "dat/tr05129e001412.dat")
+(def otherFile "dat/tr05158e004656.dat")
+(def thirdFile "dat/tr05166e001984.dat")
 (def tList [1 6 2 3 4 5])
 
 (defrecord fvtData [tx tCx tnt th tCh tw2pt])
 
-(def mπ  0.1395675e0)
 
 (defn- indexed [coll]  (map-indexed vector coll))
 
-(defn fvtread
+(defn- fvtread
   "
   -- read from file with name df and return
   --
@@ -56,49 +66,67 @@
 
        ] (->fvtData tx tCx tnt (vec th) (vec tCh) tw2pt)))
 
-(def fvtd (fvtread thisFile))
+(defn getHelices [fn]
+  (let [
+        fvtd  (fvtread fn)
+        v0 (:tx fvtd)
+        Cv0 (let [Cv00 (emap #(* 10000.0 %) (:tCx fvtd))]
+              (array [[(mget Cv00 0 0) 0 0]
+                      [0 (mget Cv00 1 1) 0]
+                      [0 0 (mget Cv00 2 2)]]))
+        w2pt (:tw2pt fvtd) ;; we don't do anything with this, but just use the default
+        hl (let [tl tList]
+             (vec (map first (sort-by second (map vector (:th fvtd) tl)))))
+        Chl (let [tl tList]
+              (vec (map first (sort-by second (map vector (:tCh fvtd) tl)))))
+        ] (->Helices v0 Cv0 hl Chl)))
 
-(def v0 (:tx fvtd))
-(def Cv0 (let [Cv00 (emap #(* 10000.0 %) (:tCx fvtd))]
-           (array [[(mget Cv00 0 0) 0 0]
-                   [0 (mget Cv00 1 1) 0]
-                   [0 0 (mget Cv00 2 2)]])))
-(def w2pt (:tw2pt fvtd))
-(def hl (let [tl tList]
-          (vec (map first (sort-by second (map vector (:th fvtd) tl))))))
-(def Chl (let [tl tList]
-           (vec (map first (sort-by second (map vector (:tCh fvtd) tl))))))
+(def theseHelices (getHelices thisFile))
+(def otherHelices (getHelices otherFile))
 
-(defn printHeader [v0 V0]
+(defn printHeader [helices]
   (println "--------- input to vertext fit -------------------------")
-  (fvPMerr "initial vertex position v0 [x y z]=" v0 V0))
+  (println "vertex initial position")
+  (fvPMerr "v0 [x y z]=" (:v0 helices) (:V0 helices)))
 
-(defn printResults [v Cv ql Cql chi2l chi2t]
-  (println "--------- doFit result --------------------------------")
-  (println "vertex fit converged, 𝜒2:" (format  "%9.3g" chi2t))
-  (fvPMerr "v: " v Cv)
-  (println "--------- list of fitted q vectors---------------------")
-  (doseq [[[ih h] H q Q chi2q] (map vector (indexed hl) Chl ql Cql chi2l) ]
-    (println "chi2 = " (format  "%9.3g" chi2q)  "prob" )
-    (fvPMerr "Helix params=" h H)
-    '(let [GG1 (fvInverse H)
-           HH1 (div (identity-matrix 5) GG1)
-           HH2 (fvInverse GG1)]
-       (fvPMerr "inverted G   " h HH1)
-       (fvPMerr "inv-inv  H   " h HH2))
-    (fvPMerr "q-vec params=" q Q)
-    (println "track#" ih  ", 𝜒2: " (format  "%9.3g" chi2q) ": ")
-    (let [ [p P] (fvHelix2P4 h H mπ w2pt)]
-      (fvPMerr "Helix [px py pz E]=" p P))
-    (let [ [p P] (fvQ2P3 q Q w2pt)]
-      (fvPMerr "Fit q [px py pz]  =" p P))))
+(defn printResults [prong hl Chl]
+  (let [
+        v (:v prong)
+        Cv (:V prong)
+        ql (:ql prong)
+        Cql (:Ql prong)
+        chi2l (:chi2l prong)
+        ]
+    (println "--------- doFit result --------------------------------")
+    (println "vertex fit converged, 𝜒2:" (format  "%9.3g" (reduce + chi2l)))
+    (fvPMerr "v [x y z]=" v Cv)
+    (println "--------- list of fitted q vectors---------------------")
+    (doseq [[[ih h] H q Q chi2q] (map vector (indexed hl) Chl ql Cql chi2l) ]
+      (println "chi2=" (format  "%9.3g" chi2q)  "prob" )
+      (fvPMerr "Helix params=" h H)
+      (fvPMerr "q-vec params=" q Q)
+      (println "track#" ih  ", 𝜒2: " (format  "%9.3g" chi2q) ": ")
+      (let [ [p P] (fvHelix2P4 h H mπ)]
+        (fvPMerr "Helix [px py pz E]=" p P))
+      (let [ [p P] (fvQ2P3 q Q)]
+        (fvPMerr "Fit q [px py pz]  =" p P)))))
 
-(defn doFit []
-   (let [[v V ql Ql chi2l chi2t] (fvFit v0 Cv0 hl Chl)]
-     (printHeader v0 Cv0)
-     (printResults v V ql Ql chi2l chi2t)))
+(defn doFitTest [hel]
+  (printHeader hel)
+  (let [
+        hl  (:hl hel)
+        Hl  (:Hl hel)
+        pr  (fvFit hel)
+        p5  (->Prong (:v pr) (:V pr) (drop-last (:ql pr)) (drop-last (:Ql pr)) (drop-last (:chi2l pr)))
+        ]
+    (fvRemove pr hel)
+    (println "Inv Mass " (invMass p5))
+    (printResults pr hl Hl )))
 
-(def doDoFit (doFit)); so I can call it from fireplace
-
-;;(defrecord fvrec [v Cv 𝜒2v qs Cqs 𝜒2qs])
-;;(->fvrec  tCx tnt (vec th) (vec tCh) tw2pt); add to rec
+(defn doFitTests [] (do
+                  (doFitTest theseHelices); so I can call it from fireplace
+                  (doFitTest otherHelices)
+                  (println "----------------------------------------")
+                  (println theseFiles)
+                  (println "----------------------------------------")
+                  (doall (take 10 (map #(doFitTest (getHelices %)) theseFiles)))))

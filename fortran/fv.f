@@ -120,19 +120,19 @@ C -- calculate inverse of covariance matrices for v0
           end if
 
 CLATB---------------------------
-          if (print) then
-             write(plun,'(1x,a,i4,a,g10.3)')
-     1          'Filter result track: v and q for track', i,' chi2',chi2
-             write(plun,'(1x,a,3(g10.3,a,g10.3))') "v0",(v0(i0), ' +/-',
-     1       sqrt(C0(i0,i0)) ,i0=1,dv)
-             status = fvLUinv(C5, Ghl(1,1,it),5)
-            write(plun,'(1x,a,5(g10.3,a,g10.3))')"h ",(hl(i0,it),' +/-',
-     1       sqrt(C5(i0,i0)) ,i0=1,dh)
-             write(plun,'(1x,a,3(g10.3,a,g10.3))')"v ",(v(i0),' +/-',
-     1       sqrt(C(i0,i0)) ,i0=1,dv)
-            write(plun,'(1x,a,3(g10.3,a,g10.3))')"q ",(ql(i0,it),' +/-',
-     1       sqrt(Cql(i0,i0,it)) ,i0=1,dv)
-          end if
+C         if (print) then
+C            write(plun,'(1x,a,i4,a,g10.3)')
+C    1          'Filter result track: v and q for track', i,' chi2',chi2
+C            write(plun,'(1x,a,3(g10.3,a,g10.3))') "v0",(v0(i0), ' +/-',
+C    1       sqrt(C0(i0,i0)) ,i0=1,dv)
+C            status = fvLUinv(C5, Ghl(1,1,it),5)
+C           write(plun,'(1x,a,5(g10.3,a,g10.3))')"h ",(hl(i0,it),' +/-',
+C    1       sqrt(C5(i0,i0)) ,i0=1,dh)
+C            write(plun,'(1x,a,3(g10.3,a,g10.3))')"v ",(v(i0),' +/-',
+C    1       sqrt(C(i0,i0)) ,i0=1,dv)
+C           write(plun,'(1x,a,3(g10.3,a,g10.3))')"q ",(ql(i0,it),' +/-',
+C    1       sqrt(Cql(i0,i0,it)) ,i0=1,dv)
+C         end if
 C -- use v and Gv as input vertex v0, Gv0 for next track
           call fvCopy(v0,v,dv,1)
           call fvCopy(Gv0,Gv,dv,dv)
@@ -141,8 +141,7 @@ C -- use v and Gv as input vertex v0, Gv0 for next track
       end do
 
 CLATB print out filter end result
-
-      write(plun,'(1x,a)')'-----------end Filter, start Smoother-------'
+C     write(plun,'(1x,a)')'-----------end Filter, start Smoother-------'
 
 
 C
@@ -736,9 +735,10 @@ C -- and do it again
         iter = iter+1
 C -- print out chi2 for each iteration
         if (print) then
-          write(plun,'(1x,a,i5,a,g10.3)') 
-     1      'Filter iteration ', iter, 
-     1      ' yields chi2 ', chi2
+          write(plun,'(1x,a,i5,a,g10.3,a,3(a,g10.3,a,g10.3))')
+     1      'Filter iteration ', iter,
+     1      ' yields chi2 ', chi2,
+     1      ' at x,y,z',(', ',v(i0),'+/-',sqrt(C(i0,i0)),i0=1,3)
         end if
       if (iter .LT. maxFIter .AND.
      1    abs(chi2Old-chi2) .GT. chi2Cut) goto 1
@@ -1230,17 +1230,17 @@ CCC      call fvsATBA(chi2ar, temp51,Gh,dh,1)
       chi2 = chi2ar(1,1)
 
 CLATB print A B h0 W GB dm C D E
-      write(plun,'(1x,a,3(g10.3))') "v",v
-      write(plun,'(1x,a,3(g10.3))') "C",C
-      write(plun,'(1x,a,5(g10.3))') "A ",A
-      write(plun,'(1x,a,5(g10.3))') "B ",B
-      write(plun,'(1x,a,5(g10.3))') "h0 ",h0
-      write(plun,'(1x,a,3(g10.3))') "W ",W
-      write(plun,'(1x,a,5(g10.3))') "dm ",dm
-      write(plun,'(1x,a,3(g10.3))') "E ",E
-      write(plun,'(1x,a,3(g10.3))') "q ",q
-      write(plun,'(1x,a,3(g10.3))') "D ",D
-      write(plun,'(1x,a,3(g10.3))') "chi2",chi2
+C     write(plun,'(1x,a,3(g10.3))') "v",v
+C     write(plun,'(1x,a,3(g10.3))') "C",C
+C     write(plun,'(1x,a,5(g10.3))') "A ",A
+C     write(plun,'(1x,a,5(g10.3))') "B ",B
+C     write(plun,'(1x,a,5(g10.3))') "h0 ",h0
+C     write(plun,'(1x,a,3(g10.3))') "W ",W
+C     write(plun,'(1x,a,5(g10.3))') "dm ",dm
+C     write(plun,'(1x,a,3(g10.3))') "E ",E
+C     write(plun,'(1x,a,3(g10.3))') "q ",q
+C     write(plun,'(1x,a,3(g10.3))') "D ",D
+C     write(plun,'(1x,a,3(g10.3))') "chi2",chi2
       return
       end
       integer function fvRetlif(vp, Cp, Gvp, chi2, 
@@ -1786,10 +1786,6 @@ C -- ?????? check this out
         h(5) = z
       end if
 
-      write(plun,'(1x,a,5(g10.3))') "fvh",h
-      write(plun,'(1x,a,3(g10.3))') "v",v
-      write(plun,'(1x,a,3(g10.3))') "q",q
-      write(plun,'(1x,a,g10.3)') "gamma",gamma
       return
       end
       integer function fvCh(Ch, v,q,C,D,E)

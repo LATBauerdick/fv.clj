@@ -6,6 +6,6 @@
 
 (defn -main
   [& args]
-  (doFit))
+  (doFitTests))
 
 

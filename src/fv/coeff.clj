@@ -2,6 +2,9 @@
   (:require [clojure.core.matrix :refer :all]))
 
 (def τ 6.28318530718)
+(def w2ptDefault 4.5451703E-03)
+(def mπ  0.1395675e0)
+
 (defn fvHelix2P4
   "
  -- calculate track momentum 4-vector and 4x4 error matrix
@@ -9,7 +12,7 @@
  -- use w2pt for calculating pt from curvature w
  -- calculate energy assuming mass m
   "
-  [h Ch m w2pt]
+  [h Ch m & {:keys [w2pt] :or {w2pt w2ptDefault}}]
   (let [
         [w tl psi0 _ _]  (vec h)
         sph   (Math/sin psi0)
@@ -73,7 +76,7 @@
  -- from helix 3-vector q = [w tl psi0] and covariance matrix Q
  -- use w2pt for calculating pt from curvature w
   "
-  [q Q w2pt]
+  [q Q & {:keys [w2pt] :or {w2pt w2ptDefault}}]
   (let [
         [w tl psi0]  (vec q)
         sph   (Math/sin psi0)
@@ -109,6 +112,70 @@
         Cp     (matrix [[sxx sxy sxz] [sxy syy syz] [sxz syz szz]])
         ] [p Cp]))
 
+(defn fvQ2P4
+  "
+ -- calculate track momentum 4-vector and its error matrix
+ -- from helix 3-vector q = [w tl psi0] and covariance matrix Q
+ -- use w2pt for calculating pt from curvature w
+  "
+  [q Q & {:keys [w2pt m] :or {w2pt w2ptDefault m mπ}}]
+  (let [
+        [w tl psi0]  (vec q)
+        sph   (Math/sin psi0)
+        cph   (Math/cos psi0)
+        pt    (/ w2pt (Math/abs w))
+        px    (* pt cph)
+        py    (* pt sph)
+        pz    (* pt tl)
+        E     (Math/sqrt (+ (* m m) (* px px) (* py py) (* pz pz)))
+         ps    (/ w2pt w)
+        dpdk  (/ (* ps ps) w2pt)
+        xy    (* 2.0 ps dpdk cph sph (mget Q 0 2))
+        sxx   (+ (* dpdk dpdk cph cph (mget Q 0 0))
+                 (* ps ps sph sph (mget Q 2 2))
+                 xy)
+        sxy   (+ (* cph sph (- (* dpdk dpdk (mget Q 0 0))
+                               (* ps ps (mget Q 2 2))))
+                 (* ps dpdk (- (* sph sph) (* cph cph)) (mget Q 0 2)))
+        syy   (+ (* dpdk dpdk sph sph (mget Q 0 0))
+                 (* ps ps cph cph (mget Q 2 2))
+                 (- xy))
+        sxz   (- (* dpdk dpdk cph tl (mget Q 0 0))
+                 (* ps dpdk (- (* cph (mget Q 0 1))
+                               (* sph tl (mget Q 0 2))))
+                 (* ps ps sph (mget Q 1 2)))
+        syz    (+ (* dpdk dpdk sph tl (mget Q 0 0))
+                  (- (* ps dpdk (+ (* sph (mget Q 0 1))
+                                   (* cph tl (mget Q 0 2)))))
+                  (* ps ps cph (mget Q 1 2)))
+        szz    (+  (* dpdk dpdk tl tl (mget Q 0 0))
+                  (* ps ps (mget Q 1 1))
+                  (- (* 2.0 ps dpdk tl (mget Q 0 1))))
+        sxe   (/ (+ (* px sxx)
+                    (* py sxy)
+                    (* pz sxz))
+                 E)
+        sye   (/ (+ (* px sxy)
+                    (* py syy)
+                    (* pz syz))
+                 E)
+        sze   (/ (+ (* px sxz)
+                    (* py syz)
+                    (* pz szz))
+                 E)
+        see   (/ (+ (* px px sxx)
+                    (* py py syy)
+                    (* pz pz szz)
+                    (* 2.0 (+ (* px py sxy)
+                              (* px pz sxz)
+                              (* py pz syz))))
+                 (* E E))
+
+
+        p     (array [px py pz E])
+        Cp    (matrix [[sxx sxy sxz sxe] [sxy syy syz sye] [sxz syz szz sze]
+                       [sxe sye sze see]])
+        ] [p Cp]))
 (defn fvq
   "
    -- calculate 3-vector q at a vetex position v (currently not used)
@@ -155,7 +222,7 @@
                          (-  z  (* (/ gamma w) tl))
                          ]))
                (array [w, tl, psi, (* r sxi), z])) ;;?? check this out
-        printxxx   (do (println h) (println v) (println q) (println "w-->" w (zero? w)) (println "tl-->" tl))
+        printxxx   '(do (println h) (println v) (println q) (println "w-->" w (zero? w)) (println "tl-->" tl))
         ] h))
 (defn fvCh
   " calculate and return helix paramters cov. matrix Ch"
@@ -166,7 +233,10 @@
 (defn fvABh0
   "
 --
--- calculate coefficients of taylor expansion for estimated
+-- calculate coefficients for measurement equation, A, B, and h0
+-- at vertex position v and 3-momentum q
+--
+-- A and B are matrixes of coefficients of a taylor expansion for the estimated
 -- track parameters p around point (v0,q0):
 --
 --   p    =    h(v,q) + eps

@@ -4,7 +4,19 @@
 
 (set-current-implementation :vectorz)
 
+;; a record if Helices contains a vertex, a 1x3 matrix of coord x,y,z
+;;  and a list of helices, 1x5 helices of helix params w, tl, psi0, d0, z0
+;; together with the corresponding covariance matrices
+(defrecord Helices [v0 V0 hl Hl])
+
+;; a record of a n-prong tuple of a vertex, a 1x3 matrix of coords x,y,z
+;; and a list of momentum vectors in w, tl, psi at that vertex
+;; together with the corresponding covariance matrices
+;; and a the chi2 values for those momenta fitting the vertex
+(defrecord Prong [v V ql Ql chi2l])
+
 (def fvLog true)
+(def never false)
 
 (defn fvPMerr "pretty-print vector and error" [s p P]
   (let [e    (-> P diagonal sqrt )]
@@ -54,7 +66,8 @@
             ;; -- W = (B^T.G.B)^(-1)
             W            (fvInverse (fvsATBA B G))
             ;; -- GB = G - G.B.W.B^T.G^T
-            GB           (fvAMB G (fvsABAT G (fvsABAT B W)));; or (G.B)W (G.B)T (fvABAT (fvAB G B) W)
+;;            GB           (fvAMB G (fvsABAT G (fvsABAT B W)))
+            GB           (fvAMB G (fvsABAT (fvAB G B) W))
             ;; -- C = U^-1 = (U0 + A^T.GB.A)^-1
             U            (fvAPB U0 (fvsATBA A GB))
             C            (fvInverse U)   ;; check for editing of singular values?
@@ -73,14 +86,11 @@
             ;; -- chi2 - (dm - B.q)T.G. (dm - B.q) + (v - v0)T.U0. (v-v0)
             𝜒2    (+ (scalar  (fvsATBA  (fvAMB  dm  (fvAB  B  q))  G))
                      (scalar  (fvsATBA  (fvAMB  v  v0)  U0)))
-            printxx      '(do (println "------------------------------------fvFilterer-----------------------")
-                             (print "v0-->") (pm v0) (print "U0-->") (pm U0)
-                             (pm A) (pm B) (pm h0) (pm W) (pm GB) (pm dm) (pm D) (pm E)
-                             (print "v-->") (pm v) (print "C-->") (pm C) (print "chi2-->" 𝜒2 )
-                             )
             ]
-        (print ".") ;; progress bar
-        (when fvLog (println "Filter iteration " iter "yields chi2 "𝜒2 ))
+        (when-not fvLog (print ".")) ;; progress bar
+        (when fvLog
+          (print "Filter iteration " iter "yields chi2 " (format "%9.3g" 𝜒2))
+          (fvPMerr " at x,y,z," v C))
         (if-not (goodEnough? 𝜒20 𝜒2)
           (do
             (let [ [A1 B1 h01]     (fvABh0 v (fvq h v))] ;; recalc derivs at v
@@ -114,12 +124,6 @@
 ;;          Gh   (fvInverse Ch)
           Gh   G  ;; using simpler method for the moment
           𝜒2   (scalar (fvsATBA (fvAMB h (fvh v q)) Gh))
-
-          printxx      '(do 
-                        (print "v-->") (pm v) (print "U-->") (pm U) (print "C (V)-->") (pm C)
-                        (print "A-->") (pm A) (print "B-->") (pm B) (print "h0-->") (pm h0) (print "W-->") (pm W) (print "dm-->") (pm dm) (print "E-->") (pm E)
-                        (print "q-->") (pm q) (print "Q (D)-->") (pm D) (print "chi2-->" 𝜒2 )
-                             )
           ]
           [ q D 𝜒2]))
 
@@ -133,12 +137,12 @@
   (loop
     [v0 v0, U0 U0, hl hl, Hl Hl, ql [], Ql [], ih 0]
     (if (empty? hl)
-      (do (println) [v0 U0 ql Ql])   ;; return list of q vectors and final v
+      (do [v0 U0 ql Ql])   ;; return list of q vectors and final v
       (let [h (first hl) H (first Hl)
             [v U q Q 𝜒2] (ƒ v0 U0 h H)
             ]
-        (print (str "h" ih))
-        (when fvLog
+        (when-not fvLog (print (str "h" ih)))
+        (when never
           (println "Filter for track " ih " -------------------------"
                    ", final chi2 " (format "%9.3g" 𝜒2))
           (fvPMerr "v0" v0 (fvInverse U0))
@@ -157,12 +161,13 @@
             [q Q 𝜒2] (ƒ v U h0 H0)
             ]
         (when fvLog
-          (println "---------fvSmoother for track" ih
-                   "----𝜒2 " (format "%9.3g" 𝜒2)"----------------")
-          (fvPMerr "q" q Q))
+          (println "Smoother for track" ih
+                   ", 𝜒2 " (format "%9.3g" 𝜒2))
+          '(fvPMerr "h" h0 H0)
+          '(fvPMerr "q" q Q)
+          )
         (recur (next hl) (next Hl)
                (conj ql q) (conj Ql Q) (conj 𝜒2l 𝜒2) (inc ih))))))
-
 
 (defn fvFit
   "
@@ -189,7 +194,6 @@
  --     ql({1..3}, tList(i))   <- q({w,tl,psi})
  --     Cql({1..3},{1..3},tList(i)) <- covariance matrix of q
  --     chi2l(tList(i))        <- chi2 for this track belonging to v
- --     chi2t                  <- total chi2 for the vertex fit
 
  -- Notation for helix paramter 5-vector h
  -- w:  omega, 1/R curvature >0 if helix turns anti-clockwise
@@ -200,22 +204,90 @@
  --       sign convention of angular momentum Lz
  -- z0:   z coordinate of point of closest approach of helix to origin
   "
-  [v0 V0 hl Hl]
+  [hel]
   (let [
-        U0           (fvInverse V0)
-        [vv UU _ _]    (fvFilter fvFilterer v0 U0 hl Hl)
-        v  (array [ 0.954     0.994      3.55])
-        U (fvInverse (matrix [[0.469E-01 0.504E-01 0.826E-01]
-                              [0.504E-01 0.542E-01 0.888E-01]
-                              [0.826E-01 0.888E-01 0.150]]))
-        [ql Ql 𝜒2l]  (fvSmooth fvSmoother v U hl Hl)
+        U0           (fvInverse (:V0 hel))
+        [v U _ _]    (fvFilter fvFilterer (:v0 hel) U0 (:hl hel) (:Hl hel))
+;;        v  (array [ 0.954     0.994      3.55])
+;;        U (fvInverse (matrix [[0.469E-01 0.504E-01 0.826E-01]
+;;                              [0.504E-01 0.542E-01 0.888E-01]
+;;                              [0.826E-01 0.888E-01 0.150]]))
         V            (fvInverse U)
-        𝜒2  (reduce + 𝜒2l) ;;LATB not sure about that...
+        [ql Ql 𝜒2l]  (fvSmooth fvSmoother v U (:hl hel) (:Hl hel))
       ]
-      [v V ql Ql 𝜒2l 𝜒2]
-   ))
+      (->Prong v V ql Ql 𝜒2l)))
 
+(defn fvRetlif [v V q h H]
+  (let [
+        U  (fvInverse V)
+        G  (fvInverse H)
+        [A B h0]     (fvABh0 v q)
+ ;; -- W = (B^T.G.B)^(-1)
+        W     (fvInverse (fvsATBA B G))
+ ;; -- GB = G - G.B.W.B^T.G^T
+        GB    (fvAMB G (fvsABAT (fvAB G B) W))
+ ;; -- Gvp = U - A^T.GB.A
+        Gvp    (fvAMB U (fvsATBA A GB))
+ ;; -- Cp = Gvp^(-1)
+        Cp     (fvInverse Gvp)
+ ;; -- m = p0 - h0
+        m   (fvAMB h h0)
+ ;; -- vp = Cp.(U.v - A^T.GB.(p0-h0))
+        vp  (fvAB Cp (fvAMB (fvAB U v) (fvATBC A GB m)))
+ ;; -- Fruehwirth CERN 90-06 says:
+ ;;-- distance of track from the new vertex is expressed by the chi-square
+ ;; -- of the smoothed residuals
+ ;; -- chi2 = (p0-h0-A.v-B.q)^T.G.(p0-h0-A.v-B.q) + (v-vp)^T.Gvp.(v-vp)
+        chi2 (+ (scalar (fvsATBA (fvAMB (fvAMB m (fvAB  A v)) (fvAB B q)) G))
+                (scalar (fvsATBA (fvAMB v vp) Gvp)))
 
+        ][chi2])  )
 
-;;(defrecord fvrec [v Cv 𝜒2v qs Cqs 𝜒2qs])
-;;(->fvrec  tCx tnt (vec th) (vec tCh) tw2pt); add to rec
+(defn fvRemove [prong hel]
+  (let [
+        chi2l (map #(fvRetlif (:v prong) (:V prong) %1 %2 %3)
+                   (:ql prong) (:hl hel) (:Hl hel))
+        ]
+    (println chi2l)
+    prong))
+
+(defn mass [pP]
+  (let [
+        p (pP 0)
+        P (pP 1)
+        m (sqrt (- (* (mget p 3) (mget p 3))
+                   (* (mget p 0) (mget p 0))
+                   (* (mget p 1) (mget p 1))
+                   (* (mget p 2) (mget p 2))))
+        sigm (fvsATBA p P)
+     ; sigm = 
+     ; 1      pi(1)*Cpi(1, 1)*pi(1) + 
+     ; 1	    pi(2)*Cpi(2, 2)*pi(2) + 
+     ; 1	    pi(3)*Cpi(3, 3)*pi(3) + 
+     ; 1	    pi(4)*Cpi(4, 4)*pi(4) +
+     ; 1	    2.*(pi(1)*(Cpi(1, 2)*pi(2) + 
+     ; 1            Cpi(1, 3)*pi(3) - 
+     ; 1            Cpi(1, 4)*pi(4)) +
+     ; 1          pi(2)*(Cpi(2, 3)*pi(3) - 
+     ; 1            Cpi(2, 4)*pi(4)) -
+     ; 1	        pi(3)*Cpi(3, 4)*pi(4))
+     ; sigm = sqrt(sigmi)/mi
+        ] [ m (/ (sqrt sigm) m) ]))
+
+(defn- addp [aA pP]
+  (let [
+        a  (aA 0)
+        p  (pP 0)
+        px (+ (mget a 0) (mget p 0))
+        py (+ (mget a 1) (mget p 1))
+        pz (+ (mget a 2) (mget p 2))
+        e  (+ (mget a 3) (mget p 3))
+        A  (fvAPB (aA 1) (pP 1))  ;; sum up the covariance matrices
+        ]
+     [ [px py pz e] A]))
+(defn invMass [prong]
+  (let [
+        pl (map fvQ2P4 (:ql prong) (:Ql prong))
+        ptot  (reduce addp pl)
+        ]
+    (mass ptot) ))
