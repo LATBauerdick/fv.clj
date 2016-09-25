@@ -18,7 +18,6 @@
 (def thisFile "dat/tr05129e001412.dat")
 (def otherFile "dat/tr05158e004656.dat")
 (def thirdFile "dat/tr05166e001984.dat")
-(def tList [1 6 2 3 4 5])
 
 (defrecord fvtData [tx tCx tnt th tCh tw2pt])
 
@@ -69,20 +68,40 @@
 (defn getHelices [fn]
   (let [
         fvtd  (fvtread fn)
-        v0 (:tx fvtd)
-        Cv0 (let [Cv00 (emap #(* 10000.0 %) (:tCx fvtd))]
-              (array [[(mget Cv00 0 0) 0 0]
-                      [0 (mget Cv00 1 1) 0]
-                      [0 0 (mget Cv00 2 2)]]))
-        w2pt (:tw2pt fvtd) ;; we don't do anything with this, but just use the default
-        hl (let [tl tList]
-             (vec (map first (sort-by second (map vector (:th fvtd) tl)))))
-        Chl (let [tl tList]
-              (vec (map first (sort-by second (map vector (:tCh fvtd) tl)))))
+        v0    (:tx fvtd)
+        Cv0   (let [Cv00 (emap #(* 10000.0 %) (:tCx fvtd))]
+                (array [[(mget Cv00 0 0) 0 0]
+                        [0 (mget Cv00 1 1) 0]
+                        [0 0 (mget Cv00 2 2)]]))
+        w2pt  (:tw2pt fvtd) ;; we don't do anything with this, but just use the default
+        hl    (:th fvtd)
+        Chl   (:tCh fvtd)
         ] (->Helices v0 Cv0 hl Chl)))
 
 (def theseHelices (getHelices thisFile))
 (def otherHelices (getHelices otherFile))
+
+(defn hList
+  "
+  -- return the Helices with just the tracks list in rng
+  "
+  [hel rng]
+  (let [
+        h#l (range 0 (count (:hl hel)))
+        hl (map last (filter #(some #{(first %)}  rng)  (map vector  h#l  (:hl hel))))
+        Hl (map last (filter #(some #{(first %)}  rng)  (map vector  h#l  (:Hl hel))))
+        ] (->Helices (:v0 hel) (:V0 hel) hl Hl)))
+
+(defn pList
+  "
+  -- return the prong with just the tracks list in rng
+  "
+  [pr rng]
+  (let [
+        t#l (:t#l pr)
+        qQl (map last (filter #(some #{(first %)}  rng)  (map vector  (:t#l pr)  (:qQl pr))))
+        chi2l (map last (filter #(some #{(first %)}  rng)  (map vector  (:t#l pr)  (:chi2l pr))))
+        ] (->Prong (:v pr) (:V pr) qQl chi2l rng)))
 
 (defn printHeader [helices]
   (println "--------- input to vertext fit -------------------------")
@@ -93,39 +112,41 @@
   (let [
         v (:v prong)
         Cv (:V prong)
-        ql (:ql prong)
-        Cql (:Ql prong)
+        qQl (:qQl prong)
         chi2l (:chi2l prong)
+        t#l (:t#l prong)
         ]
     (println "--------- doFit result --------------------------------")
     (println "vertex fit converged, 𝜒2:" (format  "%9.3g" (reduce + chi2l)))
     (fvPMerr "v [x y z]=" v Cv)
     (println "--------- list of fitted q vectors---------------------")
-    (doseq [[[ih h] H q Q chi2q] (map vector (indexed hl) Chl ql Cql chi2l) ]
-      (println "chi2=" (format  "%9.3g" chi2q)  "prob" )
+    (doseq [[h H qQ chi2 t#] (map vector hl Chl qQl chi2l t#l) ]
+      (println "chi2=" (format  "%9.3g" chi2)  "prob" )
       (fvPMerr "Helix params=" h H)
-      (fvPMerr "q-vec params=" q Q)
-      (println "track#" ih  ", 𝜒2: " (format  "%9.3g" chi2q) ": ")
+      (fvPMerr "q-vec params=" (:q qQ) (:Q qQ))
+      (println "track#" t#  ", 𝜒2: " (format  "%9.3g" chi2) ": ")
       (let [ [p P] (fvHelix2P4 h H mπ)]
         (fvPMerr "Helix [px py pz E]=" p P))
-      (let [ [p P] (fvQ2P3 q Q)]
+      (let [ [p P] (fvQ2P3 qQ)]
         (fvPMerr "Fit q [px py pz]  =" p P)))))
 
-(defn doFitTest [hel]
+(defn doFitTest [hel & {:keys [l5] :or {l5 (range 0 5)}}]
   (printHeader hel)
   (let [
         hl  (:hl hel)
         Hl  (:Hl hel)
         pr  (fvFit hel)
-        p5  (->Prong (:v pr) (:V pr) (drop-last (:ql pr)) (drop-last (:Ql pr)) (drop-last (:chi2l pr)))
+        ;; should rather re-fit with only first 5 helices, then calc inv mass
         ]
     (fvRemove pr hel)
-    (println "Inv Mass " (invMass p5))
+    (println "Inv Mass 6" (invMass pr))
+    (println "Inv Mass 5" (invMass (pList pr l5)))
+    (println "Inv Mass ref" (invMass (fvFit (hList hel l5))))
     (printResults pr hl Hl )))
 
 (defn doFitTests [] (do
-                  (doFitTest theseHelices); so I can call it from fireplace
-                  (doFitTest otherHelices)
+                  (doFitTest theseHelices :l5 [0 2 3 4 5]); so I can call it from fireplace
+                  (doFitTest otherHelices :l5 [0 1 2 4 5])
                   (println "----------------------------------------")
                   (println theseFiles)
                   (println "----------------------------------------")

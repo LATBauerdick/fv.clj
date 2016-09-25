@@ -5,17 +5,22 @@
 (set-current-implementation :vectorz)
 
 ;; a record if Helices contains a vertex, a 1x3 matrix of coord x,y,z
-;;  and a list of helices, 1x5 helices of helix params w, tl, psi0, d0, z0
-;; together with the corresponding covariance matrices
+;;  and a list of tracks hl, 1x5 helices of helix params w, tl, psi0, d0, z0
+;; together with the corresponding list of covariance matrices Hl
 (defrecord Helices [v0 V0 hl Hl])
+;; a Track has a helix h and its cov matrix H
+(defrecord Track [h H])
 
-;; a record of a n-prong tuple of a vertex, a 1x3 matrix of coords x,y,z
-;; and a list of momentum vectors in w, tl, psi at that vertex
-;; together with the corresponding covariance matrices
-;; and a the chi2 values for those momenta fitting the vertex
-(defrecord Prong [v V ql Ql chi2l])
+;; A Prong record contains info about a n-prong tuple of 
+;; a vertex v, a 1x3 matrix of coords x,y,z with its cov matrix V
+;; a list of momentum vectors qQl coming from this vertex,
+;; and a list of chi2 values chi2l for those momenta fitting the vertex
+(defrecord Prong [v V qQl chi2l t#l])
+;; A Momentum record has a 3-vector q given in [w, tl, psi]
+;; together with the corresponding 3x3 covariance matrix Q
+(defrecord Momentum [q Q])
 
-(def fvLog true)
+(def fvLog false)
 (def never false)
 
 (defn fvPMerr "pretty-print vector and error" [s p P]
@@ -137,7 +142,8 @@
   (loop
     [v0 v0, U0 U0, hl hl, Hl Hl, ql [], Ql [], ih 0]
     (if (empty? hl)
-      (do [v0 U0 ql Ql])   ;; return list of q vectors and final v
+      (do (when-not fvLog (println))
+          [v0 U0 ql Ql])   ;; return list of q vectors and final v
       (let [h (first hl) H (first Hl)
             [v U q Q 𝜒2] (ƒ v0 U0 h H)
             ]
@@ -154,11 +160,12 @@
 
 (defn fvSmooth [ƒ v U hl Hl]
   (loop
-    [hl hl, Hl Hl, ql [], Ql [], 𝜒2l [], ih 0]
+    [hl hl, Hl Hl, qQl [], ql [], Ql [], 𝜒2l [], ih 0]
     (if (empty? hl)
-      [ql Ql 𝜒2l]   ;; return list of q vectors and 𝜒2
+      [qQl ql Ql 𝜒2l]   ;; return list of q vectors and 𝜒2
       (let [h0 (first hl) H0 (first Hl)
-            [q Q 𝜒2] (ƒ v U h0 H0)
+            qQ        (ƒ v U h0 H0)
+            [q Q 𝜒2]  qQ
             ]
         (when fvLog
           (println "Smoother for track" ih
@@ -166,7 +173,7 @@
           '(fvPMerr "h" h0 H0)
           '(fvPMerr "q" q Q)
           )
-        (recur (next hl) (next Hl)
+        (recur (next hl) (next Hl) (conj qQl (->Momentum q Q))
                (conj ql q) (conj Ql Q) (conj 𝜒2l 𝜒2) (inc ih))))))
 
 (defn fvFit
@@ -213,9 +220,9 @@
 ;;                              [0.504E-01 0.542E-01 0.888E-01]
 ;;                              [0.826E-01 0.888E-01 0.150]]))
         V            (fvInverse U)
-        [ql Ql 𝜒2l]  (fvSmooth fvSmoother v U (:hl hel) (:Hl hel))
+        [qQl ql Ql 𝜒2l]  (fvSmooth fvSmoother v U (:hl hel) (:Hl hel))
       ]
-      (->Prong v V ql Ql 𝜒2l)))
+      (->Prong v V qQl 𝜒2l (range 0 (count 𝜒2l)))))
 
 (defn fvRetlif [v V q h H]
   (let [
@@ -241,37 +248,35 @@
         chi2 (+ (scalar (fvsATBA (fvAMB (fvAMB m (fvAB  A v)) (fvAB B q)) G))
                 (scalar (fvsATBA (fvAMB v vp) Gvp)))
 
-        ][chi2])  )
+        ]chi2)  )
 
 (defn fvRemove [prong hel]
+  ;; currently just calculates chi2s and prints them
   (let [
-        chi2l (map #(fvRetlif (:v prong) (:V prong) %1 %2 %3)
-                   (:ql prong) (:hl hel) (:Hl hel))
+        chi2l (map #(fvRetlif (:v prong) (:V prong) (:q %1) %2 %3)
+                   (:qQl prong) (:hl hel) (:Hl hel))
         ]
-    (println chi2l)
+    (print "fvRemove: list of chi2s")
+    (doall (map #(print (format "%9.3g" %)) chi2l))
+    (println)
     prong))
 
 (defn mass [pP]
   (let [
-        p (pP 0)
-        P (pP 1)
-        m (sqrt (- (* (mget p 3) (mget p 3))
-                   (* (mget p 0) (mget p 0))
-                   (* (mget p 1) (mget p 1))
-                   (* (mget p 2) (mget p 2))))
-        sigm (fvsATBA p P)
-     ; sigm = 
-     ; 1      pi(1)*Cpi(1, 1)*pi(1) + 
-     ; 1	    pi(2)*Cpi(2, 2)*pi(2) + 
-     ; 1	    pi(3)*Cpi(3, 3)*pi(3) + 
-     ; 1	    pi(4)*Cpi(4, 4)*pi(4) +
-     ; 1	    2.*(pi(1)*(Cpi(1, 2)*pi(2) + 
-     ; 1            Cpi(1, 3)*pi(3) - 
-     ; 1            Cpi(1, 4)*pi(4)) +
-     ; 1          pi(2)*(Cpi(2, 3)*pi(3) - 
-     ; 1            Cpi(2, 4)*pi(4)) -
-     ; 1	        pi(3)*Cpi(3, 4)*pi(4))
-     ; sigm = sqrt(sigmi)/mi
+        sqr           (fn [x] (* x x))
+        [px py pz e]  (vec (pP 0))
+        P             (pP 1)
+        m (sqrt (- (sqr e) (sqr px) (sqr py) (sqr pz)))
+        sigm   (+ (* px px (mget P 0 0))
+                  (* py py (mget P 1 1))
+                  (* pz pz (mget P 2 2))
+                  (* e e (mget P 3 3))
+                  (* 2.0 (+ (* px (+ (* py (mget P 0 1))
+                                     (* pz (mget P 0 2))
+                                     (- (* e (mget P 0 3)))))
+                            (* py (- (* pz (mget P 1 2))
+                                     (* e (mget P 1 3))))
+                            (- (* pz (mget P 2 3) e)))))
         ] [ m (/ (sqrt sigm) m) ]))
 
 (defn- addp [aA pP]
@@ -287,7 +292,8 @@
      [ [px py pz e] A]))
 (defn invMass [prong]
   (let [
-        pl (map fvQ2P4 (:ql prong) (:Ql prong))
+        pl (map fvQ2P4 (:qQl prong))
+        printtt '(println pl)
         ptot  (reduce addp pl)
         ]
     (mass ptot) ))

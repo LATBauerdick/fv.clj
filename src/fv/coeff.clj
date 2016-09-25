@@ -76,9 +76,10 @@
  -- from helix 3-vector q = [w tl psi0] and covariance matrix Q
  -- use w2pt for calculating pt from curvature w
   "
-  [q Q & {:keys [w2pt] :or {w2pt w2ptDefault}}]
+  [qQ & {:keys [w2pt] :or {w2pt w2ptDefault}}]
   (let [
-        [w tl psi0]  (vec q)
+        [w tl psi0]  (vec (:q qQ))
+        Q     (:Q qQ)
         sph   (Math/sin psi0)
         cph   (Math/cos psi0)
         pt    (/ w2pt (Math/abs w))
@@ -118,9 +119,11 @@
  -- from helix 3-vector q = [w tl psi0] and covariance matrix Q
  -- use w2pt for calculating pt from curvature w
   "
-  [q Q & {:keys [w2pt m] :or {w2pt w2ptDefault m mπ}}]
+  [qQ & {:keys [w2pt m] :or {w2pt w2ptDefault m mπ}}]
   (let [
-        [w tl psi0]  (vec q)
+        printtt '(do (println "------fvQ2P4") (println qQ) (println (:q qQ)))
+        [w tl psi0]  (vec (:q qQ))
+        Q     (:Q qQ)
         sph   (Math/sin psi0)
         cph   (Math/cos psi0)
         pt    (/ w2pt (Math/abs w))
@@ -173,9 +176,9 @@
 
 
         p     (array [px py pz E])
-        Cp    (matrix [[sxx sxy sxz sxe] [sxy syy syz sye] [sxz syz szz sze]
+        P     (matrix [[sxx sxy sxz sxe] [sxy syy syz sye] [sxz syz szz sze]
                        [sxe sye sze see]])
-        ] [p Cp]))
+        ] [p P]))
 (defn fvq
   "
    -- calculate 3-vector q at a vetex position v (currently not used)
