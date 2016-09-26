@@ -125,24 +125,56 @@
       (fvPMerr "Helix params=" h H)
       (fvPMerr "q-vec params=" (:q qQ) (:Q qQ))
       (println "track#" t#  ", 𝜒2: " (format  "%9.3g" chi2) ": ")
-      (let [ [p P] (fvHelix2P4 h H mπ)]
+      (let [ [p P] (fvH2P4 h H :m mπ)]
         (fvPMerr "Helix [px py pz E]=" p P))
       (let [ [p P] (fvQ2P3 qQ)]
         (fvPMerr "Fit q [px py pz]  =" p P)))))
 
-(defn doFitTest [hel & {:keys [l5] :or {l5 (range 0 5)}}]
+(defn doFitTest
+  "
+  -- do a series of test fits on helices hel, with optional 5-prong list l5
+  -- fit and print inv mass for different configurations:
+  -- mass of all helices, mass fitted, same with 5 prong, refitted 5 prong
+  "
+  [hel & {:keys [l5] :or {l5 (range 0 5)}}]
+
   (printHeader hel)
-  (let [
-        hl  (:hl hel)
-        Hl  (:Hl hel)
-        pr  (fvFit hel)
-        ;; should rather re-fit with only first 5 helices, then calc inv mass
-        ]
-    (fvRemove pr hel)
-    (println "Inv Mass 6" (invMass pr))
-    (println "Inv Mass 5" (invMass (pList pr l5)))
-    (println "Inv Mass ref" (invMass (fvFit (hList hel l5))))
-    (printResults pr hl Hl )))
+  (let [ pr  (fvFit hel) ]
+    (fvRemove pr hel) ;; at the moment, just list contributing chi2 for each fitted helix
+    (let [ pl (map #(fvH2P4 %1 %2) (:hl hel) (:Hl hel)) ]
+      (->> pl
+           invMass
+           (apply format "%9.5g ±%9.3g GeV")
+           (println "Inv Mass 6 helix")))
+    (->> pr
+         :qQl
+         (map fvQ2P4)
+         invMass
+         (apply format "%9.5g ±%9.3g GeV")
+         (println "Inv Mass 6 fit  "))
+    (let [
+          hel5  (hList hel l5)
+          pl    (map #(fvH2P4 %1 %2) (:hl hel5) (:Hl hel5))
+          ]
+      (->> pl
+           invMass
+           (apply format "%9.5g ±%9.3g GeV")
+           (println "Inv Mass 5 helix")))
+    (->> (pList pr l5)
+         :qQl
+         (map fvQ2P4)
+         invMass
+         (apply format "%9.5g ±%9.3g GeV")
+         (println "Inv Mass 5 fit  "))
+    (->> (hList hel l5)
+         fvFit
+         :qQl
+         (map fvQ2P4)
+         invMass
+         (apply format "%9.5g ±%9.3g GeV")
+         (println "Inv Mass 5 refit"))
+    (let [ hl (:hl hel),  Hl (:Hl hel)]
+      (printResults pr hl Hl ))))
 
 (defn doFitTests [] (do
                   (doFitTest theseHelices :l5 [0 2 3 4 5]); so I can call it from fireplace

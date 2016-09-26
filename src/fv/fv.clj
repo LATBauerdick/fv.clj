@@ -290,10 +290,10 @@
         A  (fvAPB (aA 1) (pP 1))  ;; sum up the covariance matrices
         ]
      [ [px py pz e] A]))
-(defn invMass [prong]
+(defn invMass [pl]
   (let [
-        pl (map fvQ2P4 (:qQl prong))
-        printtt '(println pl)
+        ; pl (map fvQ2P4 (:qQl prong))
+        ; pl (map fvH2P4 (map vector (:hl hel) (:Hl hel))
         ptot  (reduce addp pl)
         ]
     (mass ptot) ))

@@ -5,14 +5,14 @@
 (def w2ptDefault 4.5451703E-03)
 (def mπ  0.1395675e0)
 
-(defn fvHelix2P4
+(defn fvH2P4
   "
  -- calculate track momentum 4-vector and 4x4 error matrix
  -- from helix parameters parameters h and Ch
  -- use w2pt for calculating pt from curvature w
  -- calculate energy assuming mass m
   "
-  [h Ch m & {:keys [w2pt] :or {w2pt w2ptDefault}}]
+  [h Ch & {:keys [w2pt m] :or {w2pt w2ptDefault, m mπ}}]
   (let [
         [w tl psi0 _ _]  (vec h)
         sph   (Math/sin psi0)
