@@ -65,7 +65,7 @@
 
        ] (->fvtData tx tCx tnt (vec th) (vec tCh) tw2pt)))
 
-(defn getHelices [fn]
+(defn hSlurp [fn]
   (let [
         fvtd  (fvtread fn)
         v0    (:tx fvtd)
@@ -77,13 +77,21 @@
         hl    (:th fvtd)
         Chl   (:tCh fvtd)
         ] (->Helices v0 Cv0 hl Chl)))
+(defn hInto [ hel0 hel1]
+  (let [
+        hl (into (:hl hel0) (:hl hel1))
+        Hl (into (:Hl hel0) (:Hl hel1))
+        ;; here we should find the average vertex position.... 
+        ;; instead we're using the one from hel0
+        ] (->Helices (:v0 hel0) (:V0 hel0) hl Hl)))
 
-(def theseHelices (getHelices thisFile))
-(def otherHelices (getHelices otherFile))
 
-(defn hList
+(def theseHelices (hSlurp thisFile))
+(def otherHelices (hSlurp otherFile))
+
+(defn hFilter
   "
-  -- return the Helices with just the tracks list in rng
+  -- return the Helices filtered with just the tracks that are in rng
   "
   [hel rng]
   (let [
@@ -92,9 +100,9 @@
         Hl (map last (filter #(some #{(first %)}  rng)  (map vector  h#l  (:Hl hel))))
         ] (->Helices (:v0 hel) (:V0 hel) hl Hl)))
 
-(defn pList
+(defn pFilter
   "
-  -- return the prong with just the tracks list in rng
+  -- return the Prong filtered with just the tracks that are in rng
   "
   [pr rng]
   (let [
@@ -153,20 +161,20 @@
          (apply format "%9.5g ±%9.3g GeV")
          (println "Inv Mass 6 fit  "))
     (let [
-          hel5  (hList hel l5)
+          hel5  (hFilter hel l5)
           pl    (map #(fvH2P4 %1 %2) (:hl hel5) (:Hl hel5))
           ]
       (->> pl
            invMass
            (apply format "%9.5g ±%9.3g GeV")
            (println "Inv Mass 5 helix")))
-    (->> (pList pr l5)
+    (->> (pFilter pr l5)
          :qQl
          (map fvQ2P4)
          invMass
          (apply format "%9.5g ±%9.3g GeV")
          (println "Inv Mass 5 fit  "))
-    (->> (hList hel l5)
+    (->> (hFilter hel l5)
          fvFit
          :qQl
          (map fvQ2P4)
@@ -176,10 +184,16 @@
     (let [ hl (:hl hel),  Hl (:Hl hel)]
       (printResults pr hl Hl ))))
 
+(def allHelices (reduce #(hInto %1 (hSlurp %2)) (hSlurp (first theseFiles))  (next theseFiles)))
+
 (defn doFitTests [] (do
                   (doFitTest theseHelices :l5 [0 2 3 4 5]); so I can call it from fireplace
                   (doFitTest otherHelices :l5 [0 1 2 4 5])
+                  (doFitTest (hInto theseHelices otherHelices) :l5 [0 2 3 4 5])
+                  (doFitTest (hInto (hInto theseHelices otherHelices) (hSlurp thirdFile)) :l5 [0 2 3 4 5])
+                  (doFitTest  allHelices :l5 [ 1 2 3 4 5 ])
+
                   (println "----------------------------------------")
                   (println theseFiles)
                   (println "----------------------------------------")
-                  (doall (take 10 (map #(doFitTest (getHelices %)) theseFiles)))))
+                  (doall (take 10 (map #(doFitTest (hSlurp %)) theseFiles)))))
