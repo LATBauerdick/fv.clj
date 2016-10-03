@@ -1,0 +1,1326 @@
+C----------------------------------------------------------------------
+C
+C FVT, test the FV package to fit vertices and find secondary vertices
+C
+C author: Lothar A.T. Bauerdick, CERN/PPE
+C date:   Jan. 1991
+C
+C ref.:   R. Fruehwirt, ``Applications of Filter Methods...''
+C         HEPHY-PUB 516/88, Vienna
+C
+C----------------------------------------------------------------------
+      program fvt
+      implicit none
+      include 'fvt.inc'
+      character*132 text
+
+      integer m5, m5mc, had, wu, mc
+      parameter (m5=1, m5mc=2, had=3, wu=4, mc=5)
+      integer do
+      
+      do = m5
+      fvtPrint = .true.
+      fvtPlun = 41
+
+      call fvSPrt(fvtPrint,fvtPlun)
+
+C -- default value for mag.field
+      tw2pt = 4.4968501d-03
+      
+      call errInit()
+      
+      if (fvtPrint) then
+      	open(fvtPlun, FILE='fvt.output', STATUS = 'UNKNOWN')
+      end if
+
+      if (do .eq. mc) then
+        call doMc
+      else if (do .eq. m5) then
+        call doM5
+      else if (do .eq. m5mc) then
+        call doM5mc
+      else if (do .eq. had) then
+        call doHad
+      else if (do .eq. wu) then
+        call doWu
+      else
+        call doOrs
+      end if
+
+      call errSumm()
+
+      stop
+      end
+      subroutine doMc
+C --------------------------------------------------------------------
+      implicit none
+      include 'fvt.inc'
+
+      integer NEVT, NTRK
+      parameter (NEVT=1,
+     1           NTRK=4)
+      integer runList(2,NEVT)
+      data runList / 
+     1  5166,000981
+     1/
+C -- tracks:
+C -- event: Z0 -> l0 l2
+C --              l0 -> l1 V+ V-
+C -- V+, V-, l1, l2
+      integer tList(NTRK,0:NEVT)
+      data tList /
+     1  1,2,3,4,    
+     1  4,3,2,1
+     1/
+      integer pList(NTRK,0:NEVT)
+C -- 1:electron, 2:muon, 3:tau, 4:pi
+      data pList /
+     1  4,4,4,4,    
+     1  2,2,4,2
+     1/
+      double precision mass(4)
+      data mass/
+     1  0.00051099906d0,
+     1  0.105658387d0,
+     1  1.7841d0,
+     1  0.1395675d0
+     1/
+
+C -- HBOOK related...
+      integer PAWLEN
+      parameter (PAWLEN = 100000)
+      integer nTuple
+      parameter (nTuple = 22)
+      real nt1(nTuple)
+      character*8 nTags(nTuple)
+      data nTags /
+     1  'undef',
+     1  'd0',
+     1  'sigd0',
+     1  'd',
+     1  'sigd',
+     1  'prd',
+     1  'm',
+     1  'sigm',
+     1  'vpx',    
+     1  'vpy',    
+     1  'vpz',    
+     1  'sigvpx',
+     1  'sigvpy',
+     1  'sigvpz',
+     1  'prp', 
+     1  'vsx',    
+     1  'vsy',    
+     1  'vsz',    
+     1  'sigvsx',
+     1  'sigvsy',
+     1  'sigvsz',
+     1  'prs'    
+     1/
+      integer HMEMOR(PAWLEN)
+      common /PAWC/ HMEMOR
+      external HBOOKN, HROPEN
+      integer LRECL, ISTAT,ICYCLE
+C -- end of HBOOK stuff
+
+      integer i, j, it, new, status
+      integer KRUN, KEVT
+
+      double precision h(5,MAXTR), ChLam(5,MAXTR), ChU(5,5,MAXTR)
+      
+      double precision p(3),Dp(3,3),Ep(3,3),v(3),Cv(3,3)
+      double precision vp(3),vs(3)
+      double precision chi2, pr
+      double precision tau, tauNom, m, sigM, ml(MAXTR),
+     1                 d0,sigd0,d,sigd,chi2d,prd,
+     1                 chi2p,prp
+      integer tpList(2)
+      data tauNom /1d0/
+
+      double precision ps(3),psAbs, p0(3),p1(3),q(3)
+
+      double precision bs(3), Cbs(3,3)
+      data Cbs/0.0016d0,0d0,0d0,
+     1     0d0,1.6d-5,0d0,
+     1     0d0,0d0,4
+     1/
+      integer imc, nmc
+      data nmc/1000/
+      
+      integer fvFitD
+      double precision fvProb
+      external fvFitD, fvProb
+      real RN32, RG32
+      external RN32, RG32
+
+C -- init HBOOK
+      call HLIMIT(PAWLEN)
+      LRECL=1024
+      call HROPEN(48, 'NT', 'mc-0.nt', 'N', LRECL, ISTAT)
+      call HBOOKN(1, 'mc', nTuple, 'NT', 1000, nTags)
+
+C -- init some variables
+
+C -- beam spot location
+      bs(1) = sqrt(Cbs(1,1))*RG32(bs(1))
+      bs(2) = sqrt(Cbs(2,2))*RG32(bs(2))
+      bs(3) = sqrt(Cbs(3,3))*RG32(bs(3))
+
+      do i = 1, NEVT
+        KRUN = runList(1,i)
+        KEVT = runList(2,i)
+        write(fvtPlun,'(1x,78(1H=))') 
+        write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1    'Run ', KRUN, ' Evt ', KEVT
+
+C -- get helix parameters of event
+        call fvtRead(KRUN,KEVT)
+
+C
+C --
+C -- setup MC truth input based on real event topology:
+C --
+C -- generate a primary vertex inside the beamspot
+        vp(1) = bs(1)+sqrt(Cbs(1,1))*RG32(vp(1))
+        vp(2) = bs(2)+sqrt(Cbs(2,2))*RG32(vp(2))
+        vp(3) = bs(3)+sqrt(Cbs(3,3))*RG32(vp(3))
+C -- move l+l- to primary vertex 
+        call fvZeroA(v,3,1)
+        do j = 3, 4
+          it = tList(j,i)
+          call fvq(q, v,th(1,it))
+          call fvh(th(1,it), vp,q)
+        end do
+
+C -- calculate secondary vertex in direction of flight of V+V-
+        call fvq(q, v,th(1,tList(1,i)))
+        call fvp3(p0, q,tw2pt)
+
+        call fvq(q, v,th(1,tList(2,i)))
+        call fvp3(p1, q,tw2pt)
+
+        ps(1) = p0(1)+p1(1)
+        ps(2) = p0(2)+p1(2)
+        ps(3) = p0(3)+p1(3)
+        psAbs = sqrt(ps(1)**2+ps(2)**2+ps(3)**2)
+
+ 1      tau = RN32(tau)
+        if (tau .EQ. 0.) goto 1
+Cdon't smear tau at the moment        tau = -log(tau/tauNom)
+        tau = tauNom
+
+        vs(1) = vp(1)+tau*ps(1)/psAbs
+        vs(2) = vp(2)+tau*ps(2)/psAbs
+        vs(3) = vp(3)+tau*ps(3)/psAbs
+
+C -- move V+V- pair to secondary vertex vs
+        do j = 1, 2
+          it = tList(j,i)
+          call fvq(q, v,th(1,it))
+          call fvh(th(1,it), vs,q)
+        end do
+
+C -- store a copy of un-smeared tracks
+C -- diagonalize helix covariance matrices for all tracks
+C -- for MC smearing of helix parameters
+        do j = 1, tnt
+          call fvCopy(h(1,j), th(1,j), 5,1)
+          call fvtMCdiag(ChLam(1,j),ChU(1,1,j), tCh(1,1,j))
+        end do
+
+C -- do MC 
+        do imc = 1, nmc
+C -- smear helix parameters according to error matrices
+C -- using diagonalization parameters ChLam and ChU
+          do j = 1, tnt
+            call fvtMCsmear(th(1,j), h(1,j),ChLam(1,j),ChU(1,1,j))
+CCC -- if no smear: copy from private copy (original)
+CC            call fvCopy(th(1,j), h(1,j),5,1)
+          end do
+
+C -- do vertex fit to V+V- and store fitted vertex in v, Cv
+C -- large initial error matrix for first guess matrix
+          call fvFTA(tCx(1,1,1), 10 000d0, tCx(1,1,1),3,3)
+          call fvtDo(chi2, 2,tList(1,i))
+          pr = fvProb(chi2,2*2-3)
+          call fvCopy(v, tx,3,1)
+          call fvCopy(Cv, tCx,3,3)
+
+C -- calculate invariant mass of V+V-
+          ml(tList(1,i)) = mass(pList(1,i))
+          ml(tList(2,i)) = mass(pList(2,i))
+          call fvInvM(m,sigM,
+     1         2,tList(1,i),tw2pt,ml,v,Cv,tq,tCq,tGh)
+
+C -- sum up momenta of V+V- and put resultant track parameters into th/tGh
+          new = tnt+1
+          call fvSumQ(p,Dp,Ep,
+     1                new,2,tList(1,i),tw2pt,v,Cv,tq,tCq,th,tGh)
+
+          d0 = tauNom
+C -- calculate distance between vertex of V+V- and beam spot
+          call fvDist(d0,sigd0, 
+     1                bs,Cbs,v,Cv)
+
+C -- fit distance between the two
+          status = fvFitD(d,sigd,chi2d,
+     1                    d,bs,Cbs,v,Cv,p,Dp,Ep)
+          if (iand(status,1).NE.1) then
+            print *, 'fit to distance did not work...'
+          end if
+          prd = fvProb(chi2d, 1)
+
+C -- fit vertex of sum particle and l(V)
+          tpList(1) = tList(3,i)
+          tpList(2) = new
+C -- large initial error matrix for first guess matrix
+          call fvFTA(tCx(1,1,1), 10 000d0, tCx(1,1,1),3,3)
+          call fvtDo(chi2p, 2,tpList(1))
+          prp = fvProb(chi2p,2*2-3)
+          
+C -- fill ntuple
+          nt1(2) = d0
+          nt1(3) = sigd0
+          nt1(4) = d
+          nt1(5) = sigd
+          nt1(6) = prd
+          nt1(7) = m
+          nt1(8) = sigm
+C -- reconstructed primary vertex
+          nt1(9) = tx(1,1) - vp(1)
+          nt1(10) = tx(2,1) - vp(2)
+          nt1(11) = tx(3,1) - vp(3)
+          nt1(12) = sqrt(tCx(1,1,1))
+          nt1(13) = sqrt(tCx(2,2,1))
+          nt1(14) = sqrt(tCx(3,3,1))
+          nt1(15) = prp
+
+C -- reconstructed secondary  vertex
+          nt1(16) = v(1) - vs(1)
+          nt1(17) = v(2) - vs(2)
+          nt1(18) = v(3) - vs(3)
+          nt1(19) = sqrt(Cv(1,1))
+          nt1(20) = sqrt(Cv(2,2))
+          nt1(21) = sqrt(Cv(3,3))
+          nt1(22) = pr
+
+          call HFN(1, nt1)
+
+        end do
+      end do
+
+      call HROUT(1, ICYCLE, ' ')
+      call HREND('NT')
+
+      return
+      end
+      subroutine doHad
+C --------------------------------------------------------------------
+      implicit none
+      integer KRUN, KEVT
+      integer NEVT
+      parameter (NEVT=1)
+      integer nTuple
+      parameter (nTuple = 6)
+      integer nTuple2
+      parameter (nTuple2 = 10)
+      integer PAWLEN
+      parameter (PAWLEN = 100000)
+
+
+      include 'fvt.inc'
+      integer runList(2,NEVT)
+      data runList /
+     1  9096,2
+     1/
+      integer trList(40,0:0)
+      data trList /
+     1  1,2,3,4,5,6,7,8,9,10,
+     1  11,12,13,14,15,16,17,18,19,20,
+     1  21,22,23,24,25,26,27,28,29,30,
+     1  31,32,33,34,35,36,37,38,39,40    
+     1/
+      integer pList(40,0:0)
+C -- 1:electron, 2:muon, 3:tau, 4:pi
+      data pList /
+     1  4,4,4,4,4,4,4,4,4,4,
+     1  4,4,4,4,4,4,4,4,4,4,
+     1  4,4,4,4,4,4,4,4,4,4,
+     1  4,4,4,4,4,4,4,4,4,4    
+     1/
+      integer i, j, k, it, i0, i1
+      integer status, fvSumQ
+      external fvSumQ
+
+      double precision h(5,MAXTR), ChLam(5,MAXTR), ChU(5,5,MAXTR), x(3)
+      double precision chi2, p(3),Dp(3,3),Ep(3,3),p0(3),pp0(3),
+     1                 v00(3),v0(3),Cv0(3,3),tau,chi2tau,pp,sigTau
+      logical first
+      data first/.true./
+      SAVE first
+      integer nMC
+      data nMC/1000/
+
+      real PROB, RG32
+      external PROB, RG32
+      
+      real nt(nTuple)
+      character*8 nTags(nTuple)
+      data nTags /
+     1  'prob',
+     1  'pw',
+     1  'ptl',
+     1  'ppsi0',
+     1  'pd0',
+     1  'pz0'
+     1/
+      real nt2(nTuple2)
+      character*8 nTags2(nTuple2)
+      data nTags2 /
+     1  'prob',
+     1  'vx',
+     1  'vy',
+     1  'vz',
+     1  'px',
+     1  'py',
+     1  'pz',
+     1  'tau',
+     1  'sigTau',
+     1  'probTau'
+     1/
+      integer HMEMOR(PAWLEN)
+      common /PAWC/ HMEMOR
+
+      external HBOOKN, HROPEN
+      integer LRECL, ISTAT,ICYCLE
+
+      call HLIMIT(PAWLEN)
+      LRECL=1024
+      call HROPEN(48, 'NT', 'had-0.nt', 'N', LRECL, ISTAT)
+      call HBOOKN(1, 'tracks', nTuple, 'NT', 1000, nTags)
+      call HBOOKN(2, 'vertex', nTuple2, 'NT', 1000, nTags2)
+
+
+
+      do i = 1, NEVT
+        KRUN = runList(1,i)
+        KEVT = runList(2,i)
+
+        if (fvtPrint) then
+          write(fvtPlun,'(1x,78(1H=))') 
+          write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1      'Run ', KRUN, ' Evt ', KEVT
+        end if
+C -- read event from private data file
+        call fvtRead(KRUN,KEVT)
+C -- set vertex to approx zero
+        do i1 = 1,3
+          tx(i1,1) = 0.0001d0
+        end do
+C -- get private copy of vertex
+        call fvCopy(x, tx(1,1),3,1)
+C -- fill error matrix acc. to beam spot size
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = 0.0d0
+        end do
+        end do
+        tCx(1,1,1) = 0.04d0**2   
+        tCx(2,2,1) = 0.004d0**2   
+        tCx(3,3,1) = 4.d0**2      
+
+C -- diagonalize covariance matrices of helix parameters
+        do j = 1, tnt
+          call fvtMCdiag(ChLam(1,j),ChU(1,1,j), tCh(1,1,j))
+        end do
+C -- force all tracks to come from common vertex
+        do j = 1, tnt
+          call fvtMCunify(h(1,j), th(1,j))
+        end do
+
+C -- set point v0 and covariance matrix
+        do i0 = 1,3
+        do i1 = 1,3
+          Cv0(i0,i1) = 0.0d0
+        end do
+        end do
+        Cv0(1,1) = 0.04d0**2   
+        Cv0(2,2) = 0.004d0**2  
+        Cv0(3,3) = 4.d0**2   
+        tau = 1.
+        
+        do j = 1, nMC
+C -- smear inital vertex according to tCx(i,j,1)
+C -- (assmued to be diagonal)
+          do k = 1, 3
+            tx(k,1) = x(k) + sqrt(tCx(k,k,1))*RG32(k)
+          end do
+CCC -- if no smear:
+CC            call fvCopy(tx(1,1),x,3,1)
+C -- smear track parameters according to cov. matrix
+          do k = 1, tnt
+            it = trList(k,0)
+            call fvtMCsmear(th(1,it), h(1,it),ChLam(1,it),ChU(1,1,it))
+CCC -- if no smear:
+CC            call fvCopy(th(1,it), h(1,it),5,1)
+          end do
+
+C -- do the vertex fit
+          call fvtDo(chi2, tnt,trList(1,0))
+
+C -- sum up momentum of half of the tracks
+          status = fvSumQ(p,Dp,Ep,
+     1                tnt+1,(tnt+1)/2,trList(1,0),tw2pt,
+     1                tx(1,1),tCx(1,1,1),tq,tCq,th,tGh)
+C -- fit distance to point v0, tau = 1.5d0
+          if (first) then
+            pp = sqrt(p(1)**2+p(2)**2+p(3)**2)
+            v0(1) = x(1) - p(1)/pp*1.5d0
+            v0(2) = x(2) - p(2)/pp*1.5d0
+            v0(3) = x(3) - p(3)/pp*1.5d0
+            first = .false.
+          end if
+          do k = 1, 3
+            v00(k) = v0(k)+Cv0(k,k)*RG32(k)
+          end do
+          call fvFitD(tau,sigTau,chi2tau,
+     1                tau,v00,Cv0,tx(1,1),tCx(1,1,1),p,Dp,Ep)
+
+C -- calculate and sum up unsmeared momenta from unsmeared helix param's
+          call fvZeroA(p0,3,1)
+          do k = 1, (tnt+1)/2
+            it = trList(k,0)
+            call fvq2pvec(pp0, h(1,it),tw2pt)
+            p0(1) = p0(1)+pp0(1)
+            p0(2) = p0(2)+pp0(2)
+            p0(3) = p0(3)+pp0(3)
+          end do
+
+C -- histogram the results
+          do k = 1, tnt
+            it = trList(k,0)
+            nt(1) = tChi2(it)
+            nt(1) = PROB(nt(1),2)
+
+            nt(2) = (th(1,it)-h(1,it))/sqrt(tCh(1,1,it))
+            nt(3) = (th(2,it)-h(2,it))/sqrt(tCh(2,2,it))
+            nt(4) = (th(3,it)-h(3,it))/sqrt(tCh(3,3,it))
+            nt(5) = (th(4,it)-h(4,it))/sqrt(tCh(4,4,it))
+            nt(6) = (th(5,it)-h(5,it))/sqrt(tCh(5,5,it))
+            call HFN(1, nt)
+          end do
+
+          nt2(1) = chi2
+          nt2(1) = PROB(nt2(1),2*tnt)
+          nt2(2) = tx(1,1)/sqrt(tCx(1,1,1))
+          nt2(3) = tx(2,1)/sqrt(tCx(2,2,1))
+          nt2(4) = tx(3,1)/sqrt(tCx(3,3,1))
+          nt2(5) = (p(1)-p0(1))/sqrt(Dp(1,1))
+          nt2(6) = (p(2)-p0(2))/sqrt(Dp(2,2))
+          nt2(7) = (p(3)-p0(3))/sqrt(Dp(3,3))
+          nt2(8) = tau
+          nt2(9) = sigTau
+          nt2(10) = chi2tau
+          nt2(10) = PROB(nt2(10),1)
+          call HFN(2, nt2)
+        end do
+
+      end do
+
+      call HROUT(1, ICYCLE, ' ')
+      call HROUT(2, ICYCLE, ' ')
+      call HREND('NT')
+
+      return
+      end
+      subroutine doM5mc
+C --------------------------------------------------------------------
+      implicit none
+      integer KRUN, KEVT
+      integer NEVT
+      parameter (NEVT=3)
+      include 'fvt.inc'
+      integer runList(2,NEVT)
+      data runList /
+     1  101,7076,
+     1  101,8340,
+     1  101,12040
+     1/
+      integer trList(6,0:NEVT)
+      data trList /
+     1  1,2,3,4,5,6,    
+     1  1,3,4,5,6,2,
+     1  1,2,3,5,6,4,
+     1  1,3,4,5,6,2
+     1/
+      integer pList(6,0:NEVT)
+C -- 1:electron, 2:muon, 3:tau, 4:pi
+      data pList /
+     1  4,4,4,4,4,4,    
+     1  4,4,4,4,4,4,
+     1  4,4,4,4,4,4,
+     1  4,4,4,4,4,4
+     1/
+      integer i, i0, i1
+      double precision m,sigm
+      double precision chi2
+
+      do i = 1, NEVT
+        KRUN = runList(1,i)
+        KEVT = runList(2,i)
+
+
+        if (fvtPrint) then
+          write(fvtPlun,'(1x,78(1H=))') 
+          write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1      'Run ', KRUN, ' Evt ', KEVT
+        end if
+        call fvtRead(KRUN,KEVT)
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+        end do
+        end do
+        call fvtDo(chi2, 6,trList(1,i))
+
+C -- 
+        call fvtRead(KRUN,KEVT)
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+        end do
+        end do
+
+        if (fvtPrint) then
+          write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1      'common vertex for 5 tracks for Run ', KRUN, 
+     1      ' Evt ', KEVT
+
+C -- fill tt, tCt from th, tCh for particles trList, pList
+C -- and calculate inv. mass from  non-fitted momenta
+          call fvtHelix2P4(tt,tCt,
+     1      5,trList(1,i),pList(1,i),th,tCh)
+          call fvtInvM(m,sigm,5,trList(1,i),tt,tCt)
+          write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1      'invariant mass is ', m*1000, ' +/- ', sigm*1000
+        end if
+
+        call fvtDo(chi2, 5,trList(1,i))
+
+        if (fvtPrint) then
+C -- calculate Energy for particle types in pList
+          call fvtQM2P4(tt,tCt, 5,trList(1,i),pList(1,i),tq,tCq)
+          call fvtInvM(m,sigm,5,trList(1,i),tt,tCt)
+          write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1      'invariant mass is ', m*1000, ' +/- ', sigm*1000
+        end if
+
+      end do
+
+      return
+      end
+      subroutine doM5
+C --------------------------------------------------------------------
+      implicit none
+      integer KRUN, KEVT
+      integer NEVT
+      parameter (NEVT=8)
+      include 'fvt.inc'
+      integer runList(2,NEVT)
+      data runList /
+     1  5129,1412,
+     1  5158,4656,
+     1  5166,1984,
+     1  5343,2291,
+     1  7849,7984,
+     1  8489,4451,
+     1  8985,5486,
+     1  9019,4769
+     1/
+      integer trList(6,0:NEVT)
+      data trList /
+     1  1,2,3,4,5,6,    
+     1  1,3,4,5,6,2,
+     1  1,2,3,5,6,4,
+     1  2,3,4,5,6,1,
+     1  1,3,4,5,6,2,
+     1  1,3,4,5,6,2,
+     1  1,2,3,5,6,4,
+     1  1,2,3,4,6,5,
+     1  1,2,3,4,6,5
+     1/
+      integer pList(6,0:NEVT)
+C -- 1:electron, 2:muon, 3:tau, 4:pi
+      data pList /
+     1  4,4,4,4,4,4,    
+     1  4,4,4,4,4,4,
+     1  4,4,4,4,4,4,
+     1  4,4,4,4,4,4,
+     1  4,4,4,4,4,4,
+     1  4,4,4,4,4,4,
+     1  4,4,4,4,4,4,
+     1  4,4,4,4,4,4,
+     1  4,4,4,4,4,4
+     1/
+      integer i, i0, i1
+      double precision m,sigm
+      double precision chi2
+
+      do i = 1, NEVT
+        KRUN = runList(1,i)
+        KEVT = runList(2,i)
+
+        if (fvtPrint) then
+          write(fvtPlun,'(1x,78(1H=))') 
+          write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1      'Run ', KRUN, ' Evt ', KEVT
+        end if
+
+        call fvtRead(KRUN,KEVT)
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+        end do
+        end do
+        call fvtDo(chi2, 6,trList(1,i))
+
+        call fvtRead(KRUN,KEVT)
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+        end do
+        end do
+
+        if (fvtPrint) then
+          write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1      'common vertex for 5 tracks for Run ', KRUN, 
+     1      ' Evt ', KEVT
+C -- fill tt, tCt from th, tCh for particles trList, pList
+          call fvtHelix2P4(tt,tCt,
+     1      5,trList(1,i),pList(1,i),th,tCh)
+C -- calculate inv. mass
+          call fvtInvM(m,sigm,5,trList(1,i),tt,tCt)
+          write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1      'invariant mass is ', m*1000, ' +/- ', sigm*1000
+        end if
+
+        call fvtDo(chi2, 5,trList(1,i))
+
+        if (fvtPrint) then
+C -- calculate Energy for particle types in pList
+          call fvtQM2P4(tt,tCt, 5,trList(1,i),pList(1,i),tq,tCq)
+          call fvtInvM(m,sigm,5,trList(1,i),tt,tCt)
+          write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1      'invariant mass is ', m*1000, ' +/- ', sigm*1000
+        end if
+
+      end do
+
+      return
+      end
+      subroutine doWu
+C --------------------------------------------------------------------
+      implicit none
+      integer KRUN, KEVT
+      integer NEVT
+      include 'fvt.inc'
+      parameter (NEVT=16)
+      integer runList(2,NEVT)
+      data runList / 
+     1  5166,000981,
+     1  5825,000051,
+     1  6972,004547,
+     1  7422,002873,
+     1  7496,003332,
+     1  7681,002160,
+     1  8126,000771,
+     1  8163,002748,
+     1  8334,007367,
+     1  8335,001133,
+     1  8537,004398,
+     1  8623,000158,
+     1  8833,004673,
+     1  8855,003264,
+     1  8865,006111,
+     1  8960,000749
+     1/
+C -- tracks:
+C -- event: Z0 -> l0 l2
+C --              l0 -> l1 V+ V-
+C -- V+, V-, l1, l2
+      integer trList(4,0:NEVT)
+      data trList /
+     1  1,2,3,4,    
+     1  4,3,2,1,
+     1  3,4,1,2,
+     1  1,4,2,3,
+     1  3,2,4,1,
+     1  1,2,4,3,
+     1  4,1,2,3,
+     1  3,4,1,2,
+     1  3,2,1,4,
+     1  2,4,1,3,
+     1  2,3,4,1,
+     1  3,4,2,1,
+     1  4,2,3,1,
+     1  3,2,4,1,
+     1  4,1,3,2,
+     1  1,2,4,3,
+     1  4,1,2,3
+     1/
+      integer pList(4,0:NEVT)
+C -- 1:electron, 2:muon, 3:tau, 4:pi
+      data pList /
+     1  4,4,4,4,    
+     1  2,2,4,2,
+     1  1,1,2,2,
+     1  4,4,4,4,
+     1  4,4,1,1,
+     1  4,4,2,2,
+     1  1,1,1,4,
+     1  4,4,1,4,
+     1  4,4,1,1,
+     1  4,4,1,1,
+     1  1,1,4,1,
+     1  4,4,2,4,
+     1  2,2,4,4,
+     1  4,4,4,4,
+     1  1,1,2,2,
+     1  2,2,2,1,
+     1  1,1,1,1
+     1/
+      double precision mass(4)
+      data mass/
+     1  0.00051099906d0,
+     1  0.105658387d0,
+     1  1.7841d0,
+     1  0.1395675d0
+     1/
+
+      integer i, i0, i1, new, status
+      double precision x(3),Cx(3,3),d,sigd,m,sigm,ml(5)
+      double precision chi2, p(3), Dp(3,3), Ep(3,3), pr
+      integer fvFitD
+      real PROB
+      external fvFitD, PROB
+
+      do i = 1, NEVT
+        KRUN = runList(1,i)
+        KEVT = runList(2,i)
+
+
+C -- fit for common vertex of l+l-V=V-
+        write(fvtPlun,'(1x,78(1H=))') 
+        write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1    'Run ', KRUN, ' Evt ', KEVT
+        call fvtRead(KRUN,KEVT)
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+        end do
+        end do
+
+        call fvtDo(chi2, 4,trList(1,0))
+
+C -- fit for vertex of V+V-
+        call fvtRead(KRUN,KEVT)
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+        end do
+        end do
+        write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1    'common vertex for V+V- for Run ', KRUN, ' Evt ', KEVT
+
+C -- fill tt, tCt from th, tCh for particles trList, pList
+        call fvtHelix2P4(tt,tCt,
+     1    2,trList(1,i),pList(1,i),th,tCh)
+        call fvtInvM(m,sigm,2,trList(1,i),tt,tCt)
+        write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
+        call fvtDo(chi2, 2,trList(1,i))
+C -- save the V+V- vertex in x, Cx
+        call fvCopy(x,tx,3,1)
+        call fvCopy(Cx,tCx,3,3)
+
+C -- calculate invariant mass of V+V-
+        ml(trList(1,i)) = mass(pList(1,i))
+        ml(trList(2,i)) = mass(pList(2,i))
+        call fvInvM(m,sigM,
+     1       2,trList(1,i),tw2pt,ml,x,Cx,tq,tCq,tGh)
+        write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
+
+C -- sum up momenta of V+V- and put resultant track parameters into th/tGh
+        new = tnt+1
+        call fvSumQ(p,Dp,Ep,
+     1              new,tnt,trList,tw2pt,x,Cx,tq,tCq,th,tGh)
+
+C -- fit vertex to l+l- pair
+        write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1    'common vertex for l(V)l for Run ', KRUN, ' Evt ', KEVT
+        call fvtHelix2P4(tt,tCt,
+     1    2,trList(3,i),pList(3,i),th,tCh)
+        call fvtInvM(m,sigm,2,trList(3,i),tt,tCt)
+        write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+        end do
+        end do
+        call fvtDo(chi2, 2,trList(3,i))
+
+        ml(trList(3,i)) = mass(pList(3,i))
+        ml(trList(4,i)) = mass(pList(4,i))
+        call fvInvM(m,sigM,
+     1       2,trList(3,i),tw2pt,ml,tx(1,1),tCx(1,1,1),tq,tCq,tGh)
+        write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
+
+        call fvtQM2P4(tt,tCt, 2,trList(3,i),pList(3,i),tq,tCq)
+        call fvtInvM(m,sigm,2,trList(3,i),tt,tCt)
+        write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
+
+C -- calculate distance between vertex of V+V- and l+l-
+        call fvDist(d, sigd, 
+     1              x,Cx, tx(1,1), tCx(1,1,1))
+        write(fvtPlun,'(/1x,a,g10.3,a,g10.3)') 
+     1    'distance between V/ll vertices is ', d, ' +/- ', sigd
+
+C -- fit distance between the two
+        status = fvFitD(d,sigd,chi2,
+     1                  d,tx(1,1),tCx(1,1,1),x,Cx,p,Dp,Ep)
+        if (iand(status,1).NE.1) then
+          print *, 'fit to tau did not work...'
+        end if
+        pr = PROB(REAL(chi2), 1)
+        write(fvtPlun,'(1x,a,g10.3,a,g10.3,a,g10.3,a,g10.3)') 
+     1    'fitted distance between V/ll vertices is ',
+     1    d, ' +/- ', sigd, ' chi^2 ', chi2, ' prob. ', pr
+
+
+      end do
+
+
+      return
+      end
+      subroutine doOrs
+C --------------------------------------------------------------------
+      implicit none
+      integer KRUN, KEVT
+      integer NEVT
+      include 'fvt.inc'
+      parameter (NEVT=11)
+      integer runList(2,NEVT)
+      data runList / 
+     1  4515,0750,
+     1  5060,2137,
+     1  5821,3675,
+     1  5880,3296,
+     1  7339,1745,
+     1  7412,4101,
+     1  7743,8370,
+     1  8335,1133,
+     1  8383,0966,
+     1  8619,2198,
+     1  8898,5940
+     1/
+C -- tracks:
+C -- event: Z0 -> l0 l2
+C --              l0 -> l1 V+ V-
+C -- V+, V-, l1, l2
+      integer trList(4,0:NEVT)
+      data trList /
+     1  1,2,3,4,    
+     1  3,4,1,2,
+     1  4,1,3,2,
+     1  2,4,3,1,
+     1  1,4,2,3,
+     1  4,3,2,1,
+     1  4,3,2,1,
+     1  5,6,1,3,
+     1  4,3,2,1,
+     1  5,6,1,2,
+     1  3,4,2,1,
+     1  3,4,2,5
+     1/
+      integer pList(4,0:NEVT)
+C -- 1:electron, 2:muon, 3:tau, 4:pi
+      data pList /
+     1  4,4,4,4,
+     1  4,4,2,2,
+     1  4,4,1,1,
+     1  2,2,2,2,
+     1  1,1,1,1,
+     1  1,1,2,2,
+     1  1,1,2,2,
+     1  1,1,4,4,
+     1  1,1,4,4,
+     1  1,1,4,4,
+     1  1,1,2,2,
+     1  1,1,1,1
+     1/
+      integer i, i0, i1
+      double precision x(3),Cx(3,3),d,sigd,m,sigm
+      double precision chi2
+
+      do i = 1, NEVT
+        KRUN = runList(1,i)
+        KEVT = runList(2,i)
+
+
+        write(fvtPlun,'(1x,78(1H=))') 
+        write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1    'Run ', KRUN, ' Evt ', KEVT
+        call fvtRead(KRUN,KEVT)
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+        end do
+        end do
+
+        call fvtDo(chi2, 4,trList(1,0))
+
+        call fvtRead(KRUN,KEVT)
+        do i0 = 1,3
+        do i1 = 1,3
+          tCx(i0,i1,1) = tCx(i0,i1,1) * 10 000d0
+        end do
+        end do
+        write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1    'common vertex for V+V- for Run ', KRUN, ' Evt ', KEVT
+
+C -- fill tt, tCt from th, tCh for particles trList, pList
+        call fvtHelix2P4(tt,tCt,
+     1    2,trList(1,i),pList(1,i),th,tCh)
+        call fvtInvM(m,sigm,2,trList(1,i),tt,tCt)
+        write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
+        call fvtDo(chi2, 2,trList(1,i))
+        call fvCopy(x,tx,3,1)
+        call fvCopy(Cx,tCx,3,3)
+
+        call fvtQM2P4(tt,tCt, 2,trList(1,i),pList(1,i),tq,tCq)
+        call fvtInvM(m,sigm, 2,trList(1,i),tt,tCt)
+        write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
+
+        write(fvtPlun,'(/1x,a,i5,a,i5)') 
+     1    'common vertex for l(V)l for Run ', KRUN, ' Evt ', KEVT
+        call fvtHelix2P4(tt,tCt,
+     1    2,trList(3,i),pList(1,i),th,tCh)
+        call fvtInvM(m,sigm,2,trList(3,i),tt,tCt)
+        write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
+        call fvtDo(chi2, 2,trList(3,i))
+        call fvtQM2P4(tt,tCt, 2,trList(3,i),pList(1,i),tq,tCq)
+        call fvtInvM(m,sigm,2,trList(3,i),tt,tCt)
+        write(fvtPlun,'(1x,a,g12.5,a,g12.5)') 
+     1    'invariant mass is ', m*1000, ' +/- ', sigm*1000
+
+C -- calculate distance
+        call fvDist(d, sigd, 
+     1              x, Cx, tx(1,1), tCx(1,1,1))
+        write(fvtPlun,'(/1x,a,g10.3,a,g10.3)') 
+     1    'distance between V/ll vertices is ', d, ' +/- ', sigd
+
+      end do
+
+
+      return
+      end
+      integer function fvtDo(chi2, nt,tList)
+C-----------------------------------------------------------------------    
+C -- do vertex fit.
+C -- use tx(i,1) and tCx(i,j,1) as initial values
+C -- and track parameters from th, tCh
+C -- put results into tx, tCx and tq, tCq
+C --
+      implicit none
+      double precision chi2
+      integer nt, tList(nt)
+      include 'fvt.inc'
+
+      double precision x0(3), Cx0(3,3)
+      integer fvFit
+      external fvFit
+
+C -- ???? is not necessary
+      call fvCopy(x0, tx,3,1)
+      call fvCopy(Cx0, tCx,3,3)
+
+      fvtDo = fvFit(tx,tCx,tq,tCq,tChi2,chi2,
+     1    nt,tList,x0,Cx0,th,tGh)
+
+      return
+      end
+      integer function fvtRead(KRUN, KEVT)
+C-----------------------------------------------------------------------        
+C -- read in track data, return
+C --   tx, Cx: vertex position in carthesian coord. and cov. matrix
+C --   th, Ch: track parameter in ALEPH comvention and cov. matrix
+C --   tnt: number of tracks
+C --   tGh: inverse of covariance matrix of track parameter
+C -- in common /FVCOM/
+C --
+C -- returns ERROR if problem during inverting tCh occurred
+C
+      implicit none
+      integer KRUN, KEVT
+      include 'fvt.inc'
+      character*80 fnam
+      integer i0,i1,j, status
+      integer fvCalcG, fvLUinv
+      external fvCalcG, fvLUinv
+
+      fvtRead = NORMAL
+
+      write(fnam, '(a,a,i5.5,a,i6.6,a)') 
+     1  dataDir,'tr',KRUN,'e',KEVT,'.dat'
+      open(unit=42, file = fnam,
+     1 status = 'OLD')
+      read(42,*) (tx(i0,1), i0=1,3)
+      read(42,*) ((tCx(i0,i1,1), i0=1,3),i1=1,3)
+      read(42,*) tw2pt
+      read(42,*) tnt
+
+      do j = 1, tnt
+        read(42,*) (th(i0,j),i0=1,5)
+        read(42,*) ((tCh(i0,i1,j),i0=1,5),i1=1,5)
+      end do
+      close(42)
+
+C -- calculate inverse of covariance matrices for th
+      do j = 1, tnt
+CCCCCCCCCC        call fvCopy(tGh(1,1,j),tCh(1,1,j),5,5)
+        status = fvLUinv(tGh(1,1,j), tCh(1,1,j),5)
+CCCC        status = fvCalcG(tGh(1,1,j),tCh(1,1,j),5)
+CCCC        if (status .EQ. INFO) then
+CCCC          write(fvtPlun,'(1x,a)')  
+CCCC     1      'editing of singular values during inv of Ch0'
+CCCC          call fvAB(one,tGh(1,1,j),tCh(1,1,j),5,5,5)
+CCCC          write(fvtPlun,'(/1x,5g10.3)') ((one(i0,i1), i0=1,5),i1=1,5)
+CCCC        end if
+        if (iand(status,1).NE.1) then
+          fvtRead = status
+        end if
+      end do
+
+      return
+      end
+      integer function fvtInvM(mi,sigmi, nt,tList,t,Ct)
+C-----------------------------------------------------------------------        
+C -- calculate invariant mass and error
+C -- from 4-momenta t, Ct
+C
+      implicit none
+      double precision mi, sigmi
+      integer nt, tList(nt)
+      double precision t(4,*), Ct(4,4,*)
+
+      include 'fvt.inc'
+      integer i, it, i0, i1
+      double precision pi(4), Cpi(4,4)
+
+      call fvZeroA(pi,4,1)
+      call fvZeroA(Cpi,4,4)
+      do i = 1, nt
+        it = tList(i)
+        do i0 = 1, 4
+          pi(i0) = pi(i0) + t(i0,it)
+          do i1 = 1, 4
+            Cpi(i0,i1) = Cpi(i0,i1) + Ct(i0,i1,it)
+          end do
+        end do
+      end do
+
+      mi = sqrt(pi(4)**2-pi(1)**2-pi(2)**2-pi(3)**2)
+      sigmi = 
+     1      pi(1)*Cpi(1, 1)*pi(1) + 
+     1	    pi(2)*Cpi(2, 2)*pi(2) + 
+     1	    pi(3)*Cpi(3, 3)*pi(3) + 
+     1	    pi(4)*Cpi(4, 4)*pi(4) +
+     1	    2.*(pi(1)*(Cpi(1, 2)*pi(2) + 
+     1            Cpi(1, 3)*pi(3) - 
+     1            Cpi(1, 4)*pi(4)) +
+     1          pi(2)*(Cpi(2, 3)*pi(3) - 
+     1            Cpi(2, 4)*pi(4)) -
+     1	        pi(3)*Cpi(3, 4)*pi(4))
+      sigmi = sqrt(sigmi)/mi
+
+      return
+      end
+      subroutine fvtHelix2P4(t,Ct, nt,tList,pList,p,Ch)
+C-----------------------------------------------------------------------        
+C -- calculate 4-momentum from track parameters
+C -- using track/particle list tList, pList
+C
+      implicit none
+      double precision t(4,*), Ct(4,4,*)
+      integer nt,tList(nt),pList(nt)
+      double precision p(5,*),Ch(5,5,*)
+
+      include 'fvt.inc'
+
+      integer i, it, ip
+      double precision m
+      double precision mass(4)
+      data mass/
+     1  0.00051099906d0,
+     1  0.105658387d0,
+     1  1.7841d0,
+     1  0.1395675d0
+     1/
+
+      do i = 1, nt
+        it = tList(i)
+        call fvHelix2P4(t(1,it),Ct(1,1,it), 
+     1             tw2pt,p(1,it),Ch(1,1,it))
+        ip = pList(i)
+        m = mass(ip)
+        call fvEnergy(t(1,it),Ct(1,1,it), m,t(1,it),Ct(1,1,it))
+      end do
+
+      return
+      end
+      subroutine fvtQM2P4(tl,Ctl, nt,tList,pList,ql,Cql)
+C-----------------------------------------------------------------------        
+C -- calculate list of 4-momentum vectors 
+C -- from mass and q-vectors {w, tl, psi} 
+C -- using track/particle list tList, pList
+C
+      implicit none
+      double precision tl(4,*), Ctl(4,4,*)
+      integer nt,tList(nt),pList(nt)
+      double precision ql(3,*),Cql(3,3,*)
+
+      include 'fvt.inc'
+
+      integer i, it, ip
+      double precision m
+      double precision mass(4)
+      data mass/
+     1  0.00051099906d0,
+     1  0.105658387d0,
+     1  1.7841d0,
+     1  0.1395675d0
+     1/
+
+      do i = 1, nt
+        it = tList(i)
+        call fvQ2P4(tl(1,it),Ctl(1,1,it),ql(1,it),Cql(1,1,it),tw2pt)
+        ip = pList(i)
+        m = mass(ip)
+        call fvEnergy(tl(1,it), Ctl(1,1,it), m)
+      end do
+
+      return
+      end
+      integer function fvtVert(v,Cv,q,Cq, v0,Cv0,q0,Cq0)
+C-----------------------------------------------------------------------        
+C --
+      implicit none
+      double precision v(3), Cv(3,3), q(3), Cq(3,3),
+     1                 v0(3), Cv0(3,3), q0(3), Cq0(3,3)
+
+      include 'fvt.inc'
+
+      fvtVert = NORMAL
+
+      return
+      end
+      integer function fvtTAV(x,Cx,p,Cp,chi2, x0,Cx0,h,Ch)
+C-----------------------------------------------------------------------        
+C -- track and vertex:
+C -- do the refit of track with 
+C -- helix parameters h and covariance matrix Ch,
+C -- using point x0 and its covariance matrix Cx0
+C -- h = {w, tl, psi0, d0, z0} and x0 = {x, y, z}
+C -- return results in x, Cx, and p, Cp
+C --
+      implicit none
+      double precision x(3), Cx(3,3), p(5), Cp(5,5), chi2
+      double precision x0(3), Cx0(3,3), h(5), Ch(5,5)
+      include 'fvt.inc'
+
+      double precision v0(3), C0(3,3), q0(3), D0(3,3),
+     1                 A(5,3), B(5,3), h0(5)
+      double precision v(3), C(3,3), Gv(3,3), q(3), D(3,3), E(3,3)
+
+      integer status, i
+      integer fvv0q0,
+     1        fvxp
+      external fvv0q0,
+     1         fvxp
+      integer fvABh0, fvFilter
+      external fvABh0, fvFilter
+
+      fvtTAV = NORMAL
+
+C -- calculate vertex and 3-momentum
+C -- at approximate vertex position x0
+C -- and the appropriate covariance matrices
+      status = fvv0q0(v0, C0, q0, D0, x0, Cx0, h, Ch)
+      if (iand(status,1).NE.1) then
+        fvtTAV = status
+        return
+      end if
+
+C -- calculate coefficients for measurement equation, A, B, h0
+      status = fvABh0(A,B,h0, v0,q0)
+      if (iand(status,1).NE.1) then
+        fvtTAV = status
+        return
+      end if
+
+C -- calculate filtered state vectors and covariance matrices
+      
+      status = fvFilter(v, C, Gv, q, D, E, chi2,
+     1                  v0, C0, h, Ch, A, B, h0)
+      if (iand(status,1).NE.1) then
+        fvtTAV = status
+        return
+      end if
+
+C -- re-calculate coefficients for measurement equation, A, B, h0
+C -- and check on difference, ev. re-iterate (not done at the moment)
+      status = fvABh0(A,B,h0, v,q)
+      if (iand(status,1).NE.1) then
+        fvtTAV = status
+        return
+      end if
+
+C -- calculate estimated vertex and track parameters
+      status = fvxp(x,Cx,p,Cp, v,q,C,D,E,A,B)
+
+C -- some printout
+      write(fvtPlun,'(1x,g10.3)')  chi2
+
+      write(fvtPlun,'(1x,3(g10.3,a,g10.3))') (v0(i), ' +/-',
+     1   sqrt(C0(i,i)) ,i=1,3)
+      write(fvtPlun,'(1x,3(g10.3,a,g10.3))') (v(i), ' +/-',
+     1   sqrt(C(i,i)) ,i=1,3)
+
+CCC      write(fvtPlun,'(1x,3(g10.3,a,g10.3))') (x0(i), ' +/-',
+CCC     1   sqrt(Cx0(i,i)) ,i=1,3)
+CCC      write(fvtPlun,'(1x,3(g10.3,a,g10.3))') (x(i), ' +/-',
+CCC     1   sqrt(Cx(i,i)) ,i=1,3)
+
+      write(fvtPlun,'(1x,3(g10.3,a,g10.3))') (q0(i), ' +/-',
+     1   sqrt(Ch(i,i)) ,i=1,3)
+      write(fvtPlun,'(1x,3(g10.3,a,g10.3))') (q(i), ' +/-',
+     1   sqrt(D(i,i)) ,i=1,3)
+
+      write(fvtPlun,'(1x)')
+
+
+      return
+      end
+      subroutine errInit()
+      return
+      end
+      subroutine errSumm()
+      return
+      end
