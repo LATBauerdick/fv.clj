@@ -12,7 +12,10 @@
  -- use w2pt for calculating pt from curvature w
  -- calculate energy assuming mass m
   "
-  [h Ch & {:keys [w2pt m] :or {w2pt w2ptDefault, m mπ}}]
+  ( [h Ch] (fvH2P4 h Ch mπ w2ptDefault) )
+  ( [h Ch m] (fvH2P4 h Ch m w2ptDefault) )
+  ( [h Ch m w2pt]
+;;  [h Ch & {:keys [w2pt m] :or {w2pt w2ptDefault, m mπ}}]
   (let [
         [w tl psi0 _ _]  (vec h)
         sph   (Math/sin psi0)
@@ -68,7 +71,7 @@
         p     (array [px py pz E])
         Cp    (matrix [[sxx sxy sxz sxe] [sxy syy syz sye] [sxz syz szz sze]
                        [sxe sye sze see]])
-        ] [p Cp]))
+        ] [p Cp])))
 
 (defn fvQ2P3
   "
@@ -76,7 +79,9 @@
  -- from helix 3-vector q = [w tl psi0] and covariance matrix Q
  -- use w2pt for calculating pt from curvature w
   "
-  [qQ & {:keys [w2pt] :or {w2pt w2ptDefault}}]
+  ( [qQ] (fvQ2P3 qQ w2ptDefault))
+  ( [qQ w2pt]
+;;  [qQ & {:keys [w2pt] :or {w2pt w2ptDefault}}]
   (let [
         [w tl psi0]  (vec (:q qQ))
         Q     (:Q qQ)
@@ -111,7 +116,7 @@
                   (- (* 2.0 ps dpdk tl (mget Q 0 1))))
         p      (array [px py pz])
         Cp     (matrix [[sxx sxy sxz] [sxy syy syz] [sxz syz szz]])
-        ] [p Cp]))
+        ] [p Cp])))
 
 (defn fvQ2P4
   "
@@ -119,7 +124,10 @@
  -- from helix 3-vector q = [w tl psi0] and covariance matrix Q
  -- use w2pt for calculating pt from curvature w
   "
-  [qQ & {:keys [w2pt m] :or {w2pt w2ptDefault m mπ}}]
+  ([qQ ] (fvQ2P4 qQ mπ w2ptDefault))
+  ([qQ m] (fvQ2P4 qQ m w2ptDefault))
+  ([qQ m w2pt]
+;;  [qQ & {:keys [w2pt m] :or {w2pt w2ptDefault m mπ}}]
   (let [
         printtt '(do (println "------fvQ2P4") (println qQ) (println (:q qQ)))
         [w tl psi0]  (vec (:q qQ))
@@ -178,7 +186,7 @@
         p     (array [px py pz E])
         P     (matrix [[sxx sxy sxz sxe] [sxy syy syz sye] [sxz syz szz sze]
                        [sxe sye sze see]])
-        ] [p P]))
+        ] [p P])))
 (defn fvq
   "
    -- calculate 3-vector q at a vetex position v (currently not used)

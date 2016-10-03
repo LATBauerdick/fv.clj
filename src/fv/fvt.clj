@@ -1,7 +1,9 @@
 (ns fv.fvt
 (:require [fv.coeff :refer :all]
           [clojure.core.matrix :refer :all]
-          [fv.fv :refer :all]))
+          [fv.fv :refer :all]
+          [fv.rand :refer :all]))
+
 
 (def dataDirName "./dat")
 (def data-dir (file-seq (clojure.java.io/file dataDirName)))
@@ -133,7 +135,7 @@
       (fvPMerr "Helix params=" h H)
       (fvPMerr "q-vec params=" (:q qQ) (:Q qQ))
       (println "track#" t#  ", 𝜒2: " (format  "%9.3g" chi2) ": ")
-      (let [ [p P] (fvH2P4 h H :m mπ)]
+      (let [ [p P] (fvH2P4 h H mπ)]
         (fvPMerr "Helix [px py pz E]=" p P))
       (let [ [p P] (fvQ2P3 qQ)]
         (fvPMerr "Fit q [px py pz]  =" p P)))))
@@ -144,56 +146,64 @@
   -- fit and print inv mass for different configurations:
   -- mass of all helices, mass fitted, same with 5 prong, refitted 5 prong
   "
-  [hel & {:keys [l5] :or {l5 (range 0 5)}}]
-
-  (printHeader hel)
-  (let [ pr  (fvFit hel) ]
-    (fvRemove pr hel) ;; at the moment, just list contributing chi2 for each fitted helix
-    (let [ pl (map #(fvH2P4 %1 %2) (:hl hel) (:Hl hel)) ]
-      (->> pl
-           invMass
-           (apply format "%9.5g ±%9.3g GeV")
-           (println "Inv Mass 6 helix")))
-    (->> pr
-         :qQl
-         (map fvQ2P4)
-         invMass
-         (apply format "%9.5g ±%9.3g GeV")
-         (println "Inv Mass 6 fit  "))
-    (let [
-          hel5  (hFilter hel l5)
-          pl    (map #(fvH2P4 %1 %2) (:hl hel5) (:Hl hel5))
-          ]
-      (->> pl
-           invMass
-           (apply format "%9.5g ±%9.3g GeV")
-           (println "Inv Mass 5 helix")))
-    (->> (pFilter pr l5)
-         :qQl
-         (map fvQ2P4)
-         invMass
-         (apply format "%9.5g ±%9.3g GeV")
-         (println "Inv Mass 5 fit  "))
-    (->> (hFilter hel l5)
-         fvFit
-         :qQl
-         (map fvQ2P4)
-         invMass
-         (apply format "%9.5g ±%9.3g GeV")
-         (println "Inv Mass 5 refit"))
-    (let [ hl (:hl hel),  Hl (:Hl hel)]
-      (printResults pr hl Hl ))))
+  ([hel] (doFitTest hel (range 0 5)))
+  ([hel l5]
+   (printHeader hel)
+   (let [ pr  (fvFit hel) ]
+     (fvRemove pr hel) ;; at the moment, just list contributing chi2 for each fitted helix
+     (let [ pl (map #(fvH2P4 %1 %2) (:hl hel) (:Hl hel)) ]
+       (->> pl
+            invMass
+            (apply format "%9.5g ±%9.3g GeV")
+            (println "Inv Mass " (count pl) " helix")))
+     (->> pr
+          :qQl
+          (map fvQ2P4)
+          invMass
+          (apply format "%9.5g ±%9.3g GeV")
+          (println "Inv Mass " (count (:chi2l pr)) " fit  "))
+     (let [
+           hel5  (hFilter hel l5)
+           pl    (map #(fvH2P4 %1 %2) (:hl hel5) (:Hl hel5))
+           ]
+       (->> pl
+            invMass
+            (apply format "%9.5g ±%9.3g GeV")
+            (println "Inv Mass 5 helix")))
+     (->> (pFilter pr l5)
+          :qQl
+          (map fvQ2P4)
+          invMass
+          (apply format "%9.5g ±%9.3g GeV")
+          (println "Inv Mass 5 fit  "))
+     (->> (hFilter hel l5)
+          fvFit
+          :qQl
+          (map fvQ2P4)
+          invMass
+          (apply format "%9.5g ±%9.3g GeV")
+          (println "Inv Mass 5 refit"))
+     '(let [ hl (:hl hel),  Hl (:Hl hel)]
+       (printResults pr hl Hl )))))
 
 (def allHelices (reduce #(hInto %1 (hSlurp %2)) (hSlurp (first theseFiles))  (next theseFiles)))
 
 (defn doFitTests [] (do
-                  (doFitTest theseHelices :l5 [0 2 3 4 5]); so I can call it from fireplace
-                  (doFitTest otherHelices :l5 [0 1 2 4 5])
-                  (doFitTest (hInto theseHelices otherHelices) :l5 [0 2 3 4 5])
-                  (doFitTest (hInto (hInto theseHelices otherHelices) (hSlurp thirdFile)) :l5 [0 2 3 4 5])
-                  (doFitTest  allHelices :l5 [ 1 2 3 4 5 ])
+                  (tryRand )
+                  (println "--------------->" thisFile)
+                  (doFitTest theseHelices [0 2 3 4 5]); so I can call it from fireplace
+                  (println "--------------->" otherFile)
+                  (doFitTest otherHelices [0 1 2 4 5])
+
+                  (println "--------------->" thisFile " + " otherFile)
+                  (doFitTest (hInto theseHelices otherHelices) [0 2 3 4 5])
+                  (println "--------------->" thisFile " + " otherFile " + " thirdFile)
+                  (doFitTest (hInto (hInto theseHelices otherHelices) (hSlurp thirdFile)) [0 2 3 4 5])
+                  (println "---------------> all files" )
+                  (doFitTest  allHelices [1 2 3 4 5])
 
                   (println "----------------------------------------")
                   (println theseFiles)
                   (println "----------------------------------------")
                   (doall (take 10 (map #(doFitTest (hSlurp %)) theseFiles)))))
+
